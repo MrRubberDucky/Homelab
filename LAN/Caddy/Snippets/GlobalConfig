@@ -1,0 +1,35 @@
+{
+    # General configuration
+    http_port 80
+    https_port 443
+    # Admin endpoint for configuration reload, only listens on localhost
+    admin 127.0.0.1:2019 {
+        origins localhost 127.0.0.1:2019
+        enforce_origin
+    }
+    # caddy-ratelimit
+    order rate_limit after basic_auth
+    # Default Caddy log, outputs to container stdout
+    log default {
+        output stdout
+        level INFO
+        format json
+    }
+    # ACME, though we don't use it on LAN
+    acme_ca https://acme-v02.api.letsencrypt.org/directory
+    email {$ACME_EMAIL}
+    ocsp_interval 3d
+    servers {
+        listener_wrappers {
+        # Required for Source IP when proxying Caddy via frpc <-> frps (out, 443)
+            proxy_protocol {
+                timeout 5s
+                allow 127.0.0.1/8 10.0.0.0/8 172.16.42.2/24
+                fallback_policy reject
+            }
+            # proxy_protocol needs to be before tls, otherwise it won't work.
+            http_redirect
+            tls
+        }
+    }
+}
