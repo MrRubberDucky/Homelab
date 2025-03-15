@@ -1,0 +1,93 @@
+# Site headers
+(header_csp) {
+   header {
+      >Content-Security-Policy "
+         default-src 'self'; 
+         script-src 'self' https://challenges.cloudflare.com; 
+         style-src 'self'; 
+         img-src 'self'; 
+         connect-src 'self' https://player.localhost.rubberverse.xyz https://music.localhost.rubberverse.xyz https://dash.localhost.rubberverse.xyz https://auth.localhost.rubberverse.xyz;
+         frame-src 'self' https://auth.localhost.rubberverse.xyz https://dash.localhost.rubberverse.xyz https://comments.rubberverse.xyz https://challenges.cloudflare.com;
+         font-src 'self';
+         object-src 'none'; 
+         base-uri 'self'; 
+         frame-ancestors 'none';
+      "
+      >Permissions-Policy idle-detection=() microphone=() payment=() screen-wake-lock=() usb=() midi=() magnetometer=() hid=() geolocation=() gamepad=() camera=() bluetooth=() ambient-light-sensor=() accelerometer=()
+      >Access-Control-Allow-Credentials true
+      >X-Content-Type-Options "nosniff"
+      # Outdated header which is largely unused nowadays but can cause issues
+      >X-XSS-Protection "0"
+      >X-Frame-Options "SAMEORIGIN"
+      >X-Remote-IP {client_ip}
+      >Referrer-Policy "strict-origin-when-cross-origin"
+      -Server
+      -X-Powered-By
+      -Last-Modified
+   }
+   # Make Access-Control-Allow-Origin always allow certain domains
+   @allowedOrigins header_regexp Origin ^(https://challenges.cloudflare.com|{args[0]})$
+   handle {
+      header >Access-Control-Allow-Origin {http.request.header.Origin}
+      header >Access-Control-Allow-Methods "GET, POST, OPTIONS"
+      header >Access-Control-Allow-Headers "Content-Type, Authorization, Origin, Accept"
+   }
+}
+# Compression and Cache
+(comp-caching) {
+   @senscache {
+      not path {args[0]}
+   }
+   encode @senscache zstd gzip
+   @static {
+      path *.ico *.svg *.gif *.jpg *.jpeg *.webp *.avif *.woff *.woff2 *.css *.png
+   }
+   header @static Cache-Control "public, max-age=31536000, immutable"
+}
+# Websocket proxy
+(websockets) {
+   @websockets {
+      header Connection *Upgrade*
+      header Upgrade websock
+   }
+   reverse_proxy @websockets {args[0]}
+}
+# Quick certificate import
+(tls) {
+   tls {
+      dns cloudflare {$CF_API_TOKEN}
+      resolvers 1.1.1.1 1.0.0.1
+   }
+}
+# oauth2-proxy forward-auth
+# Usage: import oauth2-fauth ip:port same_ip:same_port service_ip:service_port
+# ex. import oauth2-fauth localhost:9100 localhost:9100 localhost:9002 
+(oauth2-fauth) {
+      handle /oauth2/* {
+         reverse_proxy {args[0]} {
+            header_up X-Real-IP {client_ip}
+            header_up X-Forwarded-Uri {uri}
+         }
+      }
+      handle {
+         forward_auth {args[1]} {
+            uri /oauth2/auth
+            header_up X-Real-IP {client_ip}
+
+            @error status 401
+            handle_response @error {
+               redir * /oauth2/sign_in?rd={scheme}://{host}{uri}
+            }
+         }
+         reverse_proxy {args[2]}
+      }
+}
+# Reverse Proxy
+# Usage: import proxy ip:port
+# ex. import proxy localhost:3000
+(proxy) {
+    reverse_proxy {args[0]} {
+        header_up Host {upstream_hostport}
+        header_up X-Message-ID "loveu"
+    }
+}
