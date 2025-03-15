@@ -1,0 +1,56 @@
+# Global (server) configuration
+# Must always be loaded first
+{
+    # General configuration
+    http_port 8181
+    https_port 8443
+    # Admin endpoint for configuration reload, only listens on localhost
+    admin 127.0.0.1:2019 {
+        origins localhost 127.0.0.1:2019
+        enforce_origin
+    }
+    # Plugin ordering
+    order coraza_waf first
+    order crowdsec after coraza_waf
+    order rate_limit after basic_auth
+    # Default caddy log, outputs to container stdout
+    log default {
+        output stdout
+        level INFO
+        format json
+    }
+    # ACME Certificate Authority URL, email to use and ocsp stapling interval
+    # We enforce Let's Encrypt CA here due to Caddy still trying to use ZeroSSL even if it fails endlessly -_-
+    acme_ca https://acme-v02.api.letsencrypt.org/directory
+    email {$ACME_EMAIL}
+    ocsp_interval 3d
+    servers {
+        listener_wrappers {
+        # Required for Source IP when proxying Caddy via frpc <-> frps (out, 443)
+            proxy_protocol {
+                timeout 5s
+                    allow {$VPS_ADDRESS} 127.0.0.1/8 10.0.0.0/8
+                    fallback_policy reject
+                }
+                # proxy_protocol needs to be before tls, otherwise it won't work.
+                http_redirect
+                proxy_protocol
+                tls
+            }
+        trusted_proxies combine {
+        # Trust cloudflre proxies
+            cloudflare {
+                interval 12h
+                timeout 30s
+            }
+            static {$VPS_ADDRESS} private_ranges
+        }
+        # Enforce current configuration
+        trusted_proxies_strict
+    }
+    crowdsec {
+        api_url http://10.20.1.1:10000
+        api_key {$CROWDSEC_LAPI_KEY}
+        ticker_interval 15s
+    }
+}
