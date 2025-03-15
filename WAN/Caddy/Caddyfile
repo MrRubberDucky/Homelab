@@ -37,12 +37,12 @@ import /app/configs/Snippets/References
 
    # Analytics
    handle @umami {
+      import header_csp https://analytics.{$FQDN}
+      crowdsec
       route /api* {
          import websockets localhost:9001
       }
-      import header_csp https://analytics.{$FQDN}
-      crowdsec
-      import proxy localhost:9001
+      import oauth2-fauth localhost:9100 localhost:9100 localhost:9001
    }
 
    # Commentario
@@ -50,10 +50,10 @@ import /app/configs/Snippets/References
       import header_csp https://comments.{$FQDN}
       crowdsec
       import proxy localhost:9002
+      import logged comments.log 20M 3d
    }
 
    # Pocket-ID
-   # Coraza breaks NextJS applications due to response buffering so we aren't using it for umami nor Pocket-ID
    handle @auth {
       import header_csp https://auth.{$FQDN}
       crowdsec
@@ -61,20 +61,20 @@ import /app/configs/Snippets/References
    }
 
    # Gatus
-   # Doesn't seem to care about Coraza much.
    handle @uptime {
      import header_csp https://uptime.{$FQDN}
      import coraza
      crowdsec
      import proxy localhost:9004
+     import nolog
    }
 
    # Miniflux
-   # Coraza adds slight delay to rendering but it's liveable
    handle @miniflux {
      import header_csp https://news.{$FQDN}
      import coraza
      crowdsec
      import proxy localhost:9005
+     import nolog
    }
 }
