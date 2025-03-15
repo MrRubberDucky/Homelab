@@ -1,0 +1,114 @@
+import /app/configs/Snippets/GlobalConfig
+import /app/configs/Snippets/References
+
+# Wildcard certificate - *.domain.tld
+*.{$FQDN} {$FQDN} {
+   # Request wildcard certificate via DNS-01
+   import tls
+
+   # =========================
+   # Domain block
+   # =========================
+   @filesystem host fs.{$FQDN}
+   @kmsstats host kms-stats.{$FQDN}
+   @convert host convert.{$FQDN}
+   @kanban host kanban.{$FQDN}
+   @vault host vault.{$FQDN}
+   @music host music.{$FQDN}
+   @notes host notes.{$FQDN}
+   @tools host tools.{$FQDN}
+   @auth host auth.{$FQDN}
+   @sync host sync.{$FQDN}
+   @dash host dash.{$FQDN}
+   @drop host drop.{$FQDN}
+   @kms host kms.{$FQDN}
+   @rvs host {$FQDN}
+
+   # Caddy file server
+   handle @filesystem {
+      import header_csp https://fs.{$FQDN}
+      root * /srv/app/files
+      file_server browse
+   }
+
+   # KMS Stats Dashboard
+   handle @kmsstats {
+      import header_csp https://kms-stats.{$FQDN}
+      import proxy localhost:9012
+   }
+
+   # ConvertX
+   handle @convert {
+      import header_csp https://convert.{$FQDN}
+      import proxy localhost:9008
+   }
+
+   # DumbKan
+   handle @kanban {
+      import header_csp https://kanban.{$FQDN}
+      import proxy localhost:9000
+   }
+
+   # Vaultwarden
+   handle @vault {
+      @blocked {
+         not remote_ip 10.50.1.10/32 10.50.1.11/32
+         path /admin*
+      }
+      handle_path /admin* {
+         respond @blocked "Nie masz dostępu do tego obiektu, skontaktuj się z administratorem aby dowiedzieć się więcej. IP: {client_ip}, Err: Forbidden (403)" 403
+      }
+      abort @blocked
+      import proxy localhost:9004
+   }
+
+   # Navidrome
+   handle @music {
+      import header_csp https://music.{$FQDN}
+      import oauth2-fauth localhost:8101 localhost:8101 localhost:8100
+   }
+
+   # Memos
+   handle @notes {
+      import header_csp https://notes.{$FQDN}
+      import proxy localhost:9001
+   }
+
+   # IT-Tools
+   handle @tools {
+      import header_csp https://tools.{$FQDN}
+      import proxy localhost:9002
+   }
+
+   # Pocket-ID
+   handle @auth {
+      import header_csp https://auth.{$FQDN}
+      import proxy localhost:9005
+   }
+
+   # Syncthing
+   handle @sync {
+      import header_csp https://sync.[$FQDN]
+      import proxy localhost:9010
+   }
+
+   # Homarr dashboard
+   handle @dash {
+      import header_csp https://dash.{$FQDN}
+      import proxy homarr:7575
+   }
+
+   # DumbDrop
+   handle @drop {
+      import header_csp https://drop.{$FQDN}
+      import proxy localhost:9011
+   }
+
+   handle @kms {
+      import proxy localhost:1688
+   }
+
+   handle @rvs {
+      redir "https://dash.{$FQDN}" 308
+   }
+}
