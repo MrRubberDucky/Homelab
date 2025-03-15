@@ -1,0 +1,172 @@
+# Site headers
+# CSP section needs manual modifications if you want to re-use it.
+# Usage: import header_csp domain
+# ex. import header_csp https://analytics.{$FQDN}
+(header_csp) {
+   header {
+      >Content-Security-Policy "
+         default-src 'self'; 
+         script-src 'self' https://analytics.rubberverse.xyz https://comments.rubberverse.xyz https://challenges.cloudflare.com; 
+         style-src 'self' https://comments.rubberverse.xyz; 
+         img-src 'self'; 
+         connect-src 'self' https://analytics.rubberverse.xyz https://auth.rubberverse.xyz;
+         frame-src 'self' https://auth.rubberverse.xyz https://comments.rubberverse.xyz https://challenges.cloudflare.com;
+         font-src 'self' https://comments.rubberverse.xyz;
+         object-src 'none'; 
+         base-uri 'self'; 
+         frame-ancestors 'none';
+      "
+      >Permissions-Policy idle-detection=() microphone=() payment=() screen-wake-lock=() usb=() midi=() magnetometer=() hid=() geolocation=() gamepad=() camera=() bluetooth=() ambient-light-sensor=() accelerometer=()
+      >Access-Control-Allow-Credentials true
+      >X-Content-Type-Options "nosniff"
+      # Outdated header which is largely unused nowadays but can cause issues
+      >X-XSS-Protection "0"
+      >X-Frame-Options "SAMEORIGIN"
+      >X-Remote-IP {client_ip}
+      >Referrer-Policy "strict-origin-when-cross-origin"
+      -Server
+      -X-Powered-By
+      -Last-Modified
+   }
+   # Make Access-Control-Allow-Origin always allow certain domains
+   @allowedOrigins header_regexp Origin ^(https://challenges.cloudflare.com|https://comments.rubberverse.xyz|{args[0]})$
+   handle {
+      header >Access-Control-Allow-Origin {http.request.header.Origin}
+      header >Access-Control-Allow-Methods "GET, POST, OPTIONS"
+      header >Access-Control-Allow-Headers "Content-Type, Authorization, Origin, Accept"
+   }
+}
+# Compression and Cache
+# Usage: import comp-caching paths_to_not_cache
+# ex. import comp-caching /admin* /api*
+(comp-caching) {
+   @senscache {
+      not path {args[0]}
+   }
+   encode @senscache zstd gzip
+   @static {
+      path *.ico *.svg *.gif *.jpg *.jpeg *.webp *.avif *.woff *.woff2 *.css *.png
+   }
+   header @static Cache-Control "public, max-age=31536000, immutable"
+}
+# Websocket proxy
+# /!\ Need to manually route by using path: route /api* {}
+# Usage: import websockets
+(websockets) {
+   @websockets {
+      header Connection *Upgrade*
+      header Upgrade websock
+   }
+   reverse_proxy @websockets {args[0]}
+}
+# Quick certificate import
+# Usage: import tls
+(tls) {
+   tls {
+      dns cloudflare {$CF_API_TOKEN}
+      resolvers 1.1.1.1 1.0.0.1
+   }
+}
+# Login ratelimit, if it wasn't successful 3 times then ratelimit for 15 minutes
+# Usage: import failed_login zone_name path ip:port
+# ex. import failed_login analytics /login localhost:9001
+(failed_login) {
+   route {
+      rate_limit {
+         zone {args[0]}_login {
+            match {
+               method POST
+               path {args[1]}
+            }
+            key {client_ip}
+            events 3
+            window 15m
+            }
+            log_key
+         }
+      reverse_proxy {args[2]}
+   }
+}
+# Analytics requests
+# Usage: import umami path endpoint website_uuid
+# ex. import umami /patreon* https://analytics.example.com 4288532-4823-4923-1023
+(umami) {
+   route {
+      @notPath not path /api* /admin* {args[0]}
+      # Needs to be inside route block
+      umami @notPath {
+         event_endpoint "{args[1]}"
+         website_uuid "{args[2]}"
+         allowed_extensions "" .html .htm
+         trusted_ip_header "X-Forwarded-For"
+         client_ip_header "Client_ip"
+         device_detection
+      }
+   }
+}
+# Coraza WAF
+# Usage: import coraza
+(coraza) {
+   coraza_waf {
+      load_owasp_crs
+      directives `
+      Include @coraza.conf-recommended
+      Include @crs-setup.conf.example
+      Include @owasp_crs/*.conf
+      SecRuleEngine On
+      SecRule REQUEST_URI "@streq /admin" "id:101,phase:1,t:lowercase,deny,status:403"
+      SecRule REQUEST_BODY "@rx maliciouspayload" "id:102,phase:2,t:lowercase,deny,status:403"
+      `
+   }
+}
+# Logging
+# Usage: import logged filename.log filesize time
+# ex. import logged analytics.log 20M 3d
+(logged) {
+    log {
+        output file /app/logs/{args[0]} {
+            mode 644
+            roll_size {args[1]}
+            roll_uncompressed
+            roll_keep_for {args[2]}
+        }
+    }
+}
+# Usage: import nolog
+(nolog) {
+    log {
+        output discard
+    }
+}
+# Reverse Proxy
+# Usage: import proxy ip:port
+# ex. import proxy localhost:3000
+(proxy) {
+    reverse_proxy {args[0]} {
+        header_up Host {upstream_hostport}
+        header_up X-Message-ID "loveu"
+    }
+}
+# oauth2-proxy forward-auth
+# Usage: import oauth2-fauth ip:port same_ip:same_port service_ip:service_port
+# ex. import oauth2-fauth localhost:9100 localhost:9100 localhost:9002 
+(oauth2-fauth) {
+      handle /oauth2/* {
+         reverse_proxy {args[0]} {
+            header_up X-Real-IP {client_ip}
+            header_up X-Forwarded-Uri {uri}
+         }
+      }
+      handle {
+         forward_auth {args[1]} {
+            uri /oauth2/auth
+            header_up X-Real-IP {client_ip}
+
+            @error status 401
+            handle_response @error {
+               redir * /oauth2/sign_in?rd={scheme}://{host}{uri}
+            }
+         }
+         reverse_proxy {args[2]}
+      }
+}
