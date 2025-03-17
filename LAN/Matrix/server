@@ -1,0 +1,14 @@
+{
+  // Matrix homeserver aka. your own self-hosted server
+  "m.homeserver": {
+    "base_url": "https://chat.domain.tld"
+  },
+  // Sliding Sync proxy support, deprecated nowadays.
+  "org.matrix.msc3575.proxy": {
+    "url": "https://chat.domain.tld"
+  },
+  // Sydent identity server
+  "m.identity_server": {
+    "base_url":"https://identity.domain.tld"
+  }
+}
