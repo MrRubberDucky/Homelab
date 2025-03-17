@@ -1,114 +1,115 @@
 import /app/configs/Snippets/GlobalConfig
 import /app/configs/Snippets/References
 
+# 3 space identation
+
 # Wildcard certificate - *.domain.tld
 *.{$FQDN} {$FQDN} {
-   # Request wildcard certificate via DNS-01
    import tls
+   import /app/configs/Snippets/Domains
 
-   # =========================
-   # Domain block
-   # =========================
-   @filesystem host fs.{$FQDN}
-   @kmsstats host kms-stats.{$FQDN}
-   @convert host convert.{$FQDN}
-   @kanban host kanban.{$FQDN}
-   @vault host vault.{$FQDN}
-   @music host music.{$FQDN}
-   @notes host notes.{$FQDN}
-   @tools host tools.{$FQDN}
-   @auth host auth.{$FQDN}
-   @sync host sync.{$FQDN}
-   @dash host dash.{$FQDN}
-   @drop host drop.{$FQDN}
-   @kms host kms.{$FQDN}
-   @rvs host {$FQDN}
+   # Redirect root domain to dashboard
+   import no-log dash.{$FQDN}
+   handle @rubberverse {
+      redir "https://dash.{$FQDN}" 308
+   }
 
    # Caddy file server
+   import sub-log fs.{$FQDN} filesystem.log 20M 3d
    handle @filesystem {
       import header_csp https://fs.{$FQDN}
       root * /srv/app/files
       file_server browse
    }
 
-   # KMS Stats Dashboard
-   handle @kmsstats {
-      import header_csp https://kms-stats.{$FQDN}
-      import proxy localhost:9012
-   }
-
-   # ConvertX
-   handle @convert {
-      import header_csp https://convert.{$FQDN}
-      import proxy localhost:9008
-   }
-
-   # DumbKan
-   handle @kanban {
-      import header_csp https://kanban.{$FQDN}
-      import proxy localhost:9000
-   }
-
    # Vaultwarden
-   handle @vault {
-      @blocked {
-         not remote_ip 10.50.1.10/32 10.50.1.11/32
-         path /admin*
-      }
-      handle_path /admin* {
-         respond @blocked "Nie masz dostępu do tego obiektu, skontaktuj się z administratorem aby dowiedzieć się więcej. IP: {client_ip}, Err: Forbidden (403)" 403
-      }
-      abort @blocked
+   import sub-log vault.{$FQDN} vaultwarden.log 20M 3d
+   handle @vaultwarden {
+      import header_csp https://vault.{$FQDN}
       import proxy localhost:9004
    }
 
-   # Navidrome
-   handle @music {
-      import header_csp https://music.{$FQDN}
-      import oauth2-fauth localhost:8101 localhost:8101 localhost:8100
+   # Element
+   import no-log talk.{$FQDN}
+   handle @element {
+      import header_csp https://talk.{$FQDN}
+      root * /srv/app/element
+      file_server
    }
 
-   # Memos
+   # Element Call
+   import no-log call.{$FQDN}
+   handle @elementcall {
+      import header_csp https://call.{$FQDN}
+      import proxy localhost:9000
+   }
+
+   # Notes
+   import no-log notes.{$FQDN}
    handle @notes {
       import header_csp https://notes.{$FQDN}
       import proxy localhost:9001
    }
 
-   # IT-Tools
-   handle @tools {
-      import header_csp https://tools.{$FQDN}
+   # Sydent
+   import no-log identity.{$FQDN}
+   handle @sydent {
       import proxy localhost:9002
    }
 
    # Pocket-ID
+   import no-log auth.{$FQDN}
    handle @auth {
-      import header_csp https://auth.{$FQDN}
+      import header_csp https://dash.{$FQDN}
       import proxy localhost:9005
    }
 
-   # Syncthing
-   handle @sync {
-      import header_csp https://sync.[$FQDN]
+   # Matrix Server (conduwuit)
+   import no-log chat.{$FQDN}
+   handle @matrix {
+   # Serve specific json responses
+   @wk-server path /.well-known/matrix/server
+   @wk-client path /.well-known/matrix/client
+      handle @wk-server {
+          root * /srv/app/files
+          rewrite * /server
+          header Content-Type application/json
+          file_server
+      }
+      handle @wk-client {
+          root * /srv/app/files
+          rewrite * /client
+          header Content-Type application/json
+          file_server
+      }
+      import proxy localhost:9009
+   }
+
+   # Syncthing dashboard
+   import sub-log sync.{$FQDN} syncthing.log 20M 3d
+   handle @syncthing {
+      import header_csp https://sync.{$FQDN}
       import proxy localhost:9010
    }
 
-   # Homarr dashboard
-   handle @dash {
-      import header_csp https://dash.{$FQDN}
-      import proxy homarr:7575
+   # Navidrome
+   import no-log music.{$FQDN}
+   handle @navidrome {
+      import header_csp https://music.{$FQDN}
+      import proxy localhost:8100
    }
 
-   # DumbDrop
-   handle @drop {
-      import header_csp https://drop.{$FQDN}
-      import proxy localhost:9011
+   # py-kms Stats Dashboard
+   import no-log activate.{$FQDN}
+   handle @overview {
+      import header_csp https://kms-stats.{$FQDN}
+      import proxy localhost:9012
    }
 
-   handle @kms {
-      import proxy localhost:1688
-   }
-
-   handle @rvs {
-      redir "https://dash.{$FQDN}" 308
+   # ConvertX
+   import sub-log convert.{$FQDN} convert.log 20M 3d
+   handle @convertx {
+      import header_csp https://convert.{$FQDN}
+      import proxy localhost:9008
    }
 }
