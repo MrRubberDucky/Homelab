@@ -1,0 +1,19 @@
+[Unit]
+Description=Authentik Server Component
+Requires=Authentik-Postgres.service
+Requires=Authentik-Redis.service
+
+[Service]
+Restart=on-failure
+
+[Container]
+Image=ghcr.io/goauthentik/server:2025.2.2
+ContainerName=authentik-server
+Exec=server
+Tmpfs=/dev/shm
+Tmpfs=/authentik
+EnvironmentFile=/home/overseer/Environments/Authentik.env
+User=1001:1001
+Volume=${HOME}/AppData/2_PERSIST/Authentik/media:/media:U,z
+Volume=${HOME}/AppData/2_PERSIST/Authentik/templates:/templates:U,z
+Pod=DeployAuthentik.pod
