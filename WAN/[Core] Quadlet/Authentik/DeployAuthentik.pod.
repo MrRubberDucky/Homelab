@@ -1,0 +1,5 @@
+# Rename from pod. to pod
+[Pod]
+Network=pasta:--ipv4-only
+PublishPort=127.0.0.1:9003:9000
+# It's too much services to share via tcp namespaces. More easier to just cram everything in one pod and let them reach each other by their hostnames or IPs.
