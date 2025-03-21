@@ -1,0 +1,22 @@
+[Unit]
+Description=Authentik Worker Component
+Requires=Authentik-Postgres.service
+Requires=Authentik-Redis.service
+
+[Service]
+Restart=on-failure
+
+[Container]
+Image=ghcr.io/goauthentik/server:2025.2.2
+ContainerName=authentik-worker
+Exec=worker
+Tmpfs=/dev/shm
+Tmpfs=/authentik
+EnvironmentFile=/home/overseer/Environments/Authentik.env
+Volume=${HOME}/AppData/2_PERSIST/Authentik/media:/media:U,z
+Volume=${HOME}/AppData/2_PERSIST/Authentik/templates:/templates:U,z
+Volume=${HOME}/AppData/2_PERSIST/Authentik/certs:/certs:U,Z
+# Conservative ulimit settings so it doesn't hog too much CPU, 10920 seems to be recommended though.
+Ulimit=nofile=4096:4096
+User=1001:1001
+Pod=DeployAuthentik.pod
