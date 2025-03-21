@@ -1,0 +1,76 @@
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        # Member Provider                       #
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        oauth identity provider member {
+            # Delay start otherwise it sometimes fails
+            delay_start 1
+            # Set realm (used by match realm directive)
+            realm rubberverse-member
+            # Generic driver
+            driver generic
+            # Client ID and Client Secret from Pocket-ID
+            client_id {$MEMBER_CLIENT_ID}
+            client_secret {$MEMBER_CLIENT_SECRET}
+            # Add group into scopes
+            scopes openid profile groups
+            base_auth_url https://auth.domain.tld
+            metadata_url https://auth.domain.tld/.well-known/openid-configuration
+        }
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        # Member Portal                         #
+        # Auth portal for members (ducklings)   #
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        authentication portal portmember {
+            # Crypto settings - can also be an JWT token from env
+            crypto default token lifetime 86400
+            # Source IP tracking so force re-auth if it's different
+            enable source ip tracking
+            # Disallow insecure cookies
+            cookie insecure off
+            # Enable the identity provider we configured before
+            enable identity provider member
+            # Add role for member group
+            transform user {
+                # Match relam from member provider
+                match realm rubberverse-member
+                # Add role to user
+                action add role rvsauth/member
+            }
+            transform user {
+                # Remove whitespaces from tokens to parse it
+                regex match role "\s"
+                action drop matched role
+            }
+            # Drop other roles if it has any
+            transform user {
+                match roles rvsauth/supporter rvsauth/mgmt
+                # Remove any other roles the user may have, we only expect user/member
+                action drop matched role
+            }
+        }
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        # Authorization Policy for members      #
+        # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+        authorization policy memberpolicy {
+            # Set the auth url
+            set auth url /caddy-security/oauth2/rubberverse-member
+            # We enabled source IP tracking in portal, so we are now enabling validation of source ip address
+            validate source address
+            acl rule {
+                # A comment, can be anything really
+                comment allow members
+                # We expect user to have user/member role
+                match role rvsauth/member
+                # We allow them in then log it to stdout as INFO
+                allow stop log info
+            }
+            acl rule {
+                comment default deny
+                # Match anything else ex. user/esoifjgsi user/mgmt etc.
+                match any
+                # Deny them if they don't posses user/member role and warn (in this case ERR) in stdout
+                deny stop log warn
+            }
+            # Add headers
+            inject headers with claims
+        }
