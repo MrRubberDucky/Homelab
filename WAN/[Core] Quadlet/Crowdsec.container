@@ -1,0 +1,38 @@
+[Unit]
+Description=Crowdsecurity Daemon
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
+[Container]
+# Base
+Image=ghcr.io/crowdsecurity/crowdsec:v1.6.6
+ContainerName=crowdsec
+Timezone=Europe/Warsaw
+# Environments
+EnvironmentFile=/home/overseer/Environments/Crowdsec.env
+# Volumes - Log settings, whitelists
+Volume=${HOME}/AppData/1_CONFIGS/Crowdsec_Configs/config/ACQUIS.YAML:/etc/crowdsec/acquis.yaml:Z,ro
+Volume=${HOME}/AppData/1_CONFIGS/Crowdsec_Configs/config/PROFILES.YAML:/etc/crowdsec/profiles.yaml:Z,ro
+# rDNS whitelist (resolves dynamic WAN IP from dynamic dns name) & VPS IP whitelist so it doesn't ban both of them
+Volume=${HOME}/AppData/1_CONFIGS/Crowdsec_Configs/postoverflows:/etc/crowdsec/postoverflows/s01-whitelist:Z,ro
+Volume=${HOME}/AppData/1_CONFIGS/Crowdsec_Configs/MYWHITELIST3.YAML:/etc/crowdsec/parsers/s02-enrich/mywhitelist.yaml:Z,ro
+# Volumes - Logs from Caddy
+Volume=CADDY-LOGS:/var/log/caddy:ro,z
+# Mounts
+Mount=type=bind,src=/home/overseer/AppData/2_PERSIST/CROWDSEC_CFG,dst=/etc/crowdsec,U=true,Z
+Mount=type=bind,src=/home/overseer/AppData/2_PERSIST/CROWDSEC_DATA,dst=/var/lib/crowdsec/data,U=true,Z
+# Tmpfs
+Tmpfs=/usr/local/lib/crowdsec
+# Network
+Network=pasta:--ipv4-only,-T,10000
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+# Capabilities
+DropCapability=all
+# Container User
+User=1001:1001
