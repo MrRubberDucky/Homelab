@@ -35,6 +35,7 @@ import /app/configs/Snippets/References
       crowdsec
       import proxy localhost:9002
    }
+
    # Authentik
    import sub-log auth.{$FQDN} auth 5M 2d
    handle @pocketid {
