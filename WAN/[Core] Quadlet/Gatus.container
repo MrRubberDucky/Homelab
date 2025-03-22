@@ -1,0 +1,27 @@
+[Unit]
+Description=Gatus - Uptime Monitor for developers
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/twin/gatus:stable
+ContainerName=gatus
+# Volumes
+Volume=${HOME}/AppData/1_CONFIGS/Gatus:/app/configs:ro,Z
+# Environments
+Environment=GATUS_CONFIG_PATH=/app/configs
+Environment=PORT=9004
+# Network
+Network=pasta:--ipv4-only
+PublishPort=127.0.0.1:9004:9004/tcp
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# User
+User=1001:1001
