@@ -1,0 +1,71 @@
+# =======================================
+# Merged Authentik environmental variables
+# Their guide tells you to make a rather bland Authentik.env and do the rest via environmental variables
+# Which will get exposed when anybody inspects systemd service on Quadlet
+# =======================================
+
+# =======================================
+# Postgres Database
+# Your container must be able to reach this, otherwise it will fail with cryptic error.
+# =======================================
+AUTHENTIK_POSTGRESQL__HOST="postgres-authentik"
+AUTHENTIK_POSTGRESQL__NAME="authentik"
+AUTHENTIK_POSTGRESQL__USER="example"
+AUTHENTIK_POSTGRESQL__PASSWORD="example"
+AUTHENTIK_POSTGRESQL__PORT=5432
+
+# =======================================
+# If you dont want to verify ca then set this to disable, otherwise your postgres node needs TLS
+# =======================================
+AUTHENTIK_POSTGRESQL__SSLMODE=disable
+
+# =======================================
+# Redis Server
+# Your container must be able to reach this, otherwise it will fail with cryptic error.
+# =======================================
+# /!\ Don't put ACLs as celery doesn't publish anything regarding on how to actually secure it.
+# You will just crash on loop with a vague blueprint django migration error, when in reality
+# it just can't connect to your Redis instance.
+# =======================================
+AUTHENTIK_REDIS__HOST="redis-authentik"
+AUTHENTIK_REDIS__PORT=6379
+
+# =======================================
+# 0 is first database in Redis (usually) but it can be any number (nothing above 10 though)
+# Redis doesn't really have concept of "named" databases, it uses numbers from 0 to 10 (iirc)
+# So don't put a name here. 0 is first by default.
+# =======================================
+AUTHENTIK_REDIS__DB=1
+
+# =======================================
+# Username parameter will only work if you set-up user authentication on Redis via config file
+# =======================================
+AUTHENTIK_REDIS__USERNAME="example"
+AUTHENTIK_REDIS__PASSWORD="example"
+AUTHENTIK_REDIS__TLS_REGS="none"
+
+# =======================================
+# Authentik
+# =======================================
+# Can be S3 or file, if S3 then you must put S3 server envs here.
+AUTHENTIK_STORAGE__MEDIA__BACKEND="file"
+
+# =======================================
+# Base64 encoded secret, probably up to 128 characters in size
+# =======================================
+AUTHENTIK_SECRET_KEY="example"
+
+# =======================================
+# The domain you will server Authentik on
+# =======================================
+AUTHENTIK_COOKIE_DOMAIN="auth.example.com"
+
+# =======================================
+# SMTP - well information from your smtp relay or whatever.
+# =======================================
+AUTHENTIK_EMAIL__HOST=
+AUTHENTIK_EMAIL__PORT=
+AUTHENTIK_EMAIL__USERNAME=
+AUTHENTIK_EMAIL__PASSWORD=
+AUTHENTIK_EMAIL__USE_TLS=true
+AUTHENTIK_EMAIL__FROM=

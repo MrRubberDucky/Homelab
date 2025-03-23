@@ -21,9 +21,12 @@ Volume=${HOME}/AppData/3_USER/Errorpages:/app/www/errorpages:ro,Z
 #Volume=${HOME}/AppData/3_USER/html:/app/www/html:ro,Z
 # Shared logging directory that feeds logs into Crowdsec agent
 Volume=CADDY-LOGS:/app/logs:rw,z,U
+# Coraza settings
+Volume=${HOME}/AppData/1_CONFIGS/Coraza:/rules:ro,Z
 # Mounts
 Mount=type=bind,source=/home/overseer/AppData/2_PERSIST/CADDY_DATA,destination=/app/.local/share/caddy,U=true,Z
 Mount=type=bind,source=/home/overseer/AppData/2_PERSIST/CADDY_CONFIG,destination=/app/.config/caddy,U=true,Z
+Mount=type=bind,source=/home/overseer/AppData/2_PERSIST/CORAZA,destination=/app/coraza,U=true,Z
 # Labels
 AutoUpdate=registry
 NoNewPrivileges=true

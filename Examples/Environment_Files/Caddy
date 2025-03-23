@@ -1,0 +1,12 @@
+# Example of feeding environmental variables into Caddy container and re-using them in config later
+ACME_EMAIL=email@domain.tld
+CF_API_TOKEN=random_cloudflare_token
+CROWDSEC_LAPI_KEY=generated_lapi_key
+CONFIG_PATH=/app/configs/Caddyfile
+CADDY_ENVIRONMENT=prod
+FQDN=domain.tld
+# Then you can reference them anywhere in your Caddyfile like so:
+# tls {
+#   dns cloudflare {$CF_API_TOKEN}
+#   resolver 1.1.1.1 1.0.0.1
+# }

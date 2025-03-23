@@ -1,0 +1,205 @@
+{
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Member Provider                       #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    oauth identity provider member {
+        # Delay start otherwise it sometimes fails
+        delay_start 1
+        # Set realm (used by match realm directive)
+        realm rubberverse-member
+        # Generic driver
+        driver generic
+        # Client ID and Client Secret from Pocket-ID
+        client_id {$MEMBER_CLIENT_ID}
+        client_secret {$MEMBER_CLIENT_SECRET}
+        # Add group into scopes
+        scopes openid profile groups
+        base_auth_url https://auth.domain.tld
+        metadata_url https://auth.domain.tld/.well-known/openid-configuration
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Member Portal                         #
+    # Auth portal for members (ducklings)   #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authentication portal portmember {
+        # Crypto settings - can also be an JWT token from env
+        crypto default token lifetime 86400
+        # Source IP tracking so force re-auth if it's different
+        enable source ip tracking
+        # Disallow insecure cookies
+        cookie insecure off
+        # Enable the identity provider we configured before
+        enable identity provider member
+        # Add role for member group
+        transform user {
+            # Match relam from member provider
+            match realm rubberverse-member
+            # Add role to user
+            action add role rvsauth/member
+        }
+        transform user {
+            # Remove whitespaces from tokens to parse it
+            regex match role "\s"
+            action drop matched role
+        }
+        # Drop other roles if it has any
+        transform user {
+            match roles rvsauth/supporter rvsauth/mgmt
+            # Remove any other roles the user may have, we only expect user/member
+            action drop matched role
+        }
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Authorization Policy for members      #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authorization policy memberpolicy {
+        # Set the auth url
+        set auth url /caddy-security/oauth2/rubberverse-member
+        # We enabled source IP tracking in portal, so we are now enabling validation of source ip address
+        validate source address
+        acl rule {
+            # A comment, can be anything really
+            comment allow members
+            # We expect user to have user/member role
+            match role rvsauth/member
+            # We allow them in, then log it to stdout as INFO
+            allow stop log info
+        }
+        acl rule {
+            comment default deny
+            # Match anything else ex. user/esoifjgsi user/mgmt etc.
+            match any
+            # Deny them if they don't posses user/member role and warn (in this case ERR) in stdout
+            deny stop log warn
+        }
+        # Add headers
+        inject headers with claims
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Patreon Provider                      #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    oauth identity provider supporterprovider {
+        delay_start 1
+        realm rubberverse-patreon
+        driver generic
+        client_id {$PATREON_CLIENT_ID}
+        client_secret {$PATREON_CLIENT_SECRET}
+        scopes openid profile email groups
+        base_auth_url https://auth.example.com
+        metadata_url https://auth.example.com/.well-known/openid-configuration
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Pateron Portal                        #
+    # Auth portal for supporters            #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authentication portal supporterportal {
+        # Token valid for 3 days
+        crypto default token lifetime 259200
+        enable source ip tracking
+        cookie insecure off
+        enable identity provider supporterprovider
+        transform user {
+            match realm rubberverse-patreon
+            match group supporter
+            action add role rvsauth/supporter
+        }
+        transform user {
+            match realm rubberverse-patreon
+            regex match role "\s"
+            action drop matched role
+        }
+        transform user {
+            match realm rubberverse-patreon
+            exact match role authp/guest
+            action drop matched role
+        }
+        transform user {
+            match realm rubberverse-patreon
+            match roles authp/anonymous
+            action drop matched role
+        }
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Authorization Policy for supporters   #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authorization policy supporterpolicy {
+        set auth url /caddy-security/oauth2/rubberverse-patreon
+        validate source address
+        acl rule {
+            comment allow supporters
+            exact match roles rvsauth/supporter supporter
+            allow stop
+        }
+        acl rule {
+            comment allow mgmt
+            exact match role mgmt
+            exact match email {$ACME_EMAIL}
+            allow stop log info
+        }
+        acl rule {
+            comment default deny
+            match any
+            deny stop log warn
+        }
+        inject headers with claims
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Owner Provider                        #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    oauth identity provider mgmtprovider {
+        delay_start 1
+        realm rubberverse-mgmt
+        driver generic
+        client_id {$MGMT_CLIENT_ID}
+        client_secret {$MGMT_CLIENT_SECRET}
+        scopes openid email profile groups
+        base_auth_url https://auth.example.com
+        metadata_url https://auth.example.com/.well-known/openid-configuration
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Owner Portal                          #
+    # Auth portal for managment             #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authentication portal mgmtportal {
+        crypto default token lifetime 86400
+        enable identity provider mgmtprovider
+        enable source ip tracking
+        cookie insecure off
+        transform user {
+            match realm rubberverse-mgmt
+            exact match group mgmt
+            exact match email {$ACME_EMAIL}
+            action add role rvsauth/mgmt
+        }
+        transform user {
+            match realm rubberverse-mgmt
+            regex match role "\s"
+            action drop matched role
+        }
+        transform user {
+            match realm rubberverse-mgmt
+            match role rvsauth/supporter
+            action drop matched role
+        }
+    }
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    # Authorization Policy for owner        #
+    # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+    authorization policy mgmtpolicy {
+        # Needs to match realm
+        set auth url /caddy-security/oauth2/rubberverse-mgmt
+        validate source address
+        acl rule {
+            comment allow owner
+            exact match roles mgmt rvsauth/mgmt
+            exact match email {$ACME_EMAIL}
+            allow stop
+        }
+        acl rule {
+            comment default deny
+            match any
+            deny stop log warn
+        }
+        inject headers with claims
+    }
+}

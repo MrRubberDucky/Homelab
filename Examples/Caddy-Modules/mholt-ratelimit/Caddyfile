@@ -1,0 +1,18 @@
+# Limit by requests towards PATH based on requester's IP
+site.example.com {
+	route {
+      rate_limit {
+         zone example_zone {
+         match {
+            # Any HTTP method
+            method GET
+            path /web*
+         }
+         key {client_ip}
+         events 5
+         window 2m
+         }
+      }
+      reverse_proxy localhost:9006
+   }
+}
