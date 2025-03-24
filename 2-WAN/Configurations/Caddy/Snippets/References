@@ -80,21 +80,13 @@
    }
 }
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Ratelimit
+# General GeoIP block
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Usage: import rlimit_setup example_zone GET /web* 10 15m
-(rlimit_path) {
-   route {
-      rate_limit {
-         zone {args[0]} {
-            match {
-               method {args[1]}
-               path {args[2]}
-            }
-            key {client_ip}
-            events {args[3]}
-            window {args[4]}
-         }
+(geoip_block) {
+   @geofilter {
+      maxmind_geolocation {
+         db_path "/app/database/GeoLite2-Country.mmdb"
+         deny_countries RU BY AF NP CN
       }
    }
 }
@@ -145,11 +137,11 @@
       }
    }
 }
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=   
 # Misc imports
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 (proxy) {
-   reverse_proxy {args[0]} {
+   reverse_proxy {args[0]} {args[1]} {
       header_up Host {upstream_hostport}
       header_up X-Food "Pilk!"
    }

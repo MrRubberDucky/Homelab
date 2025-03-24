@@ -1,6 +1,6 @@
 import /app/configs/Snippets/GlobalConfig
 import /app/configs/Snippets/References
-# v2.0 - Import galore
+# v2.1 - GeoIP addition
 
 # Wildcard certificate - *.domain.tld
 *.{$FQDN} {$FQDN} {
@@ -27,7 +27,7 @@ import /app/configs/Snippets/References
       }
       import cache_static
       crowdsec
-      import proxy localhost:9001
+      import proxy @geofilter localhost:9001
    }
    # Commentario
    # Latte means that service is logged. If it doesn't have it, it will not have any logs what-so-ever.
@@ -35,14 +35,14 @@ import /app/configs/Snippets/References
    header @comments {
       import header_csp https://comments.{$FQDN}
       crowdsec
-      import proxy localhost:9002
+      import proxy @geofilter localhost:9002
    }
    # Keycloak
    import latte auth.{$FQDN} auth 5m 3d
    header @keycloak {
       import header_csp https://auth.{$FQDN}
       crowdsec
-      import proxy localhost:9003
+      import proxy @geofilter localhost:9003
    }
    # Gatus
    handle @uptime {
@@ -53,7 +53,7 @@ import /app/configs/Snippets/References
       import cache_static
       import coraza
       crowdsec
-      import proxy localhost:9004
+      import proxy @geofilter localhost:9004
    }
    # Miniflux
    handle @miniflux {
@@ -61,7 +61,7 @@ import /app/configs/Snippets/References
       import cache_static
       import coraza
       crowdsec
-      import proxy localhost:9005
+      import proxy @geofilter localhost:9005
    }
    # Search
    handle @search {
@@ -71,8 +71,20 @@ import /app/configs/Snippets/References
       }
       import cache_static
       import coraza
-      import rlimit_path search_rlimit GET web/* 8 2m
-      import proxy localhost:9006
+      route {
+         rate_limit {
+            zone search_rlimit {
+               match {
+                  method GET
+                  path /web*
+               }
+            key {client_ip}
+            events 8
+            window 2m
+            }
+         }
+      }
+      import proxy @geofilter localhost:9006
    }
    log {
       output discard
