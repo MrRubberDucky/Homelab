@@ -6,6 +6,7 @@ import /app/configs/Snippets/References
 *.{$FQDN} {$FQDN} {
    # Handles TLS, rate limit errors and global logs (default off)
    import settings
+   import geoip_block
 
    # Main site
    handle @rubberverse {
