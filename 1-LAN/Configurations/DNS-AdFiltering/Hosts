@@ -1,0 +1,120 @@
+# Used with Technitium DNS
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# LDPlayer9
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+ad.ldplayer.net
+en.ldplayer.net
+cdn.ldplayer.net
+encdn.ldplayer.com
+advertise.ldplayer.net
+middledata.ldplayer.net
+apiid.ldmnq.com
+apien.ldmnq.com
+ldcdn.ldmnq.com
+encdn.ldmnq.com
+storeen.ldmnq.com
+usersdk.ldmnq.com
+adabdapi.ldmnq.com
+appstore.ldmnq.com
+middledata.ldmnq.com
+api.ld-space.com
+openrcv.baidu.com
+loc.map.baidu.com
+p-sgsg00.kxcdn.com
+android.bugly.qq.com
+encdn.ldmnq.com.w.alikunlun.com
+ins-o9iydzqn.ias.tencent-cloud.net
+lden.oss-ap-southeast-1.aliyuncs.com
+netease-publish-gdlgphs.w.alikunlun.com
+advertise.ldplayer.net.a.lahuashanbx.com
+alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
+||ias.tencent-cloud.net
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Bluestacks
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+eb.bluestacks.com
+www.bluestacks.com
+cloud.bluestacks.com
+cdn-bgp.bluestacks.com
+cdn-www.bluestacks.com
+cdn-icon.bluestacks.com
+ak-build.bluestacks.com
+now.gg
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Nox Player
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+hmma.baidu.com
+googleclubstore.com
+sdk.open.inc2.igexin.com
+||noxinfluencer.net
+||bignox.com
+||trnox.com
+||umeng.com
+||tapas.net
+||yeshen.com
+||shifen.com
+||bceapp.com
+||duapps.com
+||kunlungr.com
+||sinaapp.com
+||applinzi.com
+||talkingdata.net
+||apptrackerlink.com
+||appmeasurements.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Windows telemetry / error reporting
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+v10.events.data.microsoft.com
+watson.events.data.microsoft.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Nintendo Update servers (and all domains)
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+||nintendo.com
+||nintendo.net
+||nintendo.jp
+||nintendo.co.jp
+||nintendo.co.uk
+||nintendo-europe.com
+||nintendowifi.net
+||nintendo.es
+||nintendo.co.kr
+||nintendo.tw
+||nintendo.com.hk
+||nintendo.com.au
+||nintendo.co.nz
+||nintendo.at
+||nintendo.be
+||nintendods.cz
+||nintendo.dk
+||nintendo.de
+||nintendo.fi
+||nintendo.fr
+||nintendo.gr
+||nintendo.hu
+||nintendo.it
+||nintendo.nl
+||nintendo.no
+||nintendo.pt
+||nintendo.ru
+||nintendo.co.za
+||nintendo.se
+||nintendo.ch
+||nintendo.pl
+||nintendoswitch.com
+||nintendoswitch.com.cn
+||nintendoswitch.cn
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Whitelist
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Fixes Android EGS not starting
+@@||tracking.epicgames.com
+@@||sentry.io
+# DNS provider whitelist
+@@||quad10.net
+@@||dns.sb
+@@||dot.sb
+@@||dns0.eu
+## >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Block Google STUN
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+||stun.l.google.com
