@@ -1,0 +1,11 @@
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Whitelist
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Fixes Android EGS not starting
+||tracking.epicgames.com
+||sentry.io
+# DNS provider whitelist
+||quad10.net
+||dns.sb
+||dot.sb
+||dns0.eu
