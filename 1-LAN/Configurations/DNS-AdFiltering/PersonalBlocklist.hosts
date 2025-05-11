@@ -102,3 +102,9 @@ watson.events.data.microsoft.com
 ||4chan.org
 ||mail.ru
 ||ok.ru
+# https://quicksetcloud.com/nevo/nevo-ai/
+# Weird IoT thing that's hosted on Microsoft's Azure platform.
+nevoai-iothub-14-prod.azure-devices.net
+# Gemini stuff?
+waa-pa.clients6.google.com
+signaler-pa.clients6.google.com
