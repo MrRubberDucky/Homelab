@@ -1,7 +1,11 @@
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Personal hosts list
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# #############################
+# Persona hosts list
+# Extra addition on top of our usual filter lists that block more specific apps
+# This also usually completely blocks access to gain those apps too but it's better that way anyways tbh
+# ############################
+
 # LDPlayer9
+# Android emulator, turn off Private DNS in Android settings to properly filter it
 ad.ldplayer.net
 en.ldplayer.net
 cdn.ldplayer.net
@@ -29,7 +33,9 @@ netease-publish-gdlgphs.w.alikunlun.com
 advertise.ldplayer.net.a.lahuashanbx.com
 alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
 ||ias.tencent-cloud.net
+
 # Bluestacks domains and telemetry
+# Android emulator, turn off Private DNS in Android settings to properly filter it
 eb.bluestacks.com
 www.bluestacks.com
 cloud.bluestacks.com
@@ -38,7 +44,9 @@ cdn-www.bluestacks.com
 cdn-icon.bluestacks.com
 ak-build.bluestacks.com
 ||now.gg
+
 # Nox Player domains and telemetry
+# Android emulator, turn off Private DNS in Android settings to properly filter it
 hmma.baidu.com
 googleclubstore.com
 sdk.open.inc2.igexin.com
@@ -57,10 +65,16 @@ sdk.open.inc2.igexin.com
 ||talkingdata.net
 ||apptrackerlink.com
 ||appmeasurements.com
-# Windows telemetry / error reporting, whatever else it needs to contact these two domains on loop for
+
+# Windows Diagnostics, can be blocked but not if you have old enough system (ex. W10 20H2, will cause update failure)
+# May also break Xbox Store
 v10.events.data.microsoft.com
+# Error Checking utility that's in Windows, Dr.Watson is just old name for it.
+# It's extra telemetry for Microsoft nowadays
 watson.events.data.microsoft.com
+
 # Nintendo Update servers (and all domains)
+# This should only be used if you have homebrewed switch
 ||nintendo.com
 ||nintendo.net
 ||nintendo.jp
@@ -95,16 +109,20 @@ watson.events.data.microsoft.com
 ||nintendoswitch.com
 ||nintendoswitch.com.cn
 ||nintendoswitch.cn
+
 # STUN server that for some reason some Android emulators seem to love to hit up
 ||stun.l.google.com
+
 # Filter out useless junk my household shouldn't access anyways
 # Yes there's nothing wortwhile on 4chan. Cope.
 ||4chan.org
 ||mail.ru
 ||ok.ru
-# https://quicksetcloud.com/nevo/nevo-ai/
+
 # Weird IoT thing that's hosted on Microsoft's Azure platform.
+# https://quicksetcloud.com/nevo/nevo-ai/
 nevoai-iothub-14-prod.azure-devices.net
+
 # Gemini stuff?
 waa-pa.clients6.google.com
 signaler-pa.clients6.google.com
