@@ -1,10 +1,33 @@
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Whitelist
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Fixes Android EGS not starting
-||tracking.epicgames.com
+# #############################
+# Allowlist / Whitelist
+# Some hosts files are too aggressive and block too many things at once
+# #############################
+
+# FCM (Firebase Cloud Messaging)
+# Needed for proper notifications on apps that use GCM/FCM
+# https://firebase.google.com/docs/cloud-messaging/concept-options#messaging-ports-and-your-firewall
+mtalk.google.com
+mtalk4.google.com
+mtalk-staging.google.com
+mtalk-dev.google.com
+alt1-mtalk.google.com
+alt2-mtalk.google.com
+alt3-mtalk.google.com
+alt4-mtalk.google.com
+alt5-mtalk.google.com
+alt6-mtalk.google.com
+alt7-mtalk.google.com
+alt8-mtalk.google.com
+android.apis.google.com
+device-provisioning.googleapis.com
+firebaseinstallations.googleapis.com
+
+# Epic Games Store for Android will crash if tracking is blocked via DNS
+# Clearly a feature, not a bug... xd
+tracking.epicgames.com
 ||sentry.io
-# DNS provider whitelist
+
+# Some hosts block DDNSS that we use
 ||quad10.net
 ||dns.sb
 ||dot.sb
