@@ -25,10 +25,11 @@ firebaseinstallations.googleapis.com
 # Epic Games Store for Android will crash if tracking is blocked via DNS
 # Clearly a feature, not a bug... xd
 tracking.epicgames.com
-||sentry.io
+www.sentry.io
+sentry.io
 
 # Some hosts block DDNSS that we use
-||quad10.net
-||dns.sb
-||dot.sb
-||dns0.eu
+quad10.net
+dns.sb
+dot.sb
+dns0.eu
