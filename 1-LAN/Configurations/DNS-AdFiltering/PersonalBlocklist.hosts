@@ -126,3 +126,6 @@ nevoai-iothub-14-prod.azure-devices.net
 # Gemini stuff?
 waa-pa.clients6.google.com
 signaler-pa.clients6.google.com
+
+# Not needed for normal app usage, just telemetry
+ecsv2.roblox.com
