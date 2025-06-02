@@ -1,13 +1,11 @@
 # ================================
-# I'm pissed at these useless fucking sites cluttering my search results, masquerading as something amongst the results I would want.
-# Stop polluting web with literal shit.
-#
-# Criteria:
-# - Text was generated using LLM (Large Language Model)
+# Garbage, useless, downright shit list of websites that pollute search results and abuse SEO to always appear at the top.
+# Criteria for adding domains is as following:
+# - Text was generated using an LLM
 # - Core article art, or it's sub-art was generated with the help of Image Generation technology
-# - Ad banner spamming, overpadding the content to the point where 50% is just ads
-# - Same copy 'n' paste template, Table of Contents and other similiarities to sites generated with automated LLM
-# - Utterly low effort, incoherent or otherwise malicious sites
+# - Intensive ad banner spamming to the point where every small sub-string of text there's an ad
+# - Copy 'n' paste templates, ToC (Table of Contents) and other similarities that are known to be abused by generative models
+# - Utterly low effort, incoherent or potentially malicious advice given
 # ================================
 linuxsimply.com
 linuxcapable.com
