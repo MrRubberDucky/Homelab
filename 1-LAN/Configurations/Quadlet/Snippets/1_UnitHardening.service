@@ -1,0 +1,37 @@
+[Unit]
+# Just a temporary snippet till I manage the inner mess that is my hard drive...
+# This is only for actual generated systemd service, container has it's own parts. See it as a extra security, considering we are running it as root.
+PrivateMounts=yes
+PrivateTmp=yes
+# This is too restrictive for containers that need /dev/null or /dev/shm
+PrivateDevices=no
+ProtectSystem=strict
+ProtectProc=invisible
+ProtectKernelModules=yes
+ProtectClock=yes
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ReadWritePaths=/run /etc/containers /home/container_user /usr/local/share/containers
+ReadOnlyPaths=/etc /var /usr /bin /sbin
+InaccessiblePaths=/boot /root /home/ducky /home/overseer
+KeyringMode=private
+UMask=0077
+SystemCallFilter=~@debug @reboot @cpu-emulation @obsolete @clock @swap
+# CAP_SYS_PACCT seems to be fine along with CAP_SYS_TIME and doesn't cause much issues in testing.
+# CAP_NET_BROADCAST & CAP_BPF need to be adjusted on service basis as some depend on it
+CapabilityBoundingSet=~CAP_SYS_BOOT CAP_SYSLOG CAP_SYS_TIME CAP_SYS_PACCT CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_AUDIT_WRITE CAP_BPF
+# 32MiB memlock
+LimitMEMLOCK=33554432
+
+# Stock Quadlet (these are all I seperated into 3 seperate categories, so that's why you see different service names lol)
+# systemd-analyze security Navidrome
+# → Overall exposure level for Navidrome.service: 9.8 UNSAFE 😨
+
+# with PrivateDevices=no and ~CAP_SYS_BOOT CAP_NET_BROADCAST CAP_SYSLOG CAP_SYS_TIME CAP_SYS_PACCT CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_AUDIT_WRITE CAP_NET_BROADCAST CAP_BPF)
+# systemd-analyze security Vaultwarden
+# → Overall exposure level for Vaultwarden.service: 7.1 MEDIUM 😐
+
+# with PrivateDevices=yes and ~CAP_SYS_BOOT CAP_NET_BROADCAST CAP_SYSLOG CAP_SYS_TIME CAP_SYS_PACCT CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_AUDIT_WRITE CAP_BPF)
+# systemd-analyze security Caddy
+# → Overall exposure level for Caddy.service: 6.8 MEDIUM 😐
+# About as good as it gets, can't do much more. Rootful podman depends on a lot of privileged components but it's fine, we have seperated usernamespaces on container and stuff like that. We are chilling.
