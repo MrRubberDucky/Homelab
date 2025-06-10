@@ -1,7 +1,8 @@
 # Just a temporary snippet till I manage the inner mess that is my hard drive...
 PrivateMounts=yes
 PrivateTmp=yes
-PrivateDevices=yes
+# This is too restrictive for containers that need /dev/null or /dev/shm
+PrivateDevices=no
 ProtectSystem=strict
 ProtectProc=invisible
 ProtectKernelModules=yes
@@ -12,15 +13,9 @@ ReadWritePaths=/run /etc/containers /home/container_user /usr/local/share/contai
 ReadOnlyPaths=/etc /var /usr /bin /sbin
 InaccessiblePaths=/boot /root /home/ducky /home/overseer
 KeyringMode=private
-UMask=022
-SystemCallFilter=~@debug
-SystemCallFilter=~@raw-io
-SystemCallFilter=~@reboot
-SystemCallFilter=~@cpu-emulation
-SystemCallFilter=~@obsolete
-SystemCallFilter=~@clock
-SystemCallFilter=~@swap
-CapabilityBoundingSet=~CAP_SYS_BOOT
-# 32Mb memlock
-LimitCPU=50
+UMask=0077
+SystemCallFilter=~@debug @reboot @cpu-emulation @obsolete @clock @swap
+# CAP_SYS_PACCT seems to be fine along with CAP_SYS_TIME and doesn't cause much issues in testing. CAP_NET_BROADCAST is finnicky though.
+CapabilityBoundingSet=~CAP_SYS_BOOT CAP_SYSLOG CAP_SYS_TIME CAP_SYS_PACCT CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_AUDIT_WRITE
+# 32MiB memlock
 LimitMEMLOCK=33554432
