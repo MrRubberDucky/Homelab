@@ -1,0 +1,26 @@
+# Just a temporary snippet till I manage the inner mess that is my hard drive...
+PrivateMounts=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectProc=invisible
+ProtectKernelModules=yes
+ProtectClock=yes
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ReadWritePaths=/run /etc/containers /home/container_user /usr/local/share/containers
+ReadOnlyPaths=/etc /var /usr /bin /sbin
+InaccessiblePaths=/boot /root /home/ducky /home/overseer
+KeyringMode=private
+UMask=022
+SystemCallFilter=~@debug
+SystemCallFilter=~@raw-io
+SystemCallFilter=~@reboot
+SystemCallFilter=~@cpu-emulation
+SystemCallFilter=~@obsolete
+SystemCallFilter=~@clock
+SystemCallFilter=~@swap
+CapabilityBoundingSet=~CAP_SYS_BOOT
+# 32Mb memlock
+LimitCPU=50
+LimitMEMLOCK=33554432
