@@ -11,6 +11,7 @@ ProtectKernelModules=yes
 ProtectClock=yes
 LockPersonality=true
 MemoryDenyWriteExecute=true
+# Need to add any extra write-able path here, otherwise it will just explodate(tm)
 ReadWritePaths=/run /etc/containers /home/container_user /usr/local/share/containers
 ReadOnlyPaths=/etc /var /usr /bin /sbin
 InaccessiblePaths=/boot /root /home/ducky /home/overseer
