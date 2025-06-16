@@ -60,8 +60,9 @@ DNS=9.9.9.10
 DNS=45.11.45.11
 # User
 User=1100:1100
-# auto is preferred, however I'm mounting sockets from other containers and it's pretty picky about UID:GID
-UserNS=keep-id
+# yeah we limit it to 2048 subuids:subgids because otherwise it just goes apeshit
+# btw never use keep-id, it voids nearly 90% of your subuids:subgids it's absolutely insane 
+UserNS=auto:size=2048
 
 #####################
 # systemd-analyze   #
