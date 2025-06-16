@@ -13,42 +13,38 @@ Useful after you change max subuid and subgid and everything collapses.
 5. `setcap cap_setuid+ep /usr/bin/newuidmap`
 6. `setcap cap_setgid+ep /usr/bin/newgidmap`
 
-## Changing max SUB-UID and SUB-GID
+## Increasing subuid/subgid limit
 
-This is in case you get absolutely fed up with Podman moaning about running out of UIDs/GIDs
+This is in case you get absolutely fed up with Podman moaning about running out of UIDs/GIDs. We'll give it 1 million of them.
 
-1. Edit `/etc/subuid` and apply following ranges: `100,000-999,999,999` to first user, then `1,111,111-999,999,999` to each user afterwards (increment by one mil)
+1. Edit `/etc/subuid` and apply following ranges: `100,000-1,000,000` to first user, then `1,111,111-1,000,000` to each user afterwards (increment by one mil)
 
 ```bash
-root:100000:999999999
-containers:1111111111:999999999
-sample:2111111111:999999999
-default:3111111111:999999999
-secondacc:4111111111:999999999
+containers:100000:1000000
+container_user:1111111:1000000
 ```
 
 2. Edit `/etc/login.defs` and change `SUB_UID_*` and `SUB_GID_*` to match following values:
 
 ```bash
 SUB_UID_MIN                100000
-SUB_UID_MAX                999999999
+SUB_UID_MAX                1000000000
 SUB_UID_COUNT              100000
 (...)
 SUB_GID_MIN                100000
-SUB_GID_MAX                999999999
+SUB_GID_MAX                1000000000
 SUB_GID_COUNT              100000
 ```
 
-3. Add two kernel tunables by editing `sysctl.conf`
+3. Add this kernel tunables by editing `sysctl.conf`. 1B is max you can go before it rejects it.
 
 ```bash
-kernel.unprivileged_userns_clone=1
-user.max_user_namespaces=999999999
+user.max_user_namespaces=1000000000
 ```
 
 4. Reboot and run `podman system migrate` afterwards
 
-Now we have 999m UID:GID combinations our user can use. (in theory)
+Now we have 1M UID:GID combinations our user can use. In theory... can be expanded up to 1B - tho make sure other users have enough. Don't use `keep-id` on `UserNS=` as even a single container is enough to make you get that dreaded error. `keep-id` is just completely broken crapshoot, like seriously avoid using it ever. Same with `auto`, put a size limit on it like so: `UserNS=auto:size=2000`.
 
 ## Starting containers rootlessly on an non-shell user
 
