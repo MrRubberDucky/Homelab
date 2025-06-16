@@ -44,7 +44,7 @@ user.max_user_namespaces=1000000000
 
 4. Reboot and run `podman system migrate` afterwards
 
-Now we have 1M UID:GID combinations our user can use. In theory... can be expanded up to 1B - tho make sure other users have enough. Don't use `keep-id` on `UserNS=` as even a single container is enough to make you get that dreaded error. `keep-id` is just completely broken crapshoot, like seriously avoid using it ever. Same with `auto`, put a size limit on it like so: `UserNS=auto:size=2000`.
+Now we have 1M UID:GID combinations our user can use. In theory... can be expanded up to 1B - tho make sure other users have enough. Don't use `keep-id` on `UserNS=` as even a single container is enough to make you get that dreaded error. `keep-id` is just completely broken crapshoot, like seriously avoid using it, ever. `auto` is fine though you should put a size limit on it. `UserNS=auto:size=2000`.
 
 ## Starting containers rootlessly on an non-shell user
 
