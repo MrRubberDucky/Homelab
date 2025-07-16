@@ -144,11 +144,14 @@ dreamstream.facebook.com
 autodiscover.facebook.com
 star-mini.c10r.facebook.com
 
-# Windows / Microsoft & Edge stuff
+# Some generic advertisers
 ||adtech.de
-||msads.net
 ||adnxs.com
+||msads.net
 ||adnexus.net
+||scorecardresearch.com
+
+# Windows / Microsoft & Edge stuff
 ||a-msedge.net
 ||rewardsplatform.microsoft.com
 clarity.ms
