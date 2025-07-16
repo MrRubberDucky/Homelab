@@ -126,6 +126,11 @@ watson.events.data.microsoft.com
 # https://quicksetcloud.com/nevo/nevo-ai/
 nevoai-iothub-14-prod.azure-devices.net
 
+# Seems to be some API, telemetry maybe?
+# Responds with "Hello Hyperf." if sent a GET request and some device seems to contact it often.
+# Main site has wrong clock on web server.
+wr.moyoung.com
+
 # Gemini stuff?
 waa-pa.clients6.google.com
 signaler-pa.clients6.google.com
