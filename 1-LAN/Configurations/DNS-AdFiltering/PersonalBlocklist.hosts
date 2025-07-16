@@ -144,7 +144,7 @@ dreamstream.facebook.com
 autodiscover.facebook.com
 star-mini.c10r.facebook.com
 
-# Microsoft + Edge stuff
+# Windows / Microsoft & Edge stuff
 ||adtech.de
 ||msads.net
 ||adnxs.com
@@ -162,6 +162,7 @@ db3aqu.atdmt.com
 dcg.microsoft.com
 crl.microsoft.com
 crl.microsoft.com
+business.bing.com
 cs1.wpc.v0cdn.net
 bs.serving-sys.com
 forms.microsoft.com
@@ -222,6 +223,7 @@ i1.services.social.microsoft.com
 local.cloudbrowser.microsoft.com
 family.api.account.microsoft.com
 mobile.events.data.microsoft.com
+edge-mobile-static.azureedge.net
 edgeshoppingstatic.azureedge.net
 v10.vortex-win.data.microsoft.com
 vortex-sandbox.data.microsoft.com
