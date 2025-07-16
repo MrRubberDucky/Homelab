@@ -135,15 +135,16 @@ graph.fbsbx.com
 chat.facebook.com
 echo.facebook.com
 b-graph.facebook.com
-star.c10r.facebook.com
 mqtt.c10r.facebook.com
 edge-mqtt.facebook.com
 analytics.facebook.com
 atlas.c10r.facebook.com
 dreamstream.facebook.com
 autodiscover.facebook.com
-# Annoyingly enough this resolves to facebook hostname lol
+# Annoyingly enough this resolves to facebook.com hostname lol
 #star-mini.c10r.facebook.com
+# ..and this one to meta.com
+#star.c10r.facebook.com
 
 # Some generic advertisers
 ||adtech.de
