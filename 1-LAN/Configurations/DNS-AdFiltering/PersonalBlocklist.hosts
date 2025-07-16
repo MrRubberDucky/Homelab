@@ -209,6 +209,7 @@ farevents.family.microsoft.com
 self.events.data.microsoft.com
 watson.telemetry.microsoft.com
 wes.df.telemetry.microsoft.com
+edgeassetservice.azureedge.net
 choice.microsoft.com.nsatc.net
 choice.microsoft.com.nstac.net
 tip.customervoice.microsoft.com
