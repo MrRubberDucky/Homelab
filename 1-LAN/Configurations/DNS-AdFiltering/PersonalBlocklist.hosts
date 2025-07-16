@@ -142,7 +142,8 @@ analytics.facebook.com
 atlas.c10r.facebook.com
 dreamstream.facebook.com
 autodiscover.facebook.com
-star-mini.c10r.facebook.com
+# Annoyingly enough this resolves to facebook hostname lol
+#star-mini.c10r.facebook.com
 
 # Some generic advertisers
 ||adtech.de
