@@ -2,6 +2,7 @@
 # Personal hosts list
 # Extra addition on top of our usual filter lists that block more specific apps
 # This also usually completely blocks access to gain those apps too but it's better that way anyways tbh
+# Adblock format, works with Technitium and probably AdGuard Home.
 # ############################
 
 # LDPlayer9
@@ -126,10 +127,10 @@ watson.events.data.microsoft.com
 # https://quicksetcloud.com/nevo/nevo-ai/
 nevoai-iothub-14-prod.azure-devices.net
 
-# Seems to be some API, telemetry maybe?
+# Seems to be some API, telemetry maybe? Might be related to AliExpress, considering the DNS records spew back aliyun records.
 # Responds with "Hello Hyperf." if sent a GET request and some device seems to contact it often.
-# Main site has wrong clock on web server.
-wr.moyoung.com
+# Main site has wrong clock time on web server.
+||moyoung.com
 
 # Gemini stuff?
 waa-pa.clients6.google.com
@@ -138,19 +139,25 @@ signaler-pa.clients6.google.com
 # Not needed for normal app usage, just telemetry
 ecsv2.roblox.com
 
+# Pretty sure this has to do with those shitty RGB lights they got off aliexpress
+||meethue.com
+
 # We'll see if anyone screams
 ||crashlytics.com
 graph.fbsbx.com
 chat.facebook.com
 echo.facebook.com
+graph.facebook.com
 b-graph.facebook.com
 facebook-hardware.com
 mqtt.c10r.facebook.com
 edge-mqtt.facebook.com
 analytics.facebook.com
 atlas.c10r.facebook.com
+z-m-gateway.facebook.com
 dreamstream.facebook.com
 autodiscover.facebook.com
+dgw-mini.c10r.facebook.com
 # Annoyingly enough this resolves to facebook.com hostname lol
 #star-mini.c10r.facebook.com
 # ..and this one to meta.com
@@ -217,6 +224,7 @@ sqm.telemetry.microsoft.com
 survey.watson.microsoft.com
 telemetry.urs.microsoft.com
 compatexchange.cloudapp.net
+msedge.api.cdp.microsoft.com
 web.vortex.data.microsoft.com
 db3wns2011111.wns.windows.com
 clientfd.family.microsoft.com
