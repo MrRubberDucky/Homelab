@@ -6,6 +6,7 @@
 
 # LDPlayer9
 # Android emulator, turn off Private DNS in Android settings to properly filter it
+# This completely kills access to ldplayer site which you don't really need once you debloat your main instance and clone it.
 ad.ldplayer.net
 en.ldplayer.net
 cdn.ldplayer.net
@@ -36,6 +37,7 @@ alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
 
 # Bluestacks domains and telemetry
 # Android emulator, turn off Private DNS in Android settings to properly filter it
+# This completely kills access to ldplayer site which you don't really need once you debloat your main instance and clone it.
 eb.bluestacks.com
 www.bluestacks.com
 cloud.bluestacks.com
@@ -47,6 +49,7 @@ ak-build.bluestacks.com
 
 # Nox Player domains and telemetry
 # Android emulator, turn off Private DNS in Android settings to properly filter it
+# This completely kills access to ldplayer site which you don't really need once you debloat your main instance and clone it.
 hmma.baidu.com
 googleclubstore.com
 sdk.open.inc2.igexin.com
@@ -74,7 +77,7 @@ v10.events.data.microsoft.com
 watson.events.data.microsoft.com
 
 # Nintendo Update servers (and all domains)
-# This should only be used if you have homebrewed switch
+# This should only be used if you have homebrewed switch as it will completely block access to all Nintendo domains & sub-domains
 ||nintendo.com
 ||nintendo.net
 ||nintendo.jp
@@ -130,11 +133,13 @@ signaler-pa.clients6.google.com
 # Not needed for normal app usage, just telemetry
 ecsv2.roblox.com
 
-# We'll see if anyone screams.
+# We'll see if anyone screams
+||crashlytics.com
 graph.fbsbx.com
 chat.facebook.com
 echo.facebook.com
 b-graph.facebook.com
+facebook-hardware.com
 mqtt.c10r.facebook.com
 edge-mqtt.facebook.com
 analytics.facebook.com
