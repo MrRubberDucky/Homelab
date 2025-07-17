@@ -157,7 +157,7 @@ atlas.c10r.facebook.com
 #z-m-gateway.facebook.com
 dreamstream.facebook.com
 autodiscover.facebook.com
-dgw-mini.c10r.facebook.com
+#dgw-mini.c10r.facebook.com
 # Annoyingly enough this resolves to facebook.com hostname lol
 #star-mini.c10r.facebook.com
 # ..and this one to meta.com
