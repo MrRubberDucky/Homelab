@@ -142,27 +142,6 @@ ecsv2.roblox.com
 # Pretty sure this has to do with those shitty RGB lights they got off aliexpress
 ||meethue.com
 
-# We'll see if anyone screams
-||crashlytics.com
-#graph.fbsbx.com
-chat.facebook.com
-echo.facebook.com
-#graph.facebook.com
-#b-graph.facebook.com
-facebook-hardware.com
-mqtt.c10r.facebook.com
-edge-mqtt.facebook.com
-analytics.facebook.com
-atlas.c10r.facebook.com
-#z-m-gateway.facebook.com
-dreamstream.facebook.com
-autodiscover.facebook.com
-#dgw-mini.c10r.facebook.com
-# Annoyingly enough this resolves to facebook.com hostname lol
-#star-mini.c10r.facebook.com
-# ..and this one to meta.com
-#star.c10r.facebook.com
-
 # Some generic advertisers
 ||adtech.de
 ||adnxs.com
