@@ -1,6 +1,6 @@
-# =============================================
-# | Made by mrrubberducky, v1.0.5 ABP format  |
-# =============================================
+# ==================================================
+# | Made by mrrubberducky, v1.0.5 wildcard format  |
+# ==================================================
 #
 # Compatibility: Works with Technitium DNS and AdGuard Home
 # Desc: Collection of garbage, useless waste of bandwidth websites that pollute search results, abusing SEO to always appear at the
@@ -95,31 +95,31 @@ gurusoftware.com
 dtptips.com
 windowsloop.com
 techmeengineer.com
-#0-cm: Awful fixes for problems
+# 0-cm: Awful fixes for problems
 thewindowsclub.com
 windowsreport.com
 pcrisk.com
 dataconomy.com
 auslogics.com
-#----------1-cm: SEO abusing via fake blog to promote their services, articles are dubious quality
+# ----------1-cm: SEO abusing via fake blog to promote their services, articles are dubious quality
 addictivetips.com
 airdroid.com
 minitool.com
 stellarinfo.com
 thinkmobiles.com
-#----------1-cm: anything included here is their parent site
+# ----------1-cm: anything included here is their parent site
 outbyte.com
 techbloat.com
 guru99.com
-#----------1-cm: end
+# ----------1-cm: end
 easeus.com
 eassos.com
 tenorshare.com
-#0-cm: Same as above but may be a malware / rogue, or providing dubious origin software that MAY be malicious (ex. drivers)
+# 0-cm: Same as above but may be a malware / rogue, or providing dubious origin software that MAY be malicious (ex. drivers)
 drivereasy.com
 bugsfighter.com
 blrtools.com
-#0-cm: DLL file extravazagna, you should NEVER download a DLL off the web and put it into your system files
+# 0-cm: DLL file extravazagna, you should NEVER download a DLL off the web and put it into your system files
 windowsground.com
 dllfactory.com
 dll-files.com
@@ -130,13 +130,13 @@ wikidll.com
 softwareok.com
 dllkit.com
 drivers.com
-#0-cm: Adware/Malware vendors
+# 0-cm: Adware/Malware vendors
 findmysoft.com
 softonic.com
 cnet.com
 ccm.net
 forpcsoftware.com
-#0-cm: Driver installer garbage festival 2025, also includes blog posts recommending them
+# 0-cm: Driver installer garbage festival 2025, also includes blog posts recommending them
 iobit.com
 drivereasy.com
 driverscollection.com
@@ -145,9 +145,9 @@ systweak.com
 driverscloud.com
 drivermax.com
 advanceddriverupdater.com
-#---1-cm: use www.snappy-driver-installer.org instead 
+# ---1-cm: use www.snappy-driver-installer.org instead 
 sdi-tool.org
-#0-cm: Shady antiviruses and tools
+# 0-cm: Shady antiviruses and tools
 avast.com
 avg.com
 ccleaner.com
