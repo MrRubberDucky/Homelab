@@ -20,6 +20,7 @@ firebaseinstallations.googleapis.com
 tracking.epicgames.com
 # We use those DNS servers as forwarders so we can't have them blocked
 quad10.net
+quad9.net
 dns.sb
 dot.sb
 dns0.eu
@@ -27,6 +28,3 @@ dns0.eu
 duckdns.org
 # Qualcomm PSDS provider, helps with A-GPS resolution on Qualcomm-chip powered devices
 izatcloud.net
-akirabox.to
-# temp allow
-tuxlervpn.com
