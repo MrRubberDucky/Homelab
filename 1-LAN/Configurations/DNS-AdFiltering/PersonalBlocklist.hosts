@@ -206,11 +206,9 @@ compatexchange.cloudapp.net
 msedge.api.cdp.microsoft.com
 web.vortex.data.microsoft.com
 db3wns2011111.wns.windows.com
-clientfd.family.microsoft.com
 vortex-win.data.microsoft.com
 sqm.df.telemetry.microsoft.com
 farevents.family.microsoft.com
-self.events.data.microsoft.com
 watson.telemetry.microsoft.com
 wes.df.telemetry.microsoft.com
 edgeassetservice.azureedge.net
@@ -224,35 +222,10 @@ vcservice.webxtsvc.microsoft.com
 redir.metaservices.microsoft.com
 i1.services.social.microsoft.com
 local.cloudbrowser.microsoft.com
-family.api.account.microsoft.com
 mobile.events.data.microsoft.com
 edge-mobile-static.azureedge.net
 edgeshoppingstatic.azureedge.net
-v10.vortex-win.data.microsoft.com
-vortex-sandbox.data.microsoft.com
-instrumentExport.cp.microsoft.com
-diagnostics.support.microsoft.com
-vortex.data.glbdns2.microsoft.com
 watson.ppe.telemetry.microsoft.com
-prod.rewardsplatform.microsoft.com
-telecommand.telemetry.microsoft.com
-functional.events.data.microsoft.com
-vortex-bn2.metron.live.com.nsatc.net
-vortex-cy2.metron.live.com.nsatc.net
-oca.telemetry.microsoft.com.nsatc.net
-sqm.telemetry.microsoft.com.nsatc.net
-nw-umwatson.events.data.microsoft.com
-reports.wes.df.telemetry.microsoft.com
-corpext.msitadfs.glbdns2.microsoft.com
-services.wes.df.telemetry.microsoft.com
-api.vcservice.webxtsvc-int.microsoft.com
-watson.telemetry.microsoft.com.nsatc.net
-statsfe2.update.microsoft.com.akadns.net
-edgetippingservice.webxtsvc.microsoft.com
-vortex-win.data.metron.live.com.nsatc.net
-i1.services.social.microsoft.com.nsatc.net
-fe3.delivery.dsp.mp.microsoft.com.nsatc.net
-telecommand.telemetry.microsoft.com.nsatc.net
 
 # MSN
 g.msn.com
@@ -268,10 +241,6 @@ feedback.windows.com
 feedback.microsoft-hohm.com
 feedback.search.microsoft.com
 feedback.smartscreen.microsoft.com
-
-# Live.com
-watson.live.com
-inference.location.live.com
 
 # I hate AIs that waste gigawatts of power. This is strictly no AI household.
 # Selectively handpicks https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist/blob/main/noai_hosts.txt and sometimes rips whole thing out.
