@@ -1,4 +1,3 @@
-# Allowlist - v1.1
 # FCM (Firebase Cloud Messaging), needed for proper notifications on apps that use FCM (GCM is deprecated)
 # https://firebase.google.com/docs/cloud-messaging/concept-options#messaging-ports-and-your-firewall
 mtalk.google.com
@@ -23,10 +22,12 @@ quad10.net
 quad9.net
 dns.sb
 dot.sb
-dns0.eu
+joindns4.eu
 # DDNS provider
 duckdns.org
 # Qualcomm PSDS provider, helps with A-GPS resolution on Qualcomm-chip powered devices
 izatcloud.net
-# DODI's ad-riddled website with lots of malicious redirects but whatever
-game-repack.site
+# Self-hosted analytics and yadayada
+liltlyx.com
+umami.is
+plausible.io
