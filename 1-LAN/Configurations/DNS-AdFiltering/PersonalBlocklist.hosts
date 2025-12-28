@@ -48,6 +48,9 @@ cdn-icon.bluestacks.com
 ak-build.bluestacks.com
 ||now.gg
 
+# Geniuses use yahoo in my household -_-
+yahoo.com
+
 # Nox Player domains and telemetry
 # Android emulator, turn off Private DNS in Android settings to properly filter it
 # This completely kills access to ldplayer site which you don't really need once you debloat your main instance and clone it.
@@ -122,10 +125,20 @@ watson.events.data.microsoft.com
 ||4chan.org
 ||mail.ru
 ||ok.ru
+||
+||chatgpt.com
+||chat.openai.com
+||searchgpt.com
+||openai.com.cdn.cloudflare.net
+
+# Inside Look: Into your shitty site getting blocked off my network, all of them. Use different TLD if you're legit, or sink along with the other posers.
+||.ai
 
 # Weird IoT thing that's hosted on Microsoft's Azure platform.
 # https://quicksetcloud.com/nevo/nevo-ai/
-nevoai-iothub-14-prod.azure-devices.net
+# nevoai-iothub-14-prod.azure-devices.net
+# v as a test v
+||azure-devices.net
 
 # Seems to be some API, telemetry maybe? Might be related to AliExpress, considering the DNS records spew back aliyun records.
 # Responds with "Hello Hyperf." if sent a GET request and some device seems to contact it often.
@@ -152,8 +165,13 @@ ecsv2.roblox.com
 # Windows / Microsoft & Edge stuff
 ||a-msedge.net
 ||rewardsplatform.microsoft.com
-clarity.ms
-aka-cdn-ns.
+||aka-cdn-ns.
+||clarity.ms
+# Due to copilot search
+# Also because my genius parents use this shit, stop using this wtf
+||bing.com
+||copilot.cloud.microsoft
+||copilot.microsoft.com
 s0.2mdn.net
 sO.2mdn.net
 msftncsi.com
@@ -227,6 +245,14 @@ edge-mobile-static.azureedge.net
 edgeshoppingstatic.azureedge.net
 watson.ppe.telemetry.microsoft.com
 
+# https://docs.github.com/en/copilot/reference/copilot-allowlist-reference
+collector.github.com
+copilot-telemetry.githubusercontent.com
+copilot-proxy.githubusercontent.com
+||exp-tas.com
+||githubcopilot.com
+||applicationinsights.azure.com
+
 # MSN
 g.msn.com
 h1.msn.com
@@ -242,191 +268,4 @@ feedback.microsoft-hohm.com
 feedback.search.microsoft.com
 feedback.smartscreen.microsoft.com
 
-# I hate AIs that waste gigawatts of power. This is strictly no AI household.
-# Selectively handpicks https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist/blob/main/noai_hosts.txt and sometimes rips whole thing out.
-art.ai
-gen.ai
-suno.ai
-paxi.ai
-hayo.com
-sora.com
-suno.com
-pika.art
-wand.app
-pixai.com
-claude.ai
-crayon.ai
-polyai.ai
-sakana.ai
-cohere.io
-nudify.art
-openai.art
-dbzer0.com
-openai.com
-yodayo.com
-flux-ai.net
-novelai.net
-chatbot.com
-chatgpt.com
-civitai.com
-craiyon.com
-dreampic.ai
-quasi.market
-deepseek.com
-replicate.com
-wondershare.com
-openjourney.art
-melodystudio.net
-dalle2.tumblr.com
-
-# Ripped from https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist/blob/main/noai_hosts.txt#L972
-sukebezone.com
-fantasygf.ai
-n8ked.app
-deepnude.cc
-clothoff.io
-dreamgf.ai
-deepnude.ca
-nudify.online
-deep-nude.ai
-pornjoy.ai
-pornx.ai
-sexy.ai
-pornpen.ai
-ai-porn.ai
-candy.ai
-deepnudify.com
-undressing.io
-seduced.ai
-smexy.ai
-onlybabes.ai
-deepnudenow.com
-nsfwartgenerator.ai
-makenude.ai
-aiporn.net
-deep-nude.co
-newfuku.com
-undress.love
-mrdeepfakes.com
-heyeditor.net
-deepsukebe.io
-wannafake.com
-swapface.org
-deepfaker.app
-soulgen.net
-perchance.org
-dezgo.com
-nudeme.net
-undress.vip
-undress.photo
-selfievibe.art
-nubee.ai
-undress.show
-nudify.site
-pornify.cc
-pornderful.ai
-gptgirlfriend.online
-nudify.life
-made.porn
-x-pictures.io
-trynectar.ai
-porngen.art
-penly.ai
-glamgirls.ai
-pornjourney.ai
-ehentai.ai
-getidol.com
-nsfwcharacter.ai
-kupid.ai
-bot3.ai
-pornworks.ai
-spicy.porn
-moemate.io
-pornwaifu.io
-charfriend.com
-iwaifu.com
-erogen.ai
-onlyfakes.app
-nolo.ai
-createporn.com
-icegirls.ai
-aipornhub.net
-imake.porn
-ai-dreamgirls.com
-hentai.kitchen
-getporn.ai
-porn.ai
-aigirlfriend.wtf
-privee.ai
-pornai.tv
-nsfw.xxx
-pornlabs.net
-onlynsfw.ai
-sharaku.us
-aihentai.co
-pornstars.ai
-aiexotic.com
-nudeai.de
-nudeai.com
-celebjihad.com
-soulfun.ai
-ainude.ai
-nudefusion.com
-undress.app
-pixelmaniya.com
-undressai.com
-ainude.porn
-nudify-her.com
-nudes.ai
-deepnude-ai.com
-rundiffusion.com
-faceplay.info
-getmynudes.com
-ai-hentai.net
-deepfake.com
-onlywaifus.ai
-pornshow.ai
-pornsword.io
-reporn.ai
-deepfakeporn.net
-sexcelebrity.net
-cfake.com
-realdeepfakes.com
-deepfucks.com
-deepfakesporn.com
-imagefap.com
-porndeepfake.net
-sexystars.online
-desifakes.com
-famousboards.com
-angelgf.com
-undress.cc
-tingo.ai
-muah.ai
-sorapix.ai
-deepmode.ai
-fallfor.ai
-fykoo.com
-pornwaifu.ai
-pornai.biz
-romanticai.com
-texthub.me
-deloris-ai.com
-aigirlfriend.sex
-luvr.ai
-the-cuties.com
-basedlabs.ai
-aihentaigenerator.net
-mamacita.ai
-aiallure.com
-bare.club
-astridai.co
-undress-ai.app
-drawnudes.io
-undressninja.com
-getnude.app
-newfaceporn.com
-braundress.net
-ai-nudes.ai
-undress.xxx
-girlfriend.ai
+# No AI list, now I use the entire thing so just go use that hosts list.
