@@ -1,0 +1,14 @@
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<
+# Custom SRV rewrite
+# #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+
+# Let's say my primary domain that can be reached anywhere in my household is kms.localhost.internal
+|_vlmcs._tcp.kms.localhost.internal^$dnstype=SRV,dnsrewrite=NOERROR;SRV;0 100 1688 172.16.50.30
+
+# Then I have other hostnames that are served via dhcp. I would add them as such
+|_vlmcs._tcp.wifi.network.internal^$dnstype=SRV,dnsrewrite=NOERROR;SRV;0 100 1688 172.16.50.30
+|_vlmcs._tcp.mgmt.network.internal^$dnstype=SRV,dnsrewrite=NOERROR;SRV;0 100 1688 172.16.50.30
+|_vlmcs._tcp.isol.network.internal^$dnstype=SRV,dnsrewrite=NOERROR;SRV;0 100 1688 172.16.50.30
+
+# This way, client can automatically query KMS server. In case no hostname gets served, the fallback is _vlmcs._tcp
+|_vlmcs._tcp^$dnstype=SRV,dnsrewrite=NOERROR;SRV;0 100 1688 172.16.50.30
