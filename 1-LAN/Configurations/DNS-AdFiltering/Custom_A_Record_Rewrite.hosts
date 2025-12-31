@@ -1,0 +1,10 @@
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Local A Record rewrite
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+
+# In rare cases, DNS rewrite functionality of AdGuard Home kicks in way too fast.
+# We can easily work around this problem by manually making our own rewrite rule.
+# ex. let's say I have a voip server on .31 and a normal web server on .30, any other request will get answered with .30
+# This way we can retain the wildcard but have specific records for specific services.
+voip.localhost.internal^$dnsrewrite=NOERROR;A;172.16.50.31
+||localhost.internal^$dnsrewrite=NOERROR;A;172.16.50.30
