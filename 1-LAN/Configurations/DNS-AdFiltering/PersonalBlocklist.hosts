@@ -1,220 +1,243 @@
-# Mr. Rubber Ducky's Personal Filter - Hosts
+# Mr. Rubber Ducky's Personal Filter for AdGuard Home
 
-# [LDPlayer9]
-0.0.0.0 ad.ldplayer.net
-0.0.0.0 en.ldplayer.net
-0.0.0.0 cdn.ldplayer.net
-0.0.0.0 encdn.ldplayer.com
-0.0.0.0 advertise.ldplayer.net
-0.0.0.0 middledata.ldplayer.net
-0.0.0.0 apiid.ldmnq.com
-0.0.0.0 apien.ldmnq.com
-0.0.0.0 ldcdn.ldmnq.com
-0.0.0.0 encdn.ldmnq.com
-0.0.0.0 storeen.ldmnq.com
-0.0.0.0 usersdk.ldmnq.com
-0.0.0.0 adabdapi.ldmnq.com
-0.0.0.0 appstore.ldmnq.com
-0.0.0.0 middledata.ldmnq.com
-0.0.0.0 api.ld-space.com
-0.0.0.0 openrcv.baidu.com
-0.0.0.0 loc.map.baidu.com
-0.0.0.0 p-sgsg00.kxcdn.com
-0.0.0.0 android.bugly.qq.com
-0.0.0.0 encdn.ldmnq.com.w.alikunlun.com
-0.0.0.0 ins-o9iydzqn.ias.tencent-cloud.net
-0.0.0.0 lden.oss-ap-southeast-1.aliyuncs.com
-0.0.0.0 netease-publish-gdlgphs.w.alikunlun.com
-0.0.0.0 advertise.ldplayer.net.a.lahuashanbx.com
-0.0.0.0 alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
-0.0.0.0 ias.tencent-cloud.net
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# LDPlayer9
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+ad.ldplayer.net
+en.ldplayer.net
+cdn.ldplayer.net
+encdn.ldplayer.com
+advertise.ldplayer.net
+middledata.ldplayer.net
+apiid.ldmnq.com
+apien.ldmnq.com
+ldcdn.ldmnq.com
+encdn.ldmnq.com
+storeen.ldmnq.com
+usersdk.ldmnq.com
+adabdapi.ldmnq.com
+appstore.ldmnq.com
+middledata.ldmnq.com
+api.ld-space.com
+openrcv.baidu.com
+loc.map.baidu.com
+p-sgsg00.kxcdn.com
+android.bugly.qq.com
+encdn.ldmnq.com.w.alikunlun.com
+ins-o9iydzqn.ias.tencent-cloud.net
+lden.oss-ap-southeast-1.aliyuncs.com
+netease-publish-gdlgphs.w.alikunlun.com
+advertise.ldplayer.net.a.lahuashanbx.com
+alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
+||ias.tencent-cloud.net
 
-# [Bluestacks]
-0.0.0.0 eb.bluestacks.com
-0.0.0.0 www.bluestacks.com
-0.0.0.0 cloud.bluestacks.com
-0.0.0.0 cdn-bgp.bluestacks.com
-0.0.0.0 cdn-www.bluestacks.com
-0.0.0.0 cdn-icon.bluestacks.com
-0.0.0.0 ak-build.bluestacks.com
-0.0.0.0 now.gg
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Bluestacks
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+eb.bluestacks.com
+www.bluestacks.com
+cloud.bluestacks.com
+cdn-bgp.bluestacks.com
+cdn-www.bluestacks.com
+cdn-icon.bluestacks.com
+ak-build.bluestacks.com
+||now.gg
 
-# [Nox Player]
-0.0.0.0 hmma.baidu.com
-0.0.0.0 googleclubstore.com
-0.0.0.0 sdk.open.inc2.igexin.com
-0.0.0.0 noxinfluencer.net
-0.0.0.0 bignox.com
-0.0.0.0 trnox.com
-0.0.0.0 umeng.com
-0.0.0.0 wtapas.net
-0.0.0.0 yeshen.com
-0.0.0.0 shifen.com
-0.0.0.0 bceapp.com
-0.0.0.0 duapps.com
-0.0.0.0 kunlungr.com
-0.0.0.0 sinaapp.com
-0.0.0.0 applinzi.com
-0.0.0.0 talkingdata.net
-0.0.0.0 apptrackerlink.com
-0.0.0.0 appmeasurements.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Nox Player
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+hmma.baidu.com
+googleclubstore.com
+sdk.open.inc2.igexin.com
+||noxinfluencer.net
+||bignox.com
+||trnox.com
+||umeng.com
+||tapas.net
+||yeshen.com
+||shifen.com
+||bceapp.com
+||duapps.com
+||kunlungr.com
+||sinaapp.com
+||applinzi.com
+||talkingdata.net
+||apptrackerlink.com
+||appmeasurements.com
+||stun.l.google.com
 
-# [Windows Diagnostics]
-0.0.0.0 v10.events.data.microsoft.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Microsoft related
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+ec.atdmt.com
+preview.msn.com
+aidps.atdmt.com
+dcg.microsoft.com
+crl.microsoft.com
+business.bing.com
+live.rads.msn.com
+forms.microsoft.com
+pricelist.skype.com
+collector.github.com
+watson.microsoft.com
+cds26.ams9.msecn.net
+choice.microsoft.com
+spynet2.microsoft.com
+config.edge.skype.com
+lb1.www.ms.akadns.net
+copilot.microsoft.com
+msft.sts.microsoft.com
+citrix.onmicrosoft.com
+webxtsvc.microsoft.com
+corp.sts.microsoft.com
+telemetry.microsoft.com
+spynetalt.microsoft.com
+secure.flashtalking.com
+copilot.cloud.microsoft
+msntest.serving-sys.com
+web.vortex.data.msn.com
+telemetry.appex.bing.net
+pre.footprintpredict.com
+vortex.data.microsoft.com
+events.data.microsoft.com
+statsfe1.ws.microsoft.com
+statsfe2.ws.microsoft.com
+df.telemetry.microsoft.com
+cloudbrowser.microsoft.com
+api.webxtsvc.microsoft.com
+oca.telemetry.microsoft.com
+api.edgeoffer.microsoft.com
+customervoice.microsoft.com
+events-sandbox.data.msn.com
+sqm.telemetry.microsoft.com
+survey.watson.microsoft.com
+telemetry.urs.microsoft.com
+compatexchange.cloudapp.net
+msedge.api.cdp.microsoft.com
+rewardsplatform.microsoft.com
+v10.events.data.microsoft.com
+web.vortex.data.microsoft.com
+vortex-win.data.microsoft.com
+sqm.df.telemetry.microsoft.com
+farevents.family.microsoft.com
+watson.telemetry.microsoft.com
+wes.df.telemetry.microsoft.com
+edgeassetservice.azureedge.net
+choice.microsoft.com.nsatc.net
+choice.microsoft.com.nstac.net
+tip.customervoice.microsoft.com
+edge.cloudbrowser.microsoft.com
+browser.pipe.aria.microsoft.com
+web.vortex-sandbox.data.msn.com
+vcservice.webxtsvc.microsoft.com
+redir.metaservices.microsoft.com
+i1.services.social.microsoft.com
+local.cloudbrowser.microsoft.com
+mobile.events.data.microsoft.com
+edge-mobile-static.azureedge.net
+edgeshoppingstatic.azureedge.net
+watson.events.data.microsoft.com
+watson.ppe.telemetry.microsoft.com
+copilot-proxy.githubusercontent.com
+copilot-telemetry.githubusercontent.com
+||bing.com
+||adtech.de
+||adnxs.com
+||msads.net
+||g.msn.com
+||clarity.ms
+||h1.msn.com
+||ntp.msn.com
+||rad.msn.com
+||flex.msn.com
+||adnexus.net
+||sO.2mdn.net
+||s0.2mdn.net
+||exp-tas.com
+||a-msedge.net
+||msftncsi.com
+||vo.msecnd.net
+||wns.windows.com
+||static.2mdn.net
+||db3aqu.atdmt.com
+||azure-devices.net
+||cs1.wpc.v0cdn.net
+||githubcopilot.com
+||bs.serving-sys.com
+||scorecardresearch.com
+||applicationinsights.azure.com
+||feedback.windows.com
+||feedback.microsoft-hohm.com
+||feedback.search.microsoft.com
+||feedback.smartscreen.microsoft.com
 
-# [Windows Error Checking]
-0.0.0.0 watson.events.data.microsoft.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Nintendo related
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+||conntest.nintendowifi.net^$dnsrewrite=NOERROR;A;95.216.149.205
+||ctest.cdn.nintendo.net^$dnsrewrite=NOERROR;A;95.216.149.205
+||nintendo.com
+||nintendo.net
+||nintendo.jp
+||nintendo.co.jp
+||nintendo.co.uk
+||nintendo-europe.com
+||nintendowifi.net
+||nintendo.es
+||nintendo.co.kr
+||nintendo.tw
+||nintendo.com.hk
+||nintendo.com.au
+||nintendo.co.nz
+||nintendo.at
+||nintendo.be
+||nintendods.cz
+||nintendo.dk
+||nintendo.de
+||nintendo.fi
+||nintendo.fr
+||nintendo.gr
+||nintendo.hu
+||nintendo.it
+||nintendo.nl
+||nintendo.no
+||nintendo.pt
+||nintendo.ru
+||nintendo.co.za
+||nintendo.se
+||nintendo.ch
+||nintendo.pl
+||nintendoswitch.com
+||nintendoswitch.com.cn
+||nintendoswitch.cn
 
-# [Nintendo Domains]
-0.0.0.0 nintendo.com
-0.0.0.0 nintendo.net
-0.0.0.0 nintendo.jp
-0.0.0.0 nintendo.co.jp
-0.0.0.0 nintendo.co.uk
-0.0.0.0 nintendo-europe.com
-0.0.0.0 nintendowifi.net
-0.0.0.0 nintendo.es
-0.0.0.0 nintendo.co.kr
-0.0.0.0 nintendo.tw
-0.0.0.0 nintendo.com.hk
-0.0.0.0 nintendo.com.au
-0.0.0.0 nintendo.co.nz
-0.0.0.0 nintendo.at
-0.0.0.0 nintendo.be
-0.0.0.0 nintendods.cz
-0.0.0.0 nintendo.dk
-0.0.0.0 nintendo.de
-0.0.0.0 nintendo.fi
-0.0.0.0 nintendo.fr
-0.0.0.0 nintendo.gr
-0.0.0.0 nintendo.hu
-0.0.0.0 nintendo.it
-0.0.0.0 nintendo.nl
-0.0.0.0 nintendo.no
-0.0.0.0 nintendo.pt
-0.0.0.0 nintendo.ru
-0.0.0.0 nintendo.co.za
-0.0.0.0 nintendo.se
-0.0.0.0 nintendo.ch
-0.0.0.0 nintendo.pl
-0.0.0.0 nintendoswitch.com
-0.0.0.0 nintendoswitch.com.cn
-0.0.0.0 nintendoswitch.cn
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Local domain rewrites
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+/^[^\.]*$/$dnsrewrite=NXDOMAIN
+||lan^$dnsrewrite=NXDOMAIN
+||bind^$dnsrewrite=NXDOMAIN
+||invalid^$dnsrewrite=NXDOMAIN
+||local^$dnsrewrite=NXDOMAIN
+||localhost^$dnsrewrite=NXDOMAIN
+||onion^$dnsrewrite=NXDOMAIN
+||test^$dnsrewrite=NXDOMAIN
+||internal^$dnsrewrite=NXDOMAIN
+|use-application-dns.net^$dnsrewrite=NXDOMAIN
 
-# [General]
-0.0.0.0 yahoo.com
-0.0.0.0 4chan.org
-0.0.0.0 mail.ru
-0.0.0.0 ok.ru
-0.0.0.0 moyoung.com
-0.0.0.0 chatgpt.com
-0.0.0.0 chat.openai.com
-0.0.0.0 searchgpt.com
-0.0.0.0 openai.com.cdn.cloudflare.net
-0.0.0.0 ecsv2.roblox.com
-0.0.0.0 waa-pa.clients6.google.com
-0.0.0.0 signaler-pa.clients6.google.com
-0.0.0.0 stun.l.google.com
-
-# [Microsoft]
-0.0.0.0 adtech.de
-0.0.0.0 adnxs.com
-0.0.0.0 msads.net
-0.0.0.0 adnexus.net
-0.0.0.0 azure-devices.net
-0.0.0.0 scorecardresearch.com
-0.0.0.0 a-msedge.net
-0.0.0.0 rewardsplatform.microsoft.com
-0.0.0.0 aka-cdn-ns.
-0.0.0.0 clarity.ms
-0.0.0.0 bing.com
-0.0.0.0 copilot.cloud.microsoft
-0.0.0.0 copilot.microsoft.com
-0.0.0.0 s0.2mdn.net
-0.0.0.0 sO.2mdn.net
-0.0.0.0 msftncsi.com
-0.0.0.0 ec.atdmt.com
-0.0.0.0 aidps.atdmt.com
-0.0.0.0 static.2mdn.net
-0.0.0.0 db3aqu.atdmt.com
-0.0.0.0 dcg.microsoft.com
-0.0.0.0 crl.microsoft.com
-0.0.0.0 business.bing.com
-0.0.0.0 cs1.wpc.v0cdn.net
-0.0.0.0 bs.serving-sys.com
-0.0.0.0 forms.microsoft.com
-0.0.0.0 pricelist.skype.com
-0.0.0.0 cds26.ams9.msecn.net
-0.0.0.0 choice.microsoft.com
-0.0.0.0 watson.microsoft.com
-0.0.0.0 lb1.www.ms.akadns.net
-0.0.0.0 config.edge.skype.com
-0.0.0.0 spynet2.microsoft.com
-0.0.0.0 webxtsvc.microsoft.com
-0.0.0.0 az361816.vo.msecnd.net
-0.0.0.0 az512334.vo.msecnd.net
-0.0.0.0 citrix.onmicrosoft.com
-0.0.0.0 corp.sts.microsoft.com
-0.0.0.0 msft.sts.microsoft.com
-0.0.0.0 msntest.serving-sys.com
-0.0.0.0 secure.flashtalking.com
-0.0.0.0 spynetalt.microsoft.com
-0.0.0.0 telemetry.microsoft.com
-0.0.0.0 web.vortex.data.msn.com
-0.0.0.0 telemetry.appex.bing.net
-0.0.0.0 pre.footprintpredict.com
-0.0.0.0 events.data.microsoft.com
-0.0.0.0 vortex.data.microsoft.com
-0.0.0.0 statsfe1.ws.microsoft.com
-0.0.0.0 statsfe2.ws.microsoft.com
-0.0.0.0 df.telemetry.microsoft.com
-0.0.0.0 cloudbrowser.microsoft.com
-0.0.0.0 api.webxtsvc.microsoft.com
-0.0.0.0 oca.telemetry.microsoft.com
-0.0.0.0 api.edgeoffer.microsoft.com
-0.0.0.0 customervoice.microsoft.com
-0.0.0.0 events-sandbox.data.msn.com
-0.0.0.0 sqm.telemetry.microsoft.com
-0.0.0.0 survey.watson.microsoft.com
-0.0.0.0 telemetry.urs.microsoft.com
-0.0.0.0 compatexchange.cloudapp.net
-0.0.0.0 msedge.api.cdp.microsoft.com
-0.0.0.0 web.vortex.data.microsoft.com
-0.0.0.0 db3wns2011111.wns.windows.com
-0.0.0.0 vortex-win.data.microsoft.com
-0.0.0.0 sqm.df.telemetry.microsoft.com
-0.0.0.0 farevents.family.microsoft.com
-0.0.0.0 watson.telemetry.microsoft.com
-0.0.0.0 wes.df.telemetry.microsoft.com
-0.0.0.0 edgeassetservice.azureedge.net
-0.0.0.0 choice.microsoft.com.nsatc.net
-0.0.0.0 choice.microsoft.com.nstac.net
-0.0.0.0 tip.customervoice.microsoft.com
-0.0.0.0 edge.cloudbrowser.microsoft.com
-0.0.0.0 browser.pipe.aria.microsoft.com
-0.0.0.0 web.vortex-sandbox.data.msn.com
-0.0.0.0 vcservice.webxtsvc.microsoft.com
-0.0.0.0 redir.metaservices.microsoft.com
-0.0.0.0 i1.services.social.microsoft.com
-0.0.0.0 local.cloudbrowser.microsoft.com
-0.0.0.0 mobile.events.data.microsoft.com
-0.0.0.0 edge-mobile-static.azureedge.net
-0.0.0.0 edgeshoppingstatic.azureedge.net
-0.0.0.0 watson.ppe.telemetry.microsoft.com
-0.0.0.0 collector.github.com
-0.0.0.0 copilot-telemetry.githubusercontent.com
-0.0.0.0 copilot-proxy.githubusercontent.com
-0.0.0.0 exp-tas.com
-0.0.0.0 githubcopilot.com
-0.0.0.0 applicationinsights.azure.com
-0.0.0.0 g.msn.com
-0.0.0.0 h1.msn.com
-0.0.0.0 ntp.msn.com
-0.0.0.0 rad.msn.com
-0.0.0.0 flex.msn.com
-0.0.0.0 preview.msn.com
-0.0.0.0 live.rads.msn.com
-0.0.0.0 feedback.windows.com
-0.0.0.0 feedback.microsoft-hohm.com
-0.0.0.0 feedback.search.microsoft.com
-0.0.0.0 feedback.smartscreen.microsoft.com
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Misc filters
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+||signaler-pa.clients6.google.com
+||openai.com.cdn.cloudflare.net
+||waa-pa.clients6.google.com
+||ecsv2.roblox.com
+||chat.openai.com
+||searchgpt.com
+||moyoung.com
+||chatgpt.com
+||adtidy.org
+||yahoo.com
+||4chan.org
+||mail.ru
+||ok.ru
