@@ -134,3 +134,29 @@
 ||avast.com
 ||avg.com
 ||ccleaner.com
+# 3.01.2026
+||ico-optics.org
+||handsomecable.com
+||besthomegear.com
+||homekitchtech.com
+||thefuntimesguide.com
+||applianceteacher.com
+||funktionalhome.com
+# reason: cross-site same article farming (likely LLM generated + same layout)
+||applianceupdate.com
+||appliancesfirst.com
+# reason: affiliate farming, ad boxes on every step
+||applianceanalysts.com
+# reason: likely llm generated, formatting is all out of wack and randomly introduced emojis, typical layout for an LLM gen'd site
+||kitchenwaresets.com
+# reason: self-placed ads that advertise their repairing service specifically (hidden ad pretty much + dubious content quality which may pinpoint to content being LLM generated)
+||howtofixit.net
+||usappliancerepairs.com
+||authorizedco.com
+||electrafixbc.ca
+||applianceexpresstx.com
+# reason: everything written by same person? are we an ancient deity who knows all sorts of craftsman ship lol?? text gives weird vibes, though they at least make sure to remove typical traces of LLM
+||repairious.com
+# reason: formatting so out of wack no way a human actually seen and published this shit.
+||my-applianceguy.com
+||fixtappliancerepair.com
