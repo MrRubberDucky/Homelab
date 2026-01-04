@@ -160,3 +160,10 @@
 # reason: formatting so out of wack no way a human actually seen and published this shit.
 ||my-applianceguy.com
 ||fixtappliancerepair.com
+# 4.01.2026
+||getlabsdone.com
+||woshub.com
+||acciyo.com
+||altgov2.org
+# reason: common LLM gen'd site traits, includes junk keywords like SOLVED!!!
+||htgsd.com
