@@ -1,0 +1,28 @@
+[Unit]
+Description=Key Managment Service (unofficial, pykms) - Used for Windows & Office activations
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/rubberverse/qor-kms:latest-alpine
+ContainerName=rvs-kms
+Environment=KMS_IP=0.0.0.0
+# Volumes + shim
+Volume=/home/overseer/Appdata/KMS:/app/db:U,Z
+Tmpfs=/dev/shm
+# Labels
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+# SRV _vlmcs._tcp.<domain>
+Network=pykms.network
+PublishPort=10.30.1.10:1688:1688/tcp
+# User
+UserNS=auto:size=1003
