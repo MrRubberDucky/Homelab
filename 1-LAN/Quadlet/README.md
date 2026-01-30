@@ -9,7 +9,7 @@ I've moved past using rootful Podman with Quadlet since I've modified my homelab
 I guess I need to say what I target with these, well here goes nothing.
 
 - Minimal set of capabilities and privileges
-- Run as user via `User=`
+- Run as user via `User=` if needed
 - Randomized user namespaces, unless we need same UID/GID on host (ex. UNIX sockets, otherwise you'll have world-writeable socket chilling in your home directory)
 - Read-only rootfs on containers whenever possible
 - Make use of Podman features while at it and some systemd if needed
