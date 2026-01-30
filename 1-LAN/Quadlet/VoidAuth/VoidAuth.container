@@ -1,0 +1,33 @@
+[Unit]
+Description=VoidAuth - SSO/OIDC provider
+Requires=Postgres-VoidAuth.service
+Wants=Postgres-VoidAuth.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+# VoidAuth seems to fail to clear it's socket on shutdown so we'll just do it manually.
+ExecStartPre=rm /home/overseer/Sockets/VoidAuth/voidauth.sock
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/voidauth/voidauth:latest
+ContainerName=VoidAuth
+Timezone=Europe/Warsaw
+# Environments
+EnvironmentFile=/home/overseer/Environments/VoidAuth/.env
+# Volumes
+Volume=/home/overseer/Appdata/VoidAuth:/app/config:rw,U,Z
+Volume=/home/overseer/Sockets/VoidAuth:/run/tmp:rw,U,z
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+# Communication network for Postgresql
+Network=CommsVA.network
+User=1001:1001
+# For UNIX socket
+UserNS=keep-id:uid=1001,gid=1001,size=1002
