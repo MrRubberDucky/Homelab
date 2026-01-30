@@ -1,0 +1,4 @@
+[Network]
+NetworkName=PyKMS
+NetworkDeleteOnStop=true
+Driver=bridge
