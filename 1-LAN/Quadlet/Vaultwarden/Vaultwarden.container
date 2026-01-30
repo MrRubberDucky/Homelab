@@ -14,7 +14,7 @@ ContainerName=vaultwarden
 Timezone=Europe/Warsaw
 # Environment
 EnvironmentFile=/home/overseer/Environments/.env
-# Volume
+# Volumes
 Volume=/home/overseer/Appdata/Vaultwarden:/data:U
 # Labels
 AutoUpdate=registry
@@ -24,5 +24,6 @@ ReadOnly=true
 # Network
 Network=Communication.network
 PublishPort=10.30.1.12:8000:8000/tcp
+# User
 User=1001:1001
 UserNS=auto:size=1003
