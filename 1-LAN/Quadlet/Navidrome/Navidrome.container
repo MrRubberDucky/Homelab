@@ -1,0 +1,32 @@
+[Unit]
+Description=Navidrome Music Server
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/navidrome/navidrome:latest
+ContainerName=navidrome
+# Secrets
+EnvironmentFile=/home/overseer/Environments/Navidrome/.env
+# Volumes
+Volume=/home/overseer/Appdata/Navidrome:/data:U,Z
+Volume=/home/overseer/Backups/Navidrome:/app/backups:U,Z
+Volume=/home/overseer/Sockets/Navidrome:/run/tmp:U,z
+# Mounts - This is USB storage that's mounted via USB port passthrough into VM. We are mounting it in container as read-only.
+Mount=type=bind,src=/media/Music,dst=/music,ro
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+Network=none
+# User
+User=1001:1001
+UserNS=keep-id:uid=1001,gid=1001,size=1002
