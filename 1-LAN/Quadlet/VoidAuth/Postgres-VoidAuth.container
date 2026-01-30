@@ -1,0 +1,40 @@
+[Unit]
+Description=PostgreSQL for VoidAuth
+Requires=VoidAuth.service
+Before=VoidAuth.service
+
+[Install]
+WantedBy=default-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+# Base
+Image=public.ecr.aws/docker/library/postgres:18.0-bookworm
+ContainerName=postgres-voidauth
+Timezone=Europe/Warsaw
+# Environments
+EnvironmentFile=/home/overseer/Environments/VoidAuth/.pgenv
+# Mounts
+Mount=type=bind,src=/home/overseer/Databases/VoidAuth,dst=/var/lib/postgresql,U=true,Z
+# Tmpfs
+Tmpfs=/dev/shm
+# Health check
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+Network=CommsVA.network
+# User
+User=999:999
+UserNS=auto:size=1000
