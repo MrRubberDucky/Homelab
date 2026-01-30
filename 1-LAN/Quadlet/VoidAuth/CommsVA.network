@@ -1,0 +1,5 @@
+[Network]
+NetworkName=VoidAuthCommunication
+NetworkDeleteOnStop=true
+Driver=bridge
+Internal=true
