@@ -1,5 +1,0 @@
-[Pod]
-PodName=Commentario
-Network=pasta:--ipv4-only
-PublishPort=127.0.0.1:9002:9002
-AddHost=systemd-Commentario:127.0.0.1

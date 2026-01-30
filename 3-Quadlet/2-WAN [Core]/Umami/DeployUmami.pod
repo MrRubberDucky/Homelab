@@ -1,5 +1,0 @@
-[Pod]
-Network=NoInternet-Umami.network
-PublishPort=127.0.0.1:9001:9001
-AddHost=systemd-DeployUmami:0.0.0.0
-AddHost=systemd-deployumami:0.0.0.0
