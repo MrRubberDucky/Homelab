@@ -1,0 +1,35 @@
+[Unit]
+Description="PostgreSQL for Vaultwarden"
+Requires=Vaultwarden.service
+Before=Vaultwarden.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/postgres:18.0-bookworm
+ContainerName=vaultwarden-pgsql
+Timezone=Europe/Warsaw
+# Environment
+EnvironmentFile=/home/overseer/Environments/.pgenv
+# Mounts + tmpfs
+Mount=type=bind,src=/home/overseer/Databases/Vaultwarden,dst=/var/lib/postgresql,U
+Tmpfs=/dev/shm
+# Healthcheck
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+Network=Communication.network
+# User + Pod
+User=999:999
+UserNS=auto:size=1001
