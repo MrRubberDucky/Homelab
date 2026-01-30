@@ -1,0 +1,38 @@
+[Unit]
+Description=Caddy QoR
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/rubberverse/qor-caddy:latest
+ContainerName=qor-caddy
+EnvironmentFile=/home/overseer/Environments/Caddy/.env
+# Volumes, remove ,Z if not on SELinux system
+Volume=/home/overseer/Configs/Caddy:/app/configs:ro,Z
+Volume=/home/overseer/Sites:/app/www/static:ro,Z
+Volume=/home/overseer/Sockets:/run/tmp:z
+# This is not defined as Quadlet .volume as it's clever enough to create one anyways
+Volume=CADDY-LOGS:/app/logs:U,z
+# Mounts
+Mount=type=bind,source=/home/overseer/Appdata/WebServer-Data,dst=/app/.local/share/caddy,U=true,Z
+Mount=type=bind,source=/home/overseer/Appdata/WebServer-Conf,dst=/app/.config/caddy,U=true,Z
+# Labels
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+Network=pasta:--ipv4-only
+# Change this to your device's local IP address
+PublishPort=10.30.1.10:80:80/tcp
+PublishPort=10.30.1.10:443:443/tcp
+PublishPort=10.30.1.10:443:443/udp
+# User
+User=1001:1001
+# We want to be able to access UNIX sockets from other containers.
+UserNS=keep-id:uid=1001,gid=1001,size=1002
