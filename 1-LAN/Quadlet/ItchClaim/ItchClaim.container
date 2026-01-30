@@ -1,0 +1,27 @@
+[Unit]
+Description=ItchClaim - Automatically claim free games, apps and assets on itch.io
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/smart123s/itchclaim:latest
+ContainerName=itchclaim
+Exec=schedule --cron "28 0,6,12,18 * * *"
+# Environment
+EnvironmentFile=/home/overseer/Environments/ItchClaim/.env
+# Volumes, if not on SELinux system then remove ,Z at the end.
+Volume=/home/overseer/Appdata/itchclaim:/data:U,Z
+Tmpfs=/dev/shm
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+# User
+User=1001:1001
+UserNS=auto:size=1002
