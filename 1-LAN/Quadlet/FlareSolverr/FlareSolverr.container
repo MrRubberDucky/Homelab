@@ -1,0 +1,27 @@
+[Unit]
+Description=FlareSolverr - Solve Cloudflare challenges
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/flaresolverr/flaresolverr:latest
+ContainerName=flaresolverr
+# Environments
+Environment=LOG_LEVEL=info
+Tmpfs=/dev/shm
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+# Network
+Network=Flare.network
+# Change this to your device's local IP address
+PublishPort=10.30.1.10:8191:8191/tcp
+# User
+UserNS=auto:size=1002
