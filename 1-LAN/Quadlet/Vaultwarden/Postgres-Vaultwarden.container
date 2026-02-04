@@ -15,7 +15,7 @@ Timezone=Europe/Warsaw
 # Environment
 EnvironmentFile=/home/overseer/Environments/.pgenv
 # Mounts + tmpfs
-Mount=type=bind,src=/home/overseer/Databases/Vaultwarden,dst=/var/lib/postgresql,U
+Mount=type=bind,src=/home/overseer/Databases/Vaultwarden,dst=/var/lib/postgresql,U,Z
 Tmpfs=/dev/shm
 # Healthcheck
 HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
