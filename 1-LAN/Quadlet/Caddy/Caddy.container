@@ -13,7 +13,7 @@ MemoryDenyWriteExecute=true
 Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=qor-caddy
 EnvironmentFile=/home/overseer/Environments/Caddy/.env
-# Volumes, remove ,Z if not on SELinux system
+# Volumes
 Volume=/home/overseer/Configs/Caddy:/app/configs:ro,Z
 Volume=/home/overseer/Sites:/app/www/static:ro,Z
 Volume=/home/overseer/Sockets:/run/tmp:z
