@@ -3,6 +3,9 @@ Description="PostgreSQL for Vaultwarden"
 Requires=Vaultwarden.service
 Before=Vaultwarden.service
 
+[Install]
+WantedBy=default-user.target
+
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
