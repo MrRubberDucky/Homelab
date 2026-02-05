@@ -3,6 +3,9 @@ Description=Vaultwarden (OIDC Fork)
 Requires=Postgres-Vaultwarden.service
 Wants=Postgres-Vaultwarden.service
 
+[Install]
+WantedBy=default-user.target
+
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
