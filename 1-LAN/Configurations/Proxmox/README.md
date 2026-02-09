@@ -149,7 +149,9 @@ It extends subuid and subgid ranges by:
 
 - 1 billion for `containers` user. This user is used when Podman is running in rootful mode.
 - 100k for `ducky` user. This user is not intended to be running containers, only for management and administration. It still gets it's own share as some programs act weird if one user just suddenly doesn't have subuids or subgids assigned.
-- 1 billion or `overseer` user. This is the rootless user that you will be mostly using for Podman.
+- 1 billion for `overseer` user. This is the rootless user that you will be mostly using for Podman.
+
+Note: `unsigned integer` is the max limit for subuid/subgid ranges as per [Gentoo Wiki](https://wiki.gentoo.org/wiki/Subuid_subgid) so `4,294,967,295 (2^32 - 1)` is the max value for whole system?
 
 It's also assumed that you will modify your qcow2 disk image to include the Alvistack OBS directory as otherwise Podman distributed in Debian apt repositories is pretty dated and lacks many quality-of-life features and Quadlet directives.
 
