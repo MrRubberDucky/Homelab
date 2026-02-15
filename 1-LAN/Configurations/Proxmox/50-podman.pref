@@ -1,0 +1,55 @@
+Package: podman*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: containers-common*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: conmon*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: crun*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: runc*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: netavark*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: aardvark-dns*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: passt*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: slirp4netns*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: fuse-overlayfs*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: skopeo*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: buildah*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: containernetworking*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
+
+Package: libpod*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
