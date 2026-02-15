@@ -1,4 +1,4 @@
-# cloud-init for Debian <insert version here>
+# cloud-init for Debian 13
 
 I've spent a lot of time on this and it's still kinda wonky but at this point I'm blaming cloud-init for being way too fragile. It's also quite annoying to test... well, anyways here it is.
 
@@ -37,7 +37,8 @@ echo "deb [signed-by=/usr/share/keyrings/home_alvistack.gpg] https://download.op
 virt-customize -a debian.qcow2 \
   --copy-in alvistack.list:/etc/apt/sources.list.d/ \
   --copy-in home_alvistack.gpg:/usr/share/keyrings/ \
-  --copy-in podman.pref:/etc/apt/preferences.d/ \
+  --copy-in 50-podman.pref:/etc/apt/preferences.d/ \
+  --copy-in 99-block-alvistack.pref:/etc/apt/preferences.d \
   --run-command 'chmod 644 /etc/apt/sources.list.d/alvistack.list' \
   --run-command 'chmod 644 /usr/share/keyrings/home_alvistack.gpg'
 # Remove the leftovers as we don't need the manymore
