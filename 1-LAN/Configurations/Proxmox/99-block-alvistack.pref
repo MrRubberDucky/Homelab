@@ -1,0 +1,3 @@
+Package: *
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: -1
