@@ -1,0 +1,32 @@
+[Unit]
+Description=PostgreSQL for PocketID
+Requires=PocketID.service
+Before=PocketID.service
+
+[Install]
+WantedBy=default-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/postgres:18.1-trixie
+ContainerName=postgres-pocketid
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/PocketID/.pgenv
+Mount=type=bind,src=%h/Databases/PocketID,dst=/var/lib/postgresql,U=true,Z
+Tmpfs=/dev/shm
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=256M
+Network=PocketID.network
+User=999:999
