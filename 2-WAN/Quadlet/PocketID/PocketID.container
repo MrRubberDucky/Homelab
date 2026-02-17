@@ -1,0 +1,39 @@
+[Unit]
+Description=Pocket-ID - OIDC Solution via Passkeys
+Requires=Postgres-PocketID.service
+Wants=Postgres-PocketID.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/pocket-id/pocket-id:next-distroless
+ContainerName=pocket-id
+# Change entrypoint
+PodmanArgs=--entrypoint /app/pocket-id
+# Environment
+EnvironmentFile=%h/Environments/PocketID/.env
+# Volumes
+Volume=%h/Appdata/PocketID:/app/data:U,Z
+# Healtcheck
+HealthCmd=["/app/pocket-id", "healthcheck"]
+HealthInterval=1m30s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+# Labels
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Network
+Network=PocketID.network
+PublishPort=1411:1411
+# Memory Limit
+Memory=256M
+# User
+User=1001:1001
