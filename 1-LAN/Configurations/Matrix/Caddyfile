@@ -1,0 +1,36 @@
+# Example Caddyfile
+# This will allow you to use your root domain instead of subdomain.domain.tld
+# So your users will be seen as userid:domain.tld instead of userid:subdomain.domain.tld
+# Actual matrix instance will still be available on matrix.domain.tld
+
+example.com {
+  # Caddy will handle anything incoming to example.com/.well-known/matrix/<anything>
+  # We'll need to rewrite /client and /server to repoint homeservers and Matrix clients to proper place
+  handle_path /.well-known/matrix/* {
+      # Matrix homeservers and clients expect the response to be an JSON, not HTML
+      header Content-Type application/json
+      # This is required for some clients ex. Element
+      header Access-Control-Allow-Origin "*"
+      # Based on what header is requested, Caddy will respond with following JSON entry. Backticks are important as you need to escape quotation marks.
+      respond /client `{ "m.homeserver": { "base_url": "https://matrix.example.com" } }`
+      respond /server `{ "m.server": "matrix.example.com:443" }`
+      # If no path matches, respond with simple 404.
+      # A proper client and homeserver will read values from /client, or /server to know where to go next.
+      respond 404
+  }
+  # Example redirect (you can still use your root domain for anything you want)
+  redir https://blog.example.com{uri} 308
+}
+
+https://matrix.example.com {
+   # Example CORS header
+   header >Cross-Origin-Resource-Policy *
+   header >Access-Control-Allow-Credentials true
+   header >Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS
+   header >Access-Control-Allow-Headers Content-Type, Authorization, Origin, Accept
+   # Example CORP header
+   header >Cross-Origin-Resource-Policy cross-origin
+   header >Cross-Origin-Embedder-Policy require-corp
+   header >Cross-Origin-Opener-Policy same-origin
+   reverse_proxy 10.20.1.10:8008
+}
