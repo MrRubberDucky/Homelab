@@ -1,0 +1,37 @@
+[Unit]
+Description=DCTS - Direct Communication Through Sockets
+Requires=MariaDB-DCTS.service
+After=MariaDB-DCTS.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/hackthedev/dcts-shipping:beta
+ContainerName=dcts-app
+# I have this set to true in case an issue pops up. You can set it to false though.
+Environment=DEBUG=true
+# yeah.
+Volume=%h/Appdata/DCTS/sv:/app/sv:U,Z
+Volume=%h/Appdata/DCTS/uploads:/app/public/uploads:U,Z
+Volume=%h/Appdata/DCTS/emojis:/app/public/emojis:U,Z
+Volume=%h/Appdata/DCTS/backups:/app/backups:U,Z
+Volume=%h/Appdata/DCTS/plugins:/app/plugins:U,Z
+Volume=%h/Appdata/DCTS/themes:/app/themes:U,Z
+Volume=%h/Configs/DCTS:/app/configs:U,Z
+Tmpfs=/app/cache/proxy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Bit conservative but whatever, if it craps out I'll just bump it up.
+Memory=512M
+PidsLimit=128
+Network=DCTS.network
+PublishPort=2052:2052
+User=1001:1001
