@@ -1,0 +1,6 @@
+[Network]
+NetworkName=DCTS
+NetworkDeleteOnStop=true
+Driver=bridge
+Internal=false
+Options=isolate=true
