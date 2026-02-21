@@ -1,0 +1,19 @@
+@geofilter {
+    not maxmind_geolocation {
+        db_path "/app/databases/GeoLite2-Country.mmdb"
+        deny_countries CN RU BY IR VN ID NG NP KZ KP UNK
+    }
+    not remote_ip 127.0.0.1
+    not remote_ip ::1
+    not remote_ip 10.0.0.0/8
+    not remote_ip 100.64.0.0/10
+    not remote_ip 127.0.0.0/8
+    not remote_ip 172.16.0.0/12
+}
+header @geofilter Content-Type text/html
+respond @geofilter <<HTML
+    <html>
+    <head><title>Blocked</title></head>
+    <body style="background-color: black;"><img src="https://http.cat/410" alt="blocked"/></body>
+    </html>
+    HTML 401
