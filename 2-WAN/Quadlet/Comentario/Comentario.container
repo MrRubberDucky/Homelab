@@ -1,0 +1,27 @@
+[Unit]
+Description=Comentario Comment System
+Requires=Postgres-Comentario.service
+Wants=Postgres-Comentario.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=registry.gitlab.com/comentario/comentario:latest-ubuntu
+ContainerName=comentario
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/Comentario/.env
+Volume=%h/Configs/Comentario/secrets.yaml:/secrets.yaml:ro,U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Comentario.network
+PublishPort=3000:80
+Memory=512M
+User=1001:1001
