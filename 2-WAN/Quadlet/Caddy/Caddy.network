@@ -1,0 +1,4 @@
+[Network]
+NetworkName=Caddy
+NetworkDeleteOnStop=true
+Driver=bridge
