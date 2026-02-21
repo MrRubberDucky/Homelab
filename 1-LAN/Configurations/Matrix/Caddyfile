@@ -11,7 +11,7 @@ example.com {
       header Content-Type application/json
       # This is required for some clients ex. Element
       header Access-Control-Allow-Origin "*"
-      # Based on what header is requested, Caddy will respond with following JSON entry. Backticks are important as you need to escape quotation marks.
+      # Based on what path is requested, Caddy will respond with following JSON entry. Backticks are important as you need to escape quotation marks.
       respond /client `{ "m.homeserver": { "base_url": "https://matrix.example.com" } }`
       respond /server `{ "m.server": "matrix.example.com:443" }`
       # If no path matches, respond with simple 404.
