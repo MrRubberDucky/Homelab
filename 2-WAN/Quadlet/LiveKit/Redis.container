@@ -1,0 +1,32 @@
+[Unit]
+Description=Redis for LiveKit
+Requires=LiveKit.service
+Before=LiveKit.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/redis:8.4.1-trixie
+ContainerName=redis-dcts
+# I'm just doing this here to enforce memory-related options and bind directive
+# ACLs are useless for LiveKit as LiveKit / Redis seems to struggle with them.
+# + in-memory storage.
+Exec=redis-server /usr/local/etc/redis/redis.conf
+Volume=%h/Configs/LiveKit/redis.conf:/usr/local/etc/redis/redis.conf
+Tmpfs=/dev/shm
+HealthCmd=[ "$(redis-cli ping)" = "PONG" ]
+HealthInterval=10s
+HealthRetries=3
+HealthTimeout=5s
+HealthStartupInterval=1m
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Redis.network
+User=1001:1001
+Memory=1G
