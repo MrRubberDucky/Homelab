@@ -1,0 +1,4 @@
+[Network]
+NetworkName=LiveKit
+NetworkDeleteOnStop=true
+Driver=bridge
