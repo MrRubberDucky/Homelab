@@ -1,0 +1,35 @@
+# This runs on VPS
+# As WebRTC will always take host IP, it's better anyways if it's on VPS anyways due to extra bandwidth.
+[Unit]
+Description=LiveKit for DCTS
+Requires=Redis.service
+After=Redis.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+# Base
+Image=docker.io/livekit/livekit-server:latest
+ContainerName=DCTS-LiveKit
+Exec=--config /etc/livekit.yaml
+Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z
+Network=LiveKit.network
+Network=Redis.network
+# RTC
+PublishPort=7881:7881
+PublishPort=7882:7882/udp
+# TURN
+PublishPort=5349:5349/tcp
+PublishPort=3478:3478/udp
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=2G
+PidsLimit=512
+# User
+User=1002:1002
