@@ -1,0 +1,18 @@
+port: 7880
+rtc:
+    tcp_port: 7881
+    udp_port: 7882
+    use_external_ip: true
+    enable_loopback_candidate: false
+redis:
+    address: redis:6379
+    db: 0
+    use_tls: false
+turn:
+    enabled: true
+    domain: lk.example.com
+    tls_port: 5349
+    udp_port: 3478
+    external_tls: true
+keys:
+    mySecretName: mySecretKeyThatIsAtLeast32CharactersLongOrMore
