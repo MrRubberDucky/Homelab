@@ -1,0 +1,126 @@
+# 4 space identation
+import /app/configs/Snippets/GlobalConfig
+import /app/configs/Snippets/References
+
+http:// {
+   bind fd/3 {
+      protocols h1
+   }
+   redir https://{host}{uri}
+}
+
+# Request wildcard certificate
+https://*.{$FQDN} {
+   import bind_https
+}
+
+# - PRIMARY -
+# [Domain]
+https://{$FQDN} {
+  import latte {$FQDN} main 5m 1d
+  import bind_https
+  import /app/configs/Snippets/geoip
+  import defender_ai
+  import defender_major
+  import defender_private
+  handle_path /dcts {
+      respond "Not ready yet!" 403
+  }
+  handle_path /patreon {
+      redir https://www.patreon.com/MrRubberDucky 308
+  }
+  # Caddy doesn't seem to parse envs in redir url but I'm doing it here anyways.
+  # Mostly so boring bots that scrape GitHub don't mass scan my shit for no reason.
+  redir https://blog.{$FQDN}{uri} 308
+}
+
+https://www.{$FQDN} {
+   import /app/configs/Snippets/geoip
+   redir https://{$FQDN}{uri} 308
+}
+
+# [Blog]
+https://blog.{$FQDN} {
+   import bind_https
+   # GeoIP filtering
+   import /app/configs/Snippets/geoip
+   # Various defending mechanisms
+   import defender_ai
+   import defender_major
+   import defender_private
+   # Headers + Logging
+   import headers
+   import latte {$FQDN} blog 5m 1d
+   # Don't compress specific parts of the blog
+   import compress {
+      not path /docs/patreon* /blog/patreon* /pages/patreon*
+   }
+   # Caching
+   import cache_static
+   # Headers for Anubis
+   request_header +X-Real-IP {remote_host}
+   request_header +X-Http-Version {http.request.proto}
+   # Reverse proxy it
+   import proxy 10.20.1.10:8080
+}
+
+# [Comments]
+https://comments.{$FQDN} {
+   import bind_https
+   # -GeoIP
+   import /app/configs/Snippets/geoip
+   # -Sec
+   import defender_ai
+   import defender_major
+   import defender_private
+   # -Head
+   import headers
+   # -Cache
+   import cache_static
+   # -Log
+   import latte comments.{$FQDN} comments 5m 3d
+   import proxy sourmint.internal:3000
+}
+
+# [SSO]
+https://auth.{$FQDN} {
+   import bind_https
+   # -GeoIP
+   import /app/configs/Snippets/geoip
+   # -Sec
+   import defender_ai
+   import defender_major
+   import defender_private
+   # -Head
+   import headers
+   # -Cache
+   import cache_static
+   # -Log
+   import latte auth.{$FQDN} auth 5m 3d
+   import proxy sourmint.internal:1411
+}
+
+# [Voice]
+https://lk.{$FQDN} {
+   import bind_https
+   import /app/configs/Snippets/geoip
+   import defender_ai
+   import defender_major
+   import defender_private
+   import headers
+   reverse_proxy DCTS-LiveKit:7880 {
+      header_up X-Real-IP {remote_host}
+   }
+}
+
+# [DCTS]
+https://chat.{$FQDN} {
+   import bind_https
+   import /app/configs/Snippets/geoip
+   import defender_ai
+   import defender_major
+   import defender_private
+   import headers
+   import latte chat.{$FQDN} chat 10m 3d
+   import proxy sourmint.internal:2052
+}
