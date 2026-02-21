@@ -2,8 +2,8 @@
 
 Unit]
 Description=Quackers of Rubberverse - Caddy Web Server
-AssertPathIsDirectory=/home/overseer/Configs/Caddy
-AssertPathExists=/home/overseer/Configs/Caddy/Caddyfile
+AssertPathIsDirectory=%h/Configs/Caddy
+AssertPathExists=%h/Configs/Caddy/Caddyfile
 Requires=Caddy.socket
 After=Caddy.socket
 
