@@ -1,0 +1,32 @@
+[Unit]
+Description=MariaDB for DCTS
+Requires=DCTS-App.service
+Before=DCTS-App.service
+
+[Install]
+WantedBy=default-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/mariadb:lts-noble
+ContainerName=mariadb-dcts
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/DCTS/.mdbenv
+Mount=type=bind,src=%h/Databases/DCTS,dst=/var/lib/mysql,U=true,Z
+Tmpfs=/dev/shm
+HealthCmd=["CMD-SHELL", "healthcheck.sh", "--connect", "--innodb_initialized"]
+HealthInterval=10s
+HealthRetries=3
+HealthTimeout=10s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=256M
+Network=DCTS.network
+User=105:106
