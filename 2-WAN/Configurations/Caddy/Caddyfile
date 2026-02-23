@@ -23,7 +23,15 @@ https://{$FQDN} {
   import defender_ai
   import defender_major
   import defender_private
-  handle_path /dcts {
+  handle_path /.well-known/matrix/* {
+      header Content-Type application/json
+      import header_cors "*" GET,POST,PUT,DELETE,OPTIONS
+      import header_corp cross-origin require-corp same-origin
+      respond /client `{ "m.homeserver": { "base_url": "https://matrix.{$FQDN}" }, "org.matrix.msc4143.rtc_foci": [ { "type": "livekit", "livekit_service_url": "https://lk.{$FQDN}" } ] }`
+      respond /server `{ "m.server": "matrix.{$FQDN}:443", "org.matrix.msc3575.proxy": "https://matrix.{$FQDN}" }`
+      respond 404
+  }
+  handle_path /matrix {
       respond "Not ready yet!" 403
   }
   handle_path /patreon {
@@ -108,9 +116,33 @@ https://lk.{$FQDN} {
    import defender_major
    import defender_private
    import headers
-   reverse_proxy DCTS-LiveKit:7880 {
-      header_up X-Real-IP {remote_host}
+   @jwt_service {
+      path /sfu/get* /healthz* /get_token*
    }
+   handle @jwt_service {
+      reverse_proxy host.containers.internal:8081 {
+           header_up X-Real-IP {remote_host}
+      }
+   }
+   reverse_proxy LiveKit:7880 {
+       header_up Connection "upgrade"
+       header_up Upgrade {http.request.header.Upgrade}
+       header_up X-Real-IP {remote_host}
+   }
+}
+
+# [Matrix]
+https://matrix.{$FQDN} {
+   import bind_https
+   import /app/configs/Snippets/geoip
+   import defender_ai
+   import defender_major
+   import defender_private
+   import headers
+   import header_cors "*" GET,POST,PUT,DELETE,OPTIONS
+   import header_corp cross-origin require-corp same-origin
+   import latte matrix.{$FQDN} matrix 15m 3d
+   import proxy sourmint.internal:8008
 }
 
 # [DCTS]
