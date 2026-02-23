@@ -3,7 +3,9 @@
 [Unit]
 Description=LiveKit for DCTS
 Requires=Redis.service
+Requires=MatrixJWT.service
 After=Redis.service
+Before=MatrixJWT.service
 
 [Service]
 Restart=on-failure
@@ -13,7 +15,7 @@ MemoryDenyWriteExecute=false
 [Container]
 # Base
 Image=docker.io/livekit/livekit-server:latest
-ContainerName=DCTS-LiveKit
+ContainerName=LiveKit
 Exec=--config /etc/livekit.yaml
 Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z
 Network=LiveKit.network
