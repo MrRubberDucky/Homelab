@@ -1,0 +1,26 @@
+[Unit]
+Description=Tuwunel - High-performance Matrix Home Server implementation
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/matrix-construct/tuwunel:main
+ContainerName=tuwunel
+Environment=TUWUNEL_CONFIG=/etc/tuwunel.toml
+Volume=%h/Appdata/Tuwunel/Data:/var/lib/tuwunel:U,Z
+Volume=%h/Appdata/Tuwunel/Backups:/var/lib/tuwunel-backups:U,Z
+Volume=%h/Configs/Tuwunel/tuwunel.toml:/etc/tuwunel.toml:ro,Z
+# not using coturn but whatever h
+Secret=coturn_secret,type=mount,target=/run/tmp/.coturn,uid=1001,gid=1001
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1001:1001
+Network=tuwunel.network
+PublishPort=8008:8008
