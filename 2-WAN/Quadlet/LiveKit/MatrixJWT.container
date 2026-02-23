@@ -1,0 +1,28 @@
+[Unit]
+Description=MatrixRTC JWT service
+Requires=LiveKit.service
+Requires=Redis.service
+After=Redis.service
+After=LiveKit.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/element-hq/lk-jwt-service:latest
+ContainerName=lk-jwt-service
+# me when ultra hairpin nat deluxe sloppy toppy issues
+# yeah, need to do it like that otherwise you get connection refusals and dns fails.
+Network=host
+EnvironmentFile=%h/Environments/Matrix/.env
+# Labels
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=128M
+PidsLimit=128
+# User
+User=1002:1002
