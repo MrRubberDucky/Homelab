@@ -1,7 +1,8 @@
 port: 7880
 rtc:
     tcp_port: 7881
-    udp_port: 7882
+    port_range_start: 50100
+    port_range_end: 50200
     use_external_ip: true
     enable_loopback_candidate: false
 redis:
@@ -9,7 +10,7 @@ redis:
     db: 0
     use_tls: false
 turn:
-    enabled: true
+    enabled: false
     domain: lk.example.com
     tls_port: 5349
     udp_port: 3478
