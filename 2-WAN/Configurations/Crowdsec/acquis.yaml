@@ -1,0 +1,9 @@
+filenames:
+    - "/var/log/caddy/main"
+    - "/var/log/caddy/mainwww"
+    - "/var/log/caddy/blog"
+    - "/var/log/caddy/auth"
+    - "/var/log/caddy/comments"
+    - "/var/log/caddy/uptime"
+labels:
+    type: caddy
