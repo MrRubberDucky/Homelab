@@ -36,13 +36,11 @@ ReadOnly=true
 Notify=true
 # Network + Sysctl
 Network=Caddy.network
-Network=LiveKit.network
+Network=Crowdsec.network
 Sysctl=net.ipv4.ip_unprivileged_port_start=80
 DNS=1.1.1.1
 DNS=1.0.0.1
 # RPoWG traffic, for easier recalling in config files.
-AddHost=sourmint.internal:10.200.1.10
+AddHost=sourmint.internal:10.99.1.15
 # Resource Limits
 Memory=512M
-# User
-User=1002:1002
