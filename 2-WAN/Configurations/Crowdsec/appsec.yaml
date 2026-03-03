@@ -1,0 +1,10 @@
+# /etc/crowdsec/acquis.d/appsec.yaml
+# May need to run this first cscli collections install crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+# appsec-default collection fetches 0 rules for me
+appsec_configs:
+  - crowdsecurity/appsec-default
+labels:
+  type: appsec
+# Internal container network so not that bad.
+listen_addr: 0.0.0.0:7422
+source: appsec
