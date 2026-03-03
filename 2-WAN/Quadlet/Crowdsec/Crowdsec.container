@@ -22,6 +22,7 @@ Volume=%h/Configs/Crowdsec/whitelist-rdns.yaml:/etc/crowdsec/postoverflows/s01-w
 Volume=%h/Configs/Crowdsec/whitelist-lan.yaml:/etc/crowdsec/parsers/s02-enrich/01-whitelist-lan.yaml:ro,Z
 # Configuration
 Volume=%h/Configs/Crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro,Z
+Volume=%h/Configs/Crowdsec/appsec.yaml:/etc/crowdsec/acquis.d/appsec.yaml:ro,Z
 Volume=%h/Configs/Crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro,Z
 # Web Server Logs
 Volume=CADDY-LOGS:/var/log/caddy:ro,z
