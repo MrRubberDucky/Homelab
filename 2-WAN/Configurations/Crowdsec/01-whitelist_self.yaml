@@ -1,3 +1,4 @@
+# /etc/crowdsec/parsers/s02-enrich/01-whitelist-lan.yaml
 name: whitelist_self
 description: Whitelist internal LAN and VPS host
 whitelist:
