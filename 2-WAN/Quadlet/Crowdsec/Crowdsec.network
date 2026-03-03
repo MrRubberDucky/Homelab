@@ -1,0 +1,4 @@
+[Network]
+NetworkName=Crowdsec
+NetworkDeleteOnStop=true
+Driver=bridge
