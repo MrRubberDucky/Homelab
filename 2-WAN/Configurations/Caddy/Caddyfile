@@ -23,6 +23,7 @@ https://{$FQDN} {
   import defender_ai
   import defender_major
   import defender_private
+  crowdsec
   handle_path /.well-known/matrix/* {
       header Content-Type application/json
       import header_cors "*" GET,POST,PUT,DELETE,OPTIONS
@@ -56,6 +57,7 @@ https://blog.{$FQDN} {
    import defender_ai
    import defender_major
    import defender_private
+   crowdsec
    # Headers + Logging
    import headers
    import latte {$FQDN} blog 5m 1d
@@ -72,7 +74,21 @@ https://blog.{$FQDN} {
    import proxy 10.20.1.10:8080
 }
 
-# [Comments]
+# [Gatus]
+https://uptime.{$FQDN} {
+   import bind_https
+   import /app/configs/Snippets/geoip
+   import defender_ai
+   import defender_major
+   import defender_private
+   crowdsec
+   import headers
+   import latte uptime.{$FQDN} uptime 5m
+   import cache_static
+   import proxy host.containers.internal:8080
+}
+
+# [Comentario]
 https://comments.{$FQDN} {
    import bind_https
    # -GeoIP
@@ -81,6 +97,8 @@ https://comments.{$FQDN} {
    import defender_ai
    import defender_major
    import defender_private
+   crowdsec
+   appsec
    # -Head
    import headers
    # -Cache
@@ -90,7 +108,7 @@ https://comments.{$FQDN} {
    import proxy sourmint.internal:3000
 }
 
-# [SSO]
+# [PocketID (FishBait)]
 https://auth.{$FQDN} {
    import bind_https
    # -GeoIP
@@ -99,6 +117,8 @@ https://auth.{$FQDN} {
    import defender_ai
    import defender_major
    import defender_private
+   crowdsec
+   appsec
    # -Head
    import headers
    # -Cache
@@ -108,7 +128,7 @@ https://auth.{$FQDN} {
    import proxy sourmint.internal:1411
 }
 
-# [Voice]
+# [LiveKit]
 https://lk.{$FQDN} {
    import bind_https
    import /app/configs/Snippets/geoip
@@ -124,7 +144,7 @@ https://lk.{$FQDN} {
            header_up X-Real-IP {remote_host}
       }
    }
-   reverse_proxy LiveKit:7880 {
+   reverse_proxy host.containers.internal:7880 {
        header_up Connection "upgrade"
        header_up Upgrade {http.request.header.Upgrade}
        header_up X-Real-IP {remote_host}
@@ -143,16 +163,4 @@ https://matrix.{$FQDN} {
    import header_corp cross-origin require-corp same-origin
    import latte matrix.{$FQDN} matrix 15m 3d
    import proxy sourmint.internal:8008
-}
-
-# [DCTS]
-https://chat.{$FQDN} {
-   import bind_https
-   import /app/configs/Snippets/geoip
-   import defender_ai
-   import defender_major
-   import defender_private
-   import headers
-   import latte chat.{$FQDN} chat 10m 3d
-   import proxy sourmint.internal:2052
 }
