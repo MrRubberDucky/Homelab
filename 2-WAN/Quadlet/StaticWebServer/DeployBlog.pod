@@ -1,0 +1,4 @@
+[Pod]
+PodName=DeployBlog
+Network=WebServer.network
+PublishPort=7000:7000
