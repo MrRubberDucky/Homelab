@@ -1,6 +1,6 @@
 # This is 'Socket Activation' configuration for Caddy
 
-Unit]
+[Unit]
 Description=Quackers of Rubberverse - Caddy Web Server
 AssertPathIsDirectory=%h/Configs/Caddy
 AssertPathExists=%h/Configs/Caddy/Caddyfile
