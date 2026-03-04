@@ -1,0 +1,23 @@
+[Unit]
+Description=Tinyauth – Supporter gateway
+
+[Service]
+Restart=always
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/steveiliop56/tinyauth:latest
+ContainerName=tt-supporter
+EnvironmentFile=%h/Environments/TinyAuth/.SupporterEnv
+Volume=%h/Sockets/TinyAuth:/run/tmp:U,z
+Volume=TAS_PERSIST:/app/db:U,Z
+Network=host
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1002:1002
