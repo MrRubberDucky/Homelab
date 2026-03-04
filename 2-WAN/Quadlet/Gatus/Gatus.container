@@ -1,0 +1,23 @@
+[Unit]
+Description=Gatus uptime monitoring
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/twin/gatus:latest
+ContainerName=gatus
+Volume=%h/Configs/Gatus/config.yaml:/config/config.yaml:ro,Z
+Volume=%h/Appdata/Gatus:/data:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=host
+AddHost=sourmint.internal:10.99.1.15
+User=1002:1002
