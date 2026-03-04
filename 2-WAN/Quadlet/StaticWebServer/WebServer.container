@@ -1,0 +1,24 @@
+[Unit]
+Description=Rust Web Server that proxies static site to Anubis
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/static-web-server/static-web-server:latest
+ContainerName=static-blog
+Environment=SERVER_ROOT=/app/www
+Environment=SERVER_CONFIG_FILE=/etc/config.toml
+Environment=SERVER_LOG_WITH_ANSI=true
+Environment=SERVER_TRUSTED_PROXIES=127.0.0.1
+Volume=%h/Userdata/Blog:/app/www:ro,U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Pod=DeployBlog.pod
