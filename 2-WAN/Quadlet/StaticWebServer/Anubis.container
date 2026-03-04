@@ -1,0 +1,23 @@
+[Unit]
+Description=Anubis proxy
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/techarohq/anubis:latest
+ContainerName=anubis
+EnvironmentFile=%h/Environments/Anubis/.blog
+Volume=%h/Configs/Anubis/botPolicy-Blog.yaml:/policies.yaml:ro,Z
+Volume=%h/Appdata/Blog:/data/storage:U,Z
+AutoUpdate=true
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1001:1001
+Pod=DeployBlog.pod
