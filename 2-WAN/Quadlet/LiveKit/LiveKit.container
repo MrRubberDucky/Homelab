@@ -1,7 +1,6 @@
 [Unit]
 Description=LiveKit for DCTS
 Requires=MatrixJWT.service
-After=Redis.service
 Before=MatrixJWT.service
 
 [Service]
