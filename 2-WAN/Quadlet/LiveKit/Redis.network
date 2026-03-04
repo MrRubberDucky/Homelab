@@ -1,4 +1,0 @@
-[Network]
-NetworkName=Redis
-NetworkDeleteOnStop=true
-Driver=bridge
