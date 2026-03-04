@@ -31,4 +31,5 @@ Network=Crowdsec.network
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
+ReadOnly=true
 User=1001:1001
