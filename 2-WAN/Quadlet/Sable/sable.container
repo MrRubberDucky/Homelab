@@ -1,0 +1,27 @@
+[Unit]
+Description=Sable - Yet another Matrix client (fork of Cinny)
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/7w1/sable:latest
+ContainerName=sable
+Volume=%h/Configs/Sable/config.json:/app/config.json:ro,Z
+Volume=%h/Configs/NginxWorkaround/error.log:/var/log/nginx/error.log:U,Z
+Volume=%h/Configs/NginxWorkaround/access.log:/var/log/nginx/access.log:U,Z
+Volume=%h/Configs/NginxWorkaround/nginx.pid:/run/nginx.pid:U,Z
+Volume=NGINX-CACHE:/var/cache/nginx:U,Z
+Network=Sable.network
+PublishPort=5000:80
+Sysctl=net.ipv4.ip_unprivileged_port_start=80
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1001:1001
