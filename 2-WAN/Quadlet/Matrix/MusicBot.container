@@ -1,0 +1,25 @@
+[Unit]
+Description=MatrixRTC Music Bot
+Requires=Tuwunel.service
+After=Tuwunel.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/sultanalburaq/matrix-element-call-musicbot:latest
+ContainerName=matrixrtc-music-bot
+Environment=CONFIG_FILE=/app/config/config.toml
+Volume=%h/Configs/MatrixRTC:/app/config:ro,Z
+Volume=%h/Appdata/MatrixRTC:/app/data:U,Z
+Volume=MusicBot-Logs:/app/logs:U,Z
+Volume=MusicBot-Audio:/tmp/musicbot_audio:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Memory=256M
