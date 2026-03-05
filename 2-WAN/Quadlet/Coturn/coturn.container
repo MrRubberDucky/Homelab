@@ -1,0 +1,27 @@
+[Unit]
+Description=CoTURN - TURN/STUN voice server
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/coturn/coturn:latest
+ContainerName=coturn
+Exec=-c /app/configs/coturn.conf
+Volume=%h/Configs/CoTURN/coturn.conf:/app/configs/coturn.conf:ro,Z
+# This is a scapegoat Caddy container that grabs certificate via DNS challenge and is not exposed anywhere else. (on it's own container network)
+Volume=%h/Appdata/CertFetcher-Data/certificates/zerossl/turn.rubberverse.xyz/turn.rubberverse.xyz.crt:/app/certs/public.pem:ro,z
+Volume=%h/Appdata/CertFetcher-Data/certificates/zerossl/turn.rubberverse.xyz/turn.rubberverse.xyz.key:/app/certs/private.pem:ro,z
+# Pain, since user namespace is same as host. Needed for TLS certificates.
+Network=host
+NoNewPrivileges=true
+AutoUpdate=registry
+# At least it's read only and rootless so eh.
+ReadOnly=true
+User=1002:1002 
+UserNS=keep-id:uid=1002,gid=1002,size=1003
