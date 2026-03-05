@@ -5,15 +5,22 @@ rtc:
     port_range_end: 50200
     use_external_ip: true
     enable_loopback_candidate: false
-redis:
-    address: redis:6379
-    db: 0
-    use_tls: false
-turn:
-    enabled: false
-    domain: lk.example.com
-    tls_port: 5349
-    udp_port: 3478
-    external_tls: true
+    turn_servers:
+        - host: turn.domain.tld
+          protocol: tcp
+          port: 3478
+          secret: "example"
+        - host: turn.domain.tld
+          protocol: udp
+          port: 3478
+          secret: "example"
+        - host: turn.domain.tld
+          protocol: tls
+          port: 5349
+          secret: "example"
+room:
+    auto_create: true
+    max_participants: 100
+    empty_timeout: 300
 keys:
     mySecretName: mySecretKeyThatIsAtLeast32CharactersLongOrMore
