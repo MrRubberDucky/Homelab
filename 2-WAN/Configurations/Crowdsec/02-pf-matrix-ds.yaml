@@ -1,0 +1,9 @@
+# /etc/crowdsec/postoverflows/s01-whitelist
+# https://github.com/crowdsecurity/hub/issues/547#issuecomment-1322495375
+name: rubberverse/matrix-datasource
+description: "custom matrix whitelist"
+whitelist:
+  reason: "whitelist false positive for matrix"
+  expression:
+    - evt.Overflow.Alert.Events[0].GetMeta('datasource_path') == '/var/log/caddy/matrix'
+    - evt.Overflow.Alert.GetScenario() == 'crowdsecurity/http-probing'
