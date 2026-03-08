@@ -1,5 +1,5 @@
 [Unit]
-Description=Rust Web Server that proxies static site to Anubis
+Description=Caddy Web Server that proxies static site to VPS
 
 [Install]
 WantedBy=default.target
@@ -10,15 +10,14 @@ SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
 
 [Container]
-Image=ghcr.io/static-web-server/static-web-server:latest
+Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=static-blog
-Environment=SERVER_ROOT=/app/www
-Environment=SERVER_CONFIG_FILE=/etc/config.toml
-Environment=SERVER_LOG_WITH_ANSI=true
-Environment=SERVER_TRUSTED_PROXIES=127.0.0.1
+Environment=CONFIG_PATH=/app/configs/Caddyfile
+Volume=%h/Configs/Caddy/Caddyfile:/app/configs/Caddyfile:ro,Z
 Volume=%h/Userdata/Blog:/app/www:ro,U,Z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Pod=DeployBlog.pod
+Network=WebServer.network
+PublishPort=7000:7000
