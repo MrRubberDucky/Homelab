@@ -11,7 +11,6 @@ SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
 
 [Container]
-# Base
 Image=public.ecr.aws/docker/library/postgres:18.0-bookworm
 ContainerName=postgres-voidauth
 Timezone=Europe/Warsaw
