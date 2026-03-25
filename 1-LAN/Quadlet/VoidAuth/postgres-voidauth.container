@@ -1,0 +1,33 @@
+[Unit]
+Description=PostgreSQL for VoidAuth
+Requires=voidauth.service
+Before=voidauth.service
+AssertPathExists=%h/Environments/VoidAuth/.pgenv
+AssertPathIsDirectory=%h/Databases/VoidAuth
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+# Base
+Image=public.ecr.aws/docker/library/postgres:18.0-bookworm
+ContainerName=postgres-voidauth
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/VoidAuth/.pgenv
+Mount=type=bind,src=%h/Databases/VoidAuth,dst=/var/lib/postgresql,U=true,Z
+Volume=VoidAuth-DB:/var/run/postgresql:z
+Tmpfs=/dev/shm
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=none
+User=999:999
+UserNS=auto:size=1000
