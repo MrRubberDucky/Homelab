@@ -29,4 +29,3 @@ DropCapability=all
 ReadOnly=true
 Network=none
 User=999:999
-UserNS=auto:size=1000
