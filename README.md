@@ -1,5 +1,8 @@
 # Hello.
 
+> [!WARNING]
+> This repository is updated *very* rarely. Stuff changes a lot and any changes done here are usually manual so unless I really wanna correct something, it may sit outdated for months.
+
 These fancy files and other knick-knacks power rubberverse.xyz and my home network overall.
 
 Feel free to roam through them and do things with them.
@@ -22,7 +25,7 @@ This is just a dump for example configuration, or my own Quadlet files so I can 
 
 ## Should I use Podman?
 
-While Podman has it's short-comings - especially regarding rootless networking - it's still a great piece of software that integrates pretty well with systemd. Granted you *need* to be on the latest version in order for it to be 100% usable. By that I don't mean the software itself won't work, or it will suddenly explode - I mean that you'll be missing on quadlet features *and* some of the newest Podman goodies that make managing containers way easier.
+While Podman has it's short-comings - especially regarding rootless networking - it's still a great piece of software that integrates pretty well with systemd. Granted you *need* to be on the latest version in order for it to be 100% usable. By that I don't mean the software itself won't work, or it will suddenly explode - no, what I meanis that you'll be missing on quadlet features *and* some of the newest Podman goodies that make managing containers way easier.
 
 If you're on Debian/Ubuntu, consider using [Aalvistack OBS repository](https://software.opensuse.org/download/package?package=podman&project=home%3Aalvistack). Remember to pin components as otherwise it will update too much of your system, the example pinning files can be found in my cloud-init repository. While not recommended by Debian maintainers, Podman maintainers themselves said they don't want to maintain seperate repos for such distros, which is fair. It takes time to maintain those and that time is better spent for them maintaining Podman (and related resources to it). [More about it in this discussion](https://github.com/containers/podman/discussions/17362). 
 
@@ -38,9 +41,22 @@ To enable and run `dbus-user-session` right after installation, run following co
 
 If you want extended SUID/SGIDs then just take a look at what modifications I do in my cloud-init image. That's about as much as you need to do to get it working though.
 
-However if you need functionality such as Docker Swarm, you won't really get it here. So, if you rely on that, then stay on Docker for the time being, *or* look into Kubernetes. Though it's yaml syntax is confusing as fuck if you ask me and it also seems to enforce High Availability approach by default so you'll need a proper cluster to toy around with it properly.
+However if you need functionality such as Docker Swarm, you won't really get it here. So, if you rely on that, then stay on Docker for the time being, *or* look into Kubernetes. Though it's yaml syntax is confusing as fuck, and it also seems to enforce High Availability approach by default so you'll need a proper cluster to toy around with it properly.
 
 > Podman will never support Swarm functionality. If other tools are based on top of Podman to provide cross node functionality then that is fine, but we have no thoughts of adding this functionality to Podman.
 > [Podman Maintainer](https://github.com/containers/podman/discussions/12886#discussioncomment-1982876)
 
-There are no tools to my knowledge making use of Quadlet functionality yet and probably never will be, considering you need to talk with the host system to do any of this vs. with Podman socket. If you really want something comparable to Docker Swarm, there's always Komodo which uses `podman-compose` to my knowledge.
+## Does this make use of GitOps?
+
+No, frankly I feel like depending on a third-party Git service just to spin up my homelab is a total failure and misses the point of self-hosting by a huge mile. Why do I self-host if I still have to be dependant on a third-party git service, aye? Yeah I can self-host but I dunno, it just seems stupid. I would need to manually spin it up everytime I want to re-deploy and at that point I may as well just setup everything by hand again, fix the small inconsistencies etc.
+
+I keep local versioned git backup of everything I do on my local pc and just selectively add things here more as examples of deployment rather than actual configuration files.
+
+## Do you know any GitOps solutions for Quadlet functionality?
+
+Yeah, you have [Materia by stryan and contributors](https://github.com/stryan/materia).
+
+> [!NOTE]
+> Only mount Podman / Docker socket into containers you 100% trust, preferably avoid it or look for alternatives if it's not feasible.
+
+Keep in mind that for any such solution, you'll need to mount `Podman.socket` into the container. If you don't understand the ramifications and any potential security issues that may arise from doing something like that, then just stick to the way you're doing stuff. It's probably better.
