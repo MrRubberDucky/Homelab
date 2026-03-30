@@ -1,0 +1,25 @@
+[Unit]
+Description=Beszel Hub
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/henrygd/beszel/beszel:latest
+ContainerName=beszel
+Environment=APP_URL=https://beszel.domain.tld
+Volume=BESZEL-SOCKET:/beszel_socket:z
+Volume=%h/Appdata/Beszel/data:/beszel_data:Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Caddy.network
+AddHost=auth.domain.tld;beszel.domain.tld:169.254.1.2
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
