@@ -1,0 +1,41 @@
+# SMART monitoring won't work without running Podman as root
+# Just so you know in advance
+[Unit]
+Description=Beszel Agent
+Requires=Beszel.service
+After=Beszel.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/henrygd/beszel/beszel-agent:latest
+ContainerName=beszel-agent
+Volume=BESZEL-SOCKET:/beszel_socket:z
+Volume=%h/Appdata/Beszel/agent:/var/lib/beszel-agent:Z
+# systemctl --user enable --now podman.socket
+Volume=%t/podman/podman.sock:/run/user/%U/podman/podman.sock:ro,z
+Volume=/media/Music:/extra-filesystems/sdb1__Music:ro
+# You can get those from Beszel's Hub
+Environment=TOKEN=""
+Environment=KEY=""
+# Set to Beszel's Hub URL
+Environment=HUB_URL=https://beszel.domain.tld
+# Workaround for missing containers inside Beszel
+Environment=DOCKER_HOST="unix:///run/user/1001/podman/podman.sock"
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=host
+# Internal DNS resolver so it can find localhost domain
+DNS=10.30.1.253
+# Required to be able to access podman.socket in container
+# UID and GID needs to match
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
