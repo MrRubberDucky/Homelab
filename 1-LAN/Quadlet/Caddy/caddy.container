@@ -1,7 +1,11 @@
 [Unit]
 Description=Caddy QoR
 AssertPathIsDirectory=%h/Configs/Caddy
+AssertPathIsDirectory=%h/Configs/Caddy/Snippets
+AssertPathIsDirectory=%h/Sockets
+AssertPathIsDirectory=%h/Sites
 AssertPathExists=%h/Configs/Caddy/Caddyfile
+AssertPathExists=%h/Configs/Caddy/Snippets/GlobalConfig
 Requires=Caddy.socket
 After=Caddy.socket
 
