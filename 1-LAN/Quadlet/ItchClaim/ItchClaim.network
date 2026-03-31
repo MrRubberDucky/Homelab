@@ -1,0 +1,5 @@
+[Network]
+NetworkName=ItchClaim
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
