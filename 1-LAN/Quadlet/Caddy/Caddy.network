@@ -1,0 +1,4 @@
+[Network]
+NetworkDeleteOnStop=true
+NetworkName=Caddy
+Options=isolate=true
