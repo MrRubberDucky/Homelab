@@ -1,0 +1,6 @@
+[Network]
+NetworkName=FlareSolverr
+Driver=bridge
+# All outgoing connections get NAT'ed back so this doesn't break anything on LAN scenarios at least.
+Internal=true
+Options=isolate=true

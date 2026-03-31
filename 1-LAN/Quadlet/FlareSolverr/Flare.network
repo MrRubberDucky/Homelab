@@ -1,4 +1,0 @@
-[Network]
-NetworkName=Flare
-NetworkDeleteOnStop=true
-Driver=bridge
