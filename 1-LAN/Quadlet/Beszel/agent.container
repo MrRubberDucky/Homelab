@@ -1,9 +1,7 @@
-# SMART monitoring won't work without running Podman as root
-# Just so you know in advance
 [Unit]
 Description=Beszel Agent
-Requires=Beszel.service
-After=Beszel.service
+Requires=beszel.service
+After=beszel.service
 
 [Service]
 Restart=on-failure
@@ -14,17 +12,16 @@ MemoryDenyWriteExecute=true
 WantedBy=default.target
 
 [Container]
-Image=ghcr.io/henrygd/beszel/beszel-agent:latest
+Image=ghcr.io/henrygd/beszel/beszel-agent:0
 ContainerName=beszel-agent
 Volume=BESZEL-SOCKET:/beszel_socket:z
 Volume=%h/Appdata/Beszel/agent:/var/lib/beszel-agent:Z
-# systemctl --user enable --now podman.socket
 Volume=%t/podman/podman.sock:/run/user/%U/podman/podman.sock:ro,z
 Volume=/media/Music:/extra-filesystems/sdb1__Music:ro
 Environment=TOKEN=""
 Environment=KEY=""
-Environment=LISTEN=/beszel_socket/beszel.sock
 Environment=DOCKER_HOST="unix:///run/user/1001/podman/podman.sock"
+Environment=LISTEN=/beszel_socket/beszel.sock
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
