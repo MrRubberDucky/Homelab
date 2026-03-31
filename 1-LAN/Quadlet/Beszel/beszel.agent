@@ -1,5 +1,7 @@
 [Unit]
 Description=Beszel Hub
+Requires=agent.service
+Before=agent.service
 
 [Service]
 Restart=on-failure
