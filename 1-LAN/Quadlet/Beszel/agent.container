@@ -1,5 +1,7 @@
 [Unit]
 Description=Beszel Agent
+AssertPathIsDirectory=%h/Appdata/Beszel/agent
+AssertPathExists=%t/podman/podman.sock
 Requires=beszel.service
 After=beszel.service
 
