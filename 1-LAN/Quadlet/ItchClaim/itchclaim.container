@@ -1,5 +1,7 @@
 [Unit]
 Description=ItchClaim - Automatically claim free games, apps and assets on itch.io
+AssertPathIsDirectory=%h/Appdata/itchclaim
+AssertPathExists=%h/Environments/ItchClaim/.env
 
 [Service]
 Restart=on-failure
