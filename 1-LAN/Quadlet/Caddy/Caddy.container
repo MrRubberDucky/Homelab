@@ -1,38 +1,36 @@
 [Unit]
 Description=Caddy QoR
+AssertPathIsDirectory=%h/Configs/Caddy
+AssertPathExists=%h/Configs/Caddy/Caddyfile
+Requires=Caddy.socket
+After=Caddy.socket
 
 [Install]
 WantedBy=default.target
 
 [Service]
-Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
+ExecReload=podman exec qor-caddy /app/bin/caddy reload --config /app/configs/Caddyfile --address unix//run/admin.sock
 
 [Container]
 Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=qor-caddy
-EnvironmentFile=/home/overseer/Environments/Caddy/.env
-# Volumes
-Volume=/home/overseer/Configs/Caddy:/app/configs:ro,Z
-Volume=/home/overseer/Sites:/app/www/static:ro,Z
-Volume=/home/overseer/Sockets:/run/tmp:z
-# This is not defined as Quadlet .volume as it's clever enough to create one anyways
+EnvironmentFile=%h/Environments/Caddy/.env
+Exec=run --config /app/configs/Caddyfile
+Volume=%h/Configs/Caddy/Caddyfile:/app/configs/Caddyfile:ro,Z
+Volume=%h/Configs/Caddy/Snippets:/app/configs/Snippets:ro,Z
+Volume=%h/Sites:/app/www/static:ro,Z
+Volume=%h/Sockets:/run/tmp:z
 Volume=CADDY-LOGS:/app/logs:U,z
-# Mounts
-Mount=type=bind,source=/home/overseer/Appdata/WebServer-Data,dst=/app/.local/share/caddy,U=true,Z
-Mount=type=bind,source=/home/overseer/Appdata/WebServer-Conf,dst=/app/.config/caddy,U=true,Z
-# Labels
+Mount=type=bind,source=%h/Appdata/WebServer-Data,dst=/app/.local/share/caddy,U=true,Z
+Mount=type=bind,source=%h/Appdata/WebServer-Conf,dst=/app/.config/caddy,U=true,Z
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# Network
-Network=pasta:--ipv4-only
-# Change this to your device's local IP address
-PublishPort=10.30.1.10:80:80/tcp
-PublishPort=10.30.1.10:443:443/tcp
-PublishPort=10.30.1.10:443:443/udp
-# User
-User=1001:1001
-# We want to be able to access UNIX sockets from other containers.
-UserNS=keep-id:uid=1001,gid=1001,size=1002
+Network=Caddy.network
+DNS=9.9.9.10
+DNS=45.11.45.11
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
