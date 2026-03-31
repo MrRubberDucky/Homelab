@@ -18,7 +18,6 @@ Environment=TOKEN=""
 Environment=KEY=""
 Environment=DOCKER_HOST="unix:///run/user/1001/podman/podman.sock"
 Environment=LISTEN=10.20.1.10:45876
-Environment=LOG_LEVEL=debug
 AutoUpdate=registry
 SecurityLabelType=unconfined_t
 NoNewPrivileges=true
