@@ -13,15 +13,12 @@ WantedBy=default.target
 Image=ghcr.io/smart123s/itchclaim:latest
 ContainerName=itchclaim
 Exec=schedule --cron "28 0,6,12,18 * * *"
-# Environment
-EnvironmentFile=/home/overseer/Environments/ItchClaim/.env
-# Volumes
-Volume=/home/overseer/Appdata/itchclaim:/data:U,Z
+Volume=%h/Appdata/itchclaim:/data:U,Z
+EnvironmentFile=%h/Environments/ItchClaim/.env
 Tmpfs=/dev/shm
-# Labels
+Network=ItchClaim.network
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
-# User
-User=1001:1001
+User=%U:%U
 UserNS=auto:size=1002
