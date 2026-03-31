@@ -15,7 +15,7 @@ Image=ghcr.io/henrygd/beszel/beszel-agent:latest
 ContainerName=beszel-agent
 Volume=%h/Appdata/Beszel/agent:/var/lib/beszel-agent:Z
 Volume=%t/podman/podman.sock:/run/user/%U/podman/podman.sock:ro,z
-Environment=TOKEN=
+Environment=TOKEN=""
 Environment=KEY=""
 Environment=DOCKER_HOST="unix:///run/user/1002/podman/podman.sock"
 Environment=LISTEN=0.0.0.0:45876
