@@ -1,4 +1,6 @@
 [Network]
-NetworkName=PyKMS
+NetworkName=rvskms
 NetworkDeleteOnStop=true
 Driver=bridge
+Internal=true
+Options=isolate=true
