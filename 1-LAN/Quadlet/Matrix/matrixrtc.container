@@ -1,0 +1,30 @@
+[Unit]
+Description=MatrixRTC JWT service
+AssertPathExists=%h/Environments/Matrix/.env
+Requires=Tuwunel.service
+Before=Tuwunel.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/element-hq/lk-jwt-service:latest
+ContainerName=lk-jwt-service
+EnvironmentFile=%h/Environments/Matrix/.env
+PublishPort=8081:8081/tcp
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=128M
+PidsLimit=128
+User=%U:%U
+Network=Caddy.network
+DNS=10.30.1.253
+# Proper loopback https://github.com/element-hq/lk-jwt-service/issues/122#issuecomment-4006686897
+AddHost=chat.localhost.domain.tld:169.254.1.2
