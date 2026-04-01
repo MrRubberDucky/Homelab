@@ -1,0 +1,31 @@
+[Unit]
+Description=PostgreSQL for Vaultwarden
+AssertPathIsDirectory=%h/Databases/Vaultwarden
+AssertPathExists=%h/Environments/Vaultwarden/.pgenv
+Requires=vaultwarden.service
+Before=vaultwarden.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/postgres:18.1-trixie
+ContainerName=postgres-vaultwarden
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/Vaultwarden/.pgenv
+Mount=type=bind,src=%h/Databases/Vaultwarden,dst=/var/lib/postgresql,U=true,Z
+Volume=Vaultwarden-DB:/var/run/postgresql:z
+Tmpfs=/dev/shm
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=none
+User=999:999
