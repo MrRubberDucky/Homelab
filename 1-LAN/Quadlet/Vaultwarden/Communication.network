@@ -1,4 +1,0 @@
-[Network]
-NetworkName=Communication
-NetworkDeleteOnStop=true
-Driver=bridge
