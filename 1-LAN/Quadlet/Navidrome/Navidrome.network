@@ -1,0 +1,5 @@
+[Network]
+NetworkName=Navidrome
+Driver=bridge
+Internal=true
+Options=isolate=true
