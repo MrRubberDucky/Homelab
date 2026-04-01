@@ -1,0 +1,43 @@
+# The only good usecase for LLMs: making a freaky chat bot. 
+# They're painfully unreliable otherwise. Yeah, waste of electricity but it kills some time when nothing cuts it anymore.
+[Unit]
+Description=LLM roleplay-intended Frontend
+AssertPathExists=%h/Configs/SillyTavern/config.yaml
+AssertPathIsDirectory=%h/Appdata/SillyTavern/config
+AssertPathIsDirectory=%h/Appdata/SillyTavern/data
+AssertPathIsDirectory=%h/Appdata/SillyTavern/plugins
+AssertPathIsDirectory=%h/Appdata/SillyTavern/extensions
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/sillytavern/sillytavern:latest
+ContainerName=sillytavern
+Entrypoint=tini
+Exec=-- node server.js --listen 0.0.0.0:9300
+Volume=%h/Configs/SillyTavern/config.yaml:/home/node/app/config/config.yaml:ro,Z
+Volume=%h/Appdata/SillyTavern/data:/home/node/app/data:Z,U
+Volume=%h/Appdata/SillyTavern/plugins:/home/node/app/plugins:Z,U
+Volume=%h/Appdata/SillyTavern/extensions:/home/node/app/public/scripts/extensions/third-party:Z,U
+Environment=NODE_ENV=production
+Environment=TINI_SUBREAPER=1
+Environment=FORCE_COLOR=1
+Environment=SILLYTAVERN_HEARTBEATINTERVAL=30
+HealthCmd=node src/healthcheck.js
+HealthInterval=30s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Caddy.network
+User=node:node
+UserNS=auto:size=1002
