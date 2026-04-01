@@ -1,9 +1,9 @@
 [Unit]
 Description=Vaultwarden
 AssertPathIsDirectory=%h/Appdata/Vaultwarden
-AssertPathExists=%h/Environments/.env
-Requires=Postgres-Vaultwarden.service
-Wants=Postgres-Vaultwarden.service
+AssertPathExists=%h/Environments/Vaultwarden/.env
+Requires=postgres-vaultwarden.service
+Wants=postgres-vaultwarden.service
 
 [Install]
 WantedBy=default-user.target
@@ -17,13 +17,13 @@ MemoryDenyWriteExecute=false
 Image=ghcr.io/dani-garcia/vaultwarden:latest
 ContainerName=vaultwarden
 Timezone=Europe/Warsaw
-EnvironmentFile=%h/Environments/.env
+EnvironmentFile=%h/Environments/Vaultwarden/.env
 Volume=%h/Appdata/Vaultwarden:/data:U,Z
+Volume=Vaultwarden-DB:/var/run/postgresql:z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=Caddy.network
-Network=Vaultwarden.network
 User=%U:%U
 UserNS=auto:size=1002
