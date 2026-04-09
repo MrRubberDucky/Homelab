@@ -1,0 +1,25 @@
+[Unit]
+Description=Tinyauth for Syncthing
+
+[Service]
+Restart=always
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=ghcr.io/steveiliop56/tinyauth:latest
+ContainerName=tinyauth
+EnvironmentFile=%h/Environments/TinyAuth/.env
+Volume=UDS-TINYAUTH-SYNCTHING:/run/tmp:U,z
+Volume=TINYAUTH-SYNCTHING-PERSIST:/data:U,Z
+Network=Caddy.network
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+AddHost=auth.localhost.domain.tld:169.254.1.2
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
