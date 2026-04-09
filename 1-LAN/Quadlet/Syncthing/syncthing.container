@@ -1,0 +1,31 @@
+[Unit]
+Description=Syncthing
+AssertPathIsDirectory=%h/Appdata/Syncthing
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/syncthing/syncthing:latest
+ContainerName=syncthing
+Mount=type=bind,src=%h/Appdata/Syncthing,destination=/var/syncthing,Z,U
+Volume=UDS-SYNCTHING:/run/tmp:U,z
+Environment=STGUIADDRESS=unix:///run/tmp/syncthing.sock
+PublishPort=22000:22000
+PublishPort=21027:21027/udp
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Syncthing.network
+User=%U:%U
+# Undocument one of the following:
+# 1. Permissive UNIX permissions (randomized namespace for container - world-writeable, set permission to 007 in GUI or config.xml)
+# UserNS=auto:size=1002
+# 2. Strict UNIX permissions on socket (honoring permissions for them - need to be %U:%U to use them, set permission to 700 or 750 in GUI or config.xml)
+# UserNS=keep-id:uid=%U,gid=%U,size=1002
