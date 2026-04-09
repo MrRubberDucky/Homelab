@@ -10,7 +10,7 @@ AssertPathIsDirectory=%h/Sockets/VoidAuth
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
-ExecStartPre=rm %h/Sockets/VoidAuth/voidauth.sock
+ExecStartPre=rm -f %h/Sockets/VoidAuth/voidauth.sock
 
 [Install]
 WantedBy=default.target
