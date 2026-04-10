@@ -25,7 +25,10 @@ Exec=run --config /app/configs/Caddyfile
 Volume=%h/Configs/Caddy/Caddyfile:/app/configs/Caddyfile:ro,Z
 Volume=%h/Configs/Caddy/Snippets:/app/configs/Snippets:ro,Z
 Volume=%h/Sites:/app/www/static:ro,Z
-Volume=%h/Sockets:/run/tmp:z
+Volume=%h/Sockets/VoidAuth:/run/tmp/VoidAuth:z
+Volume=UDS-NAVIDROME:/run/tmp/Navidrome:z
+Volume=UDS-SYNCTHING:/run/tmp/Syncthing:z
+Volume=UDS-TINYAUTH-SYNCTHING:/run/tmp/TinyAuthSG:z
 Volume=CADDY-LOGS:/app/logs:U,z
 Mount=type=bind,source=%h/Appdata/WebServer-Data,dst=/app/.local/share/caddy,U=true,Z
 Mount=type=bind,source=%h/Appdata/WebServer-Conf,dst=/app/.config/caddy,U=true,Z
