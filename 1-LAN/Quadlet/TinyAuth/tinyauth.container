@@ -4,7 +4,7 @@ Description=Tinyauth for Syncthing
 [Service]
 Restart=always
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=false
+MemoryDenyWriteExecute=true
 
 [Install]
 WantedBy=multi-user.target
