@@ -1,0 +1,6 @@
+[Network]
+NetworkName=Syncthing
+NetworkDeleteOnStop=true
+Driver=bridge
+Internal=true
+Options=isolate=true
