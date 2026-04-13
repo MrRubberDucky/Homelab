@@ -107,84 +107,8 @@ write_files:
       MaxSessions 3
       PrintMotd no
       PidFile /var/run/sshd.pid
-  # Custom containers.conf
-  # Do not set label, label_user on Debian as Debian uses AppArmor by default, not SELinux.
-  - path: /etc/containers/containers.conf
-    owner: root:root
-    permissions: '0644'
-    content: |
-      [containers]
-      cgroupns = "private"
-      container_name_as_hostname = true
-      default_sysctls = [
-          "net.ipv4.ping_group_range=0 0",
-          "net.ipv4.ip_unprivileged_port_start=80"
-      ]
-      dns_servers = [
-        "10.30.1.253"
-      ]
-      env_host = false
-      http_proxy = false
-      ipcns = "private"
-      keyring = true
-      label = false
-      label_users = false
-      netns = "private"
-      pidns = "private"
-      pids_limit = 2048
-      privileged = false
-      userns = "auto"
-      utsns = "private"
-      log_driver = "journald"
-      [network]
-      network_backend = "netavark"
-      netavark_plugin_dirs = [
-          "/usr/local/libexec/netavark",
-          "/usr/libexec/netavark",
-          "/usr/local/lib/netavark",
-          "/usr/lib/netavark",
-      ]
-      default_subnet = "10.71.0.0/16"
-      default_subnet_pools = [
-          {"base" = "10.72.0.0/24", "size" = 24},
-          {"base" = "10.72.1.0/24", "size" = 24},
-          {"base" = "10.72.2.0/24", "size" = 24},
-          {"base" = "10.72.3.0/24", "size" = 24},
-          {"base" = "10.72.4.0/24", "size" = 24},
-          {"base" = "10.72.5.0/24", "size" = 24},
-          {"base" = "10.72.6.0/24", "size" = 24},
-          {"base" = "10.72.7.0/24", "size" = 24},
-          {"base" = "10.72.8.0/24", "size" = 24},
-          {"base" = "10.72.9.0/24", "size" = 24},
-          {"base" = "10.72.10.0/24", "size" = 24},
-      ]
-      firewall_driver = "nftables"
-      default_rootless_network_cmd = "pasta"
-      [engine]
-      active_service = "production"
-      add_compression = ["zstd"]
-      compression_format = "zstd"
-      compression_level = 13
-      cgroup_manager = "systemd"
-      database_backend = "sqlite"
-      detach_keys = "ctrl-c,ctrl-q"
-      enable_port_reservation = false
-      events_logger = "journald"
-      healthcheck_events = false
-      image_volume_mode = "anonymous"
-  # Configure Podman storage.
-  - path: /etc/containers/storage.conf
-    owner: root:root
-    permissions: '0644'
-    content: |
-      [storage]
-      driver = "overlay"
-      runroot = "/run/0/containers/storage"
-      graphroot = "/usr/local/share/containers"
-      [storage.options.overlay]
-      ignore_chown_errors = "true"
   # Set NTS time sources.
-  - path: /etc/chrony/sources.d/rubberverse-nts.sources.inv
+  - path: /etc/chrony/sources.d/rubberverse-nts.sources
     owner: root:root
     permissions: '0600'
     content: |
@@ -194,11 +118,11 @@ write_files:
       server ptbtime2.ptb.de iburst nts
       server ptbtime3.ptb.de iburst nts
   # Home network uses NTP server on firewall
-  - path: /etc/chrony/sources.d/rubberverse-fw.sources
-    owner: root:root
-    permissions: '0600'
-    content: |
-      server 10.30.1.1 iburst
+  #- path: /etc/chrony/sources.d/rubberverse-fw.sources
+  #  owner: root:root
+  #  permissions: '0600'
+  #  content: |
+  #    server 10.30.1.1 iburst
   # Make chrony read from our configuration
   - path: /etc/chrony/chrony.conf
     owner: root:root
