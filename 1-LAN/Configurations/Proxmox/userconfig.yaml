@@ -55,7 +55,6 @@ packages:
   - buildah
   - cron
   - aardvark-dns
-  - fuse-overlayfs
   - netavark
   - nftables
   - passt
