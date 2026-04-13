@@ -54,6 +54,7 @@ packages:
   - podman
   - buildah
   - cron
+  - aardvark-dns
   - fuse-overlayfs
   - netavark
   - nftables
