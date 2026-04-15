@@ -1,0 +1,47 @@
+# Never dream too big. Two days to figure this out, I felt like I was going insane.
+# Full guide will be up on my blog eventually along with all the downsides that come from this approach.
+# This is >rootless< user service. Any directory listed here is owned by rootless user.
+[Unit]
+Description=Pelican Wings
+Requires=pelican-panel.service
+Requires=pelican-proxy.service
+After=pelican-panel.service
+After=pelican-proxy.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=ghcr.io/pelican-dev/wings:latest
+ContainerName=pelican-wings
+EnvironmentFile=%h/Environments/Pelican/.wingsenv
+# Map Podman user socket -> Docker socket inside container
+#Volume=%t/podman/podman.sock:/var/run/docker.sock:ro,z
+# Map users container storage
+Volume=%h/.local/share/containers/storage:/var/lib/docker/containers:z
+# Persistence (1:1 mapping)
+# chown them to your user on host via root
+# You can also modify /etc/pelican/pelican.yaml to change all these mounts. Probably will do that for my guide.
+Volume=/etc/pelican:/etc/pelican:z
+Volume=%h/Userdata/Pelican:%h/Userdata/Pelican:z
+Volume=/var/lib/pelican:/var/lib/pelican:z
+Volume=/var/log/pelican:/var/log/pelican:z
+Volume=/tmp/pelican:/tmp/pelican:z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=Wings.network
+# Internal Wings network is only for Socket proxy
+Network=Wings-Internal.network
+# SFTP
+PublishPort=2022:2022
+# Wings WebSocket connectivity
+PublishPort=8080:8080
+# Map and run as host user
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
