@@ -10,7 +10,7 @@ Before=pelican-wings.service
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=true
+MemoryDenyWriteExecute=false
 
 [Install]
 WantedBy=multi-user.target
