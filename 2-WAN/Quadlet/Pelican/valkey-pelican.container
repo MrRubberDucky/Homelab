@@ -1,0 +1,27 @@
+[Unit]
+Description=Valkey - Redis-compatible in-memory database
+Requires=pelican-panel.service
+Before=pelican-panel.service
+AssertPathIsDirectory=%h/Database/Valkey
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/valkey-io/valkey:latest
+ContainerName=valkey-pelican
+Volume=%h/Database/Valkey:/data:U,Z
+HealthCmd=redis-cli ping | grep PONG
+HealthInterval=30s
+HealthTimeout=3s
+HealthStartPeriod=10s
+HealthRetries=3
+DropCapability=ALL
+NoNewPrivileges=true
+Memory=256M
+ReadOnly=true
+Network=Pelican-Valkey.network
+User=999:999
+UserNS=auto:size=1000
