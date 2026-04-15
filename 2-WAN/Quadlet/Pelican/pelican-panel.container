@@ -1,0 +1,35 @@
+[Unit]
+Description=Pelican Panel
+Requires=postgres-pelican.service
+Requires=valkey-pelican.service
+Requires=pelican-wings.service
+After=postgres-pelican.service
+After=valkey-pelican.service
+Before=pelican-wings.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=ghcr.io/pelican-dev/panel:latest
+ContainerName=pelican-panel
+EnvironmentFile=%h/Environments/Pelican/.panelenv
+Volume=%h/Configs/Caddy/Pelican.Caddyfile:/etc/caddy/Caddyfile:ro,Z
+Volume=%h/Appdata/Pelican/data:/pelican-data:U,Z
+# Composer vendor + log storage persist
+Volume=%h/Appdata/Pelican/logs:/var/www/html/storage/logs:U,Z
+Volume=%h/Appdata/Pelican/vendor:/var/www/html/vendor:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=Pelican.network
+Network=Pelican-DB.network
+PublishPort=9102:9102
+# www-data user inside container
+User=82:82
+UserNS=auto:size=1002
