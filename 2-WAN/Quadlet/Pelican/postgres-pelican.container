@@ -1,0 +1,32 @@
+[Unit]
+Description=PostgreSQL for Pelican Panel
+Requires=pelican-panel.service
+Requires=pelican-wings.service
+Before=pelican-panel.service
+Before=pelican-wings.service
+AssertPathExists=%h/Environments/Pelican/.pgenv
+AssertPathIsDirectory=%h/Databases/Pelican
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/docker/library/postgres:18.1-trixie
+ContainerName=postgres-pelican
+Timezone=Europe/Warsaw
+EnvironmentFile=%h/Environments/Pelican/.pgenv
+Mount=type=bind,src=%h/Databases/Pelican,dst=/var/lib/postgresql,U=true,Z
+Tmpfs=/dev/shm
+HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Pelican-DB.network
+User=999:999
