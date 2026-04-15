@@ -1,0 +1,26 @@
+# Probably pointless but it makes me feel better than mounting whole socket and having it fire off whatever it wants.
+[Unit]
+Description=Socket Proxy for Pelican Wings
+Requires=pelican-wings.service
+Before=pelican-wings.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
+
+[Container]
+Image=ghcr.io/wollomatic/socket-proxy:1
+ContainerName=pelican-socket-proxy
+EnvironmentFile=%h/Environments/Pelican/.proxyenv
+Volume=%t/podman/podman.sock:/var/run/docker.sock:ro,z
+DropCapability=ALL
+NoNewPrivileges=true
+ReadOnly=true
+Memory=64M
+Network=Wings-Internal.network
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
