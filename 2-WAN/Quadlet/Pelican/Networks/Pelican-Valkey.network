@@ -1,0 +1,4 @@
+[Network]
+NetworkName=Pelican-Valkey
+Internal=true
+Options=isolate=true
