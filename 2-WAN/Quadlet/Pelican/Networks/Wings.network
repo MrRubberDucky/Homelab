@@ -1,0 +1,4 @@
+[Network]
+NetworkName=Wings
+Options=isolate=true
+Subnet=172.50.0.0/16
