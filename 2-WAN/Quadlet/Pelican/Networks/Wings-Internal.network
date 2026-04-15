@@ -1,0 +1,4 @@
+[Network]
+NetworkName=Wings-Internal
+Internal=true
+Options=isolate=true
