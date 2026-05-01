@@ -9,7 +9,7 @@ SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 [Container]
 Image=ghcr.io/wollomatic/socket-proxy:1
