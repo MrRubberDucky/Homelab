@@ -1,0 +1,21 @@
+# ~/Configs/Cinny/config.json
+{
+  "defaultHomeserver": 0,
+  "homeserverList": ["homeserver.tld"],
+  "allowCustomHomeservers": false,
+  "featuredCommunities": {
+    "openAsDefault": false,
+    "spaces": [
+      "#published-room:homeserver.tld"
+    ],
+    "rooms": [
+      "#anons:homeserver.tld",
+      "#general:homeserver.tld",
+    ],
+    "servers": ["homeserver.tld"]
+  },
+  "hashRouter": {
+    "enabled": false,
+    "basename": "/"
+  }
+}
