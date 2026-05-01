@@ -1,7 +1,7 @@
 [Unit]
 Description=Beszel Hub
-Requires=agent.service
-Before=agent.service
+Requires=beszel-agent.service
+Before=beszel-agent.service
 
 [Service]
 Restart=on-failure
@@ -15,13 +15,13 @@ WantedBy=default.target
 Image=ghcr.io/henrygd/beszel/beszel:latest
 ContainerName=beszel
 Environment=APP_URL=https://beszel.domain.tld
-Volume=BESZEL-SOCKET:/beszel_socket:z
-Volume=%h/Appdata/Beszel/data:/beszel_data:Z
+Volume=%h/Appdata/Beszel/data:/beszel_data:U,Z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Network=Caddy.network
+Network=Beszel.network
 AddHost=auth.domain.tld;beszel.domain.tld:169.254.1.2
-User=%U:%U
-UserNS=keep-id:uid=%U,gid=%U,size=1002
+Memory=64M
+User=1100:1100
+UserNS=auto:size=1101
