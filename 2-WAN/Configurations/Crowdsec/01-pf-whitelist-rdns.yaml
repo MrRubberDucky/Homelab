@@ -1,7 +1,0 @@
-# /etc/crowdsec/postoverflows/s01-whitelist/01-whitelist-rdns.yaml
-name: whitelist_rdns
-description: "Whitelist events from my dynamic IP"
-whitelist:
-  reason: "My dynamic IP"
-  expression:
-      - evt.Overflow.Alert.Source.IP in LookupHost("example.com")
