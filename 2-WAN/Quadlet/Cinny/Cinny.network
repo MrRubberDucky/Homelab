@@ -1,0 +1,4 @@
+[Network]
+NetworkDeleteOnStop=true
+NetworkName=Cinny
+Options=isolate=true
