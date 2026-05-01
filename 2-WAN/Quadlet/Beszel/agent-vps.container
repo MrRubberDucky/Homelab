@@ -1,6 +1,7 @@
-# VPS
 [Unit]
 Description=Beszel Agent
+Requires=socket-proxy.service
+After=socket-proxy.service
 
 [Service]
 Restart=on-failure
@@ -14,15 +15,13 @@ WantedBy=default.target
 Image=ghcr.io/henrygd/beszel/beszel-agent:latest
 ContainerName=beszel-agent
 Volume=%h/Appdata/Beszel/agent:/var/lib/beszel-agent:Z
-Volume=%t/podman/podman.sock:/run/user/%U/podman/podman.sock:ro,z
-Environment=TOKEN=""
-Environment=KEY=""
-Environment=DOCKER_HOST="unix:///run/user/1002/podman/podman.sock"
-Environment=LISTEN=0.0.0.0:45876
+Volume=PROXY_BESZEL:/run/tmp:z
+EnvironmentFile=%h/Environments/Beszel/.env
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=host
-User=%U:%U
-UserNS=keep-id:uid=%U,gid=%U,size=1003
+Memory=32M
+User=1100:1100
+UserNS=auto:size=1101
