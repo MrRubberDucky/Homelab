@@ -1,0 +1,26 @@
+[Unit]
+Description=Cinny - Yet another Matrix client
+AssertPathExists=%h/Configs/Cinny/config.json
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/cinnyapp/cinny:latest
+ContainerName=cinny
+Volume=%h/Configs/Cinny/config.json:/app/config.json:ro,Z
+Volume=%h/Configs/Cinny/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+Volume=NGINX-CACHE:/var/cache/nginx:U,Z
+Network=Cinny.network
+PublishPort=5000:5000
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+UserNS=auto:size=1101
