@@ -25,3 +25,5 @@ Memory=64M
 Network=none
 User=%U:%U
 UserNS=keep-id:uid=%U,gid=%U,size=1002
+# needed for some distros with stricter SELinux rules to allow container process access to users' podman.sock
+# SecurityLabelType=unconfined_t
