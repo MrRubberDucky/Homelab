@@ -1,5 +1,5 @@
 [Unit]
-Description=Beszel Agent for DMZ
+Description=Beszel Agent
 Requires=socket-proxy.service
 After=socket-proxy.service
 
