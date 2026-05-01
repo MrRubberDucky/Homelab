@@ -3,7 +3,9 @@ Description=Beszel Agent
 AssertPathIsDirectory=%h/Appdata/Beszel/agent
 AssertPathExists=%t/podman/podman.sock
 Requires=beszel.service
+Requires=socket-proxy.service
 After=beszel.service
+After=socket-proxy.service
 
 [Service]
 Restart=on-failure
@@ -16,19 +18,15 @@ WantedBy=default.target
 [Container]
 Image=ghcr.io/henrygd/beszel/beszel-agent:0
 ContainerName=beszel-agent
-Volume=BESZEL-SOCKET:/beszel_socket:z
+EnvironmentFile=%h/Environments/Beszel/.env
 Volume=%h/Appdata/Beszel/agent:/var/lib/beszel-agent:Z
-Volume=%t/podman/podman.sock:/run/user/%U/podman/podman.sock:ro,z
-Volume=/media/Music:/extra-filesystems/sdb1__Music:ro
-Environment=TOKEN=""
-Environment=KEY=""
-Environment=DOCKER_HOST="unix:///run/user/1001/podman/podman.sock"
-Environment=LISTEN=/beszel_socket/beszel.sock
+Volume=/media/Music:/extra-filesystems/sdb1___Music:ro
+Volume=PROXY_BESZEL:/run/tmp:z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=host
 DNS=10.30.1.253
-User=%U:%U
-UserNS=keep-id:uid=%U,gid=%U,size=1002
+User=1100:1100
+UserNS=auto:size=1101
