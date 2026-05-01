@@ -1,0 +1,5 @@
+[Network]
+NetworkName=Beszel
+Driver=bridge
+Internal=false
+Options=isolate=true
