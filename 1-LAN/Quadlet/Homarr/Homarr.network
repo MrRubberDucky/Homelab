@@ -1,0 +1,5 @@
+[Network]
+NetworkName=Homarr
+Driver=bridge
+Internal=false
+Options=isolate=true
