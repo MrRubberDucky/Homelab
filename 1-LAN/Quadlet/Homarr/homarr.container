@@ -1,0 +1,37 @@
+[Unit]
+Description=Homarr
+Requires=homarr-proxy.container
+After=homarr-proxy.container
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/homarr-labs/homarr:v1.60.1-beta.1
+ContainerName=homarr
+Entrypoint=sh
+Exec=run.sh
+EnvironmentFile=%h/Environments/Homarr/.env
+# Run container without this mount once, then do following:
+# mkdir -p ~/Appdata/Homarr-nginx; cd ~/Appdata/Homarr-nginx
+# podman cp homarr:/etc/nginx .
+# mkdir -p templates
+# cp ~/nginx.conf ./templates/
+# This will properly fill in ${HOSTNAME} without permission errors
+Volume=%h/Appdata/Homarr-nginx:/etc/nginx:U,Z
+Volume=%h/Appdata/Homarr:/appdata:U,Z
+Volume=PROXY_HOMARR:/run/tmp:z
+AddHost=auth.localhost.domain.tld:169.254.1.2
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=Homarr.network
+# Set to your local DNS server
+DNS=10.30.1.253
+User=1100:1100
+UserNS=auto:size=1101
