@@ -1,0 +1,27 @@
+[Unit]
+Description=Socket Proxy for Homarr
+Requires=homarr.service
+Before=homarr.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/wollomatic/socket-proxy:1
+ContainerName=homarr-socket-proxy
+EnvironmentFile=%h/Environments/Homarr/.proxy
+Environment=SP_SOCKETPATH=%t/podman/podman.sock
+Volume=%t/podman/podman.sock:%t/podman/podman.sock:ro,z
+Volume=PROXY_HOMARR:/run/tmp:U,z
+DropCapability=ALL
+NoNewPrivileges=true
+ReadOnly=true
+Memory=64M
+Network=none
+User=%U:%U
+UserNS=keep-id:uid=%U,gid=%U,size=1002
