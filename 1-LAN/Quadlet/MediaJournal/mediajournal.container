@@ -1,0 +1,29 @@
+[Unit]
+Description=Media Journal - Media tracker
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/mihail-pop/media-journal:latest
+ContainerName=media-journal
+Exec=sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8080 --noreload"
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=CSRF_TRUSTED_ORIGINS=https://track.domain.tld
+Volume=%h/Appdata/MediaJournal/media:/app/media:U,Z
+Volume=%h/Appdata/MediaJournal/data:/app/data:U,Z
+Volume=MJ-STATIC:/app/staticfiles:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=256M
+User=1100:1100
+UserNS=auto:size=1101
+Network=MediaJournal.network
