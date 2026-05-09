@@ -12,7 +12,8 @@ WantedBy=default.target
 [Container]
 Image=ghcr.io/mihail-pop/media-journal:latest
 ContainerName=media-journal
-Exec=sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8080 --noreload"
+Entrypoint=sh
+Exec=-c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8080 --noreload"
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Environment=CSRF_TRUSTED_ORIGINS=https://track.domain.tld
