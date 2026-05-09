@@ -1,0 +1,30 @@
+[Unit]
+Description=Tududi - Day planner, todo app with notes and project planning
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+# Release Canditate build for OIDC support, :latest tag doesn't have it.
+Image=docker.io/chrisvel/tududi:1.1.0-rc.2
+ContainerName=tududi
+# Skips rootful init via su-exec
+Entrypoint=dumb-init
+Exec=-- /app/backend/cmd/start.sh
+Volume=%h/Databases/Tududi:/app/backend/db:U,Z
+Volume=%h/Userdata/Tududi:/app/backend/uploads:U,Z
+EnvironmentFile=%h/Environments/Tududi/.env
+Network=Tududi.network
+AddHost=auth.domain.tld:169.254.1.2
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# app:app user inside container, still running as our own.
+User=1100:1100
+UserNS=auto:size=1101
