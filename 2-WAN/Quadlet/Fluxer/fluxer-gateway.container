@@ -1,0 +1,37 @@
+[Unit]
+Description=Fluxer Gateway Service
+Requires=fluxer-nats.service
+Requires=fluxer-valkey.service
+After=fluxer-nats.service
+After=fluxer-valkey.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-gateway:latest
+ContainerName=fluxer-gateway
+Timezone=Europe/Warsaw
+Entrypoint=/bin/sh
+Exec=-c "/opt/fluxer_gateway/bin/fluxer_gateway foreground"
+EnvironmentFile=/srv/fluxer/.env
+# Needed to fix error with ownership (for some reason)
+Volume=fluxer-gateway:/opt/fluxer_gateway/releases:U,Z
+# Bypassing main launch through script so need to set them manually
+Environment=FLUXER_GATEWAY_PORT=8080
+Environment=FLUXER_GATEWAY_LOGGER_LEVEL=info
+Environment=FLUXER_ERLANG_NODE_NAME=fluxer_gateway@chat.yourdomain.tld
+Environment=FLUXER_ERLANG_COOKIE=Run this in terminal and replace this: openssl rand -hex 32
+Environment=RELX_REPLACE_OS_VARS=false
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=1Gateway.network
+Network=0API.network
+Network=8Valkey.network
+Network=9Nats.network

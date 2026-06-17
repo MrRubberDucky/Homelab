@@ -1,0 +1,34 @@
+[Unit]
+Description=Fluxer Admin Panel
+Requires=fluxer-api.container
+After=fluxer-api.container
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-admin:latest
+ContainerName=fluxer-admin-panel
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_ADMIN_HOST=0.0.0.0
+Environment=FLUXER_ADMIN_PORT=8080
+Environment=FLUXER_ADMIN_BASE_PATH=/admin
+Environment=FLUXER_API_ENDPOINT=http://fluxer-api:8080
+# Must be public URLs or resolvable internal URLs
+Environment=FLUXER_ADMIN_ENDPOINT=https://chat.yourdomain.tld/admin
+Environment=FLUXER_APP_ENDPOINT=https://chat.yourdomain.tld
+Environment=FLUXER_MEDIA_ENDPOINT=https://chat.yourdomain.tld/media
+Environment=FLUXER_STATIC_CDN_ENDPOINT=https://chat.yourdomain.tld
+Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=https://chat.yourdomain.tld/admin/oauth2_callback
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=0Admin.network
+Network=0API.network
+Network=7Postgres.network

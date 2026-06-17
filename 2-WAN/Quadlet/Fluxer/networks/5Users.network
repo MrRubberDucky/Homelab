@@ -1,0 +1,6 @@
+[Network]
+NetworkName=fluxer-users
+NetworkDeleteOnStop=false
+Driver=bridge
+Internal=false
+Options=isolate=true

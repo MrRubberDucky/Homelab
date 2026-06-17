@@ -1,0 +1,24 @@
+[Unit]
+Description=Fluxer Snowflakes Shard
+Requires=fluxer-nats.service
+After=fluxer-nats.container
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-snowflakes:latest
+ContainerName=fluxer-snowflakes-shard
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=shard
+Environment=FLUXER_SVC_SHARD_ID=0
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=5Snowflakes.network

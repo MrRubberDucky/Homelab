@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer NATS
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=public.ecr.aws/docker/library/nats:2.14
+ContainerName=fluxer-nats
+Timezone=Europe/Warsaw
+Exec=-js -sd /data -m 8222
+EnvironmentFile=/srv/fluxer/.env
+Volume=/srv/fluxer/nats:/data:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+User=1100:1100
+Network=9Nats.network
+Network=5Snowflakes.network
+Network=5Unfurl.network
+Network=5Messages.network
+Network=5Users.network

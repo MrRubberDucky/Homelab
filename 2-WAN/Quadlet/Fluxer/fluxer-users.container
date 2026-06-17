@@ -1,0 +1,23 @@
+[Unit]
+Description=Fluxer Users Router
+Requires=fluxer-nats.service
+After=fluxer-nats.container
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-users:latest
+ContainerName=fluxer-users
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=5Users.network

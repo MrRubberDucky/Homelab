@@ -1,0 +1,6 @@
+[Network]
+NetworkName=fluxer-static-proxy
+NetworkDeleteOnStop=false
+Driver=bridge
+Internal=true
+Options=isolate=true

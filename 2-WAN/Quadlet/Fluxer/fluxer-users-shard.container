@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer Users Shard
+Requires=fluxer-nats.service
+Requires=fluxer-postgres.service
+After=fluxer-nats.service
+After=fluxer-postgres.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-users:latest
+ContainerName=fluxer-users-shard
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=shard
+Environment=FLUXER_SVC_SHARD_ID=0
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=5Users.network
+Network=7Postgres.network
