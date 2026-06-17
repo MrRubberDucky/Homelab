@@ -1,0 +1,47 @@
+{
+  servers {
+	# In theory don't really need to put IP addresses from your VPS
+	# But I do it anyway, idk feels better that way.
+    trusted_proxies static private_ranges vps_ipv4/32 vps_ipv6/128
+  }
+# Uncomment this to have more verbose logging which helps
+# with X-Forwarded-For header debugging
+#  log {
+#     level DEBUG
+#  }
+}
+{$FLUXER_CADDY_SITE_ADDRESS} {
+        encode zstd gzip
+        handle_path /api/* {
+                reverse_proxy fluxer-api:8080
+        }
+        handle /gateway {
+                rewrite * /
+                reverse_proxy fluxer-gateway:8080
+        }
+        handle_path /gateway/* {
+                reverse_proxy fluxer-gateway:8080
+        }
+        handle_path /media/* {
+                reverse_proxy fluxer-media-proxy:8080
+        }
+        handle /admin {
+                rewrite * /
+                reverse_proxy fluxer-admin-panel:8080
+        }
+        handle_path /admin/* {
+                reverse_proxy fluxer-admin-panel:8080
+        }
+        @staticAssets path /fonts/* /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /embeds/*
+        handle @staticAssets {
+                reverse_proxy fluxer-static-proxy:8080
+        }
+        handle {
+                reverse_proxy fluxer-app-proxy:8080
+        }
+}
+:8088 {
+        handle_path /api/* {
+                reverse_proxy fluxer-api:8080
+        }
+}
