@@ -25,6 +25,5 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# Assign to fluxer-stakc pod
 Network=7Postgres.network
 User=999:999
