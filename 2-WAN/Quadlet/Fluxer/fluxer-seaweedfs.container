@@ -18,7 +18,8 @@ Image=docker.io/chrislusf/seaweedfs:4.34
 ContainerName=fluxer-seaweedfs
 Timezone=Europe/Warsaw
 Entrypoint=/usr/bin/weed
-Exec=-logtostderr=true server -s3 -dir=/data
+# ~60GB-70GB = 30GB per volume
+Exec=-logtostderr=true server -s3 -dir=/data -volume.max=2
 Volume=/srv/fluxer/seaweedfs:/data:U,Z
 AutoUpdate=registry
 NoNewPrivileges=true
