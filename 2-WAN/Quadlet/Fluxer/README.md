@@ -72,7 +72,7 @@ systemctl --user daemon-reload
 8. Start stack
 
 ```bash
-systemctl --user start fluxer-api fluxer-nats fluxer-caddy fluxer-seaweeds
+systemctl --user start fluxer-api fluxer-nats fluxer-caddy fluxer-seaweedfs
 ```
 
 If I didn't screw anything up, whole stack should launch.
