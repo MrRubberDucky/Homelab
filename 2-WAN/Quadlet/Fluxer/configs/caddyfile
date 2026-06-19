@@ -29,6 +29,9 @@
                 rewrite * /
                 reverse_proxy fluxer-admin-panel:8080
         }
+		handle /.well-known/* {
+		    	reverse_proxy fluxer-api:8080
+		}
         handle_path /admin/* {
                 reverse_proxy fluxer-admin-panel:8080
         }
