@@ -21,6 +21,8 @@ Environment=FLUXER_APP_PROXY_HOST=0.0.0.0
 Environment=FLUXER_APP_PROXY_PORT=8080
 Environment=FLUXER_TRUST_CLIENT_IP_HEADER=true
 Environment=FLUXER_CLIENT_IP_HEADER_NAME=x-forwarded-for
+# Needs to be reverse proxied intenal path to API
+# See configs/caddyfile
 Environment=DISCOVERY_UPSTREAM_URL=http://fluxer-caddy:8088/api/.well-known/fluxer
 Environment=PUBLIC_BOOTSTRAP_API_ENDPOINT=/api
 AutoUpdate=registry
