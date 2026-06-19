@@ -17,6 +17,8 @@ ContainerName=fluxer-admin-panel
 Timezone=Europe/Warsaw
 EnvironmentFile=/srv/fluxer/.env
 Environment=FLUXER_ADMIN_HOST=0.0.0.0
+# Needs to match with /srv/fluxer/.env
+# Otherwise redirect to admin endpoint will fail after authorization
 Environment=FLUXER_ADMIN_PORT=8080
 Environment=FLUXER_ADMIN_BASE_PATH=/admin
 Environment=FLUXER_API_ENDPOINT=http://fluxer-api:8080
