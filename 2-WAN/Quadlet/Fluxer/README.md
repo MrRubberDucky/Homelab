@@ -5,6 +5,7 @@ Fluxer is "a free and open source instant messaging and VoIP chat app built for 
 - Podman v5.8+ / or updated quadlet-system-generator
 - systemd
 - Files stored under `/srv` (you can change the volume binds though if you wish)
+- Enough available suid/sgid ranges
 
 ## Explanation
 
