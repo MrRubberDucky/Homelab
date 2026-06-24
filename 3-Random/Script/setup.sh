@@ -49,7 +49,7 @@ if [[ "$setup_stage0" != "true" ]]; then
 fi
 if [[ "$setup_stage1" != "true" ]]; then
   echo "Setting up initial packages"
-  install_if_missing qemu-guest-agent curl htop nftables uidmap chrony dbus-user-session unattended-upgrades cron patch wine
+  install_if_missing qemu-guest-agent curl htop nftables uidmap chrony dbus-user-session unattended-upgrades cron patch wine wine32:i386
   set_flag setup_stage1 "$CONFIG"
 fi
 if [[ "$setup_stage2" != "true" ]]; then
