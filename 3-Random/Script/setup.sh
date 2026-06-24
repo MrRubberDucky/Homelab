@@ -67,7 +67,7 @@ if [[ "$setup_stage2" != "true" ]]; then
     curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/50-podman.pref -o /etc/apt/preferences.d/50-podman.pref
   fi
   if [ ! -f "/etc/apt/preferences.d/99-block-alvistack.pref" ]; then
-    curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/99-block-alvistack.pref -o /etc/apt/preferences.d/99-block-alvistack.conf
+    curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/99-block-alvistack.pref -o /etc/apt/preferences.d/99-block-alvistack.pref
   fi
   echo "Triggering apt update"
   apt update
@@ -113,6 +113,12 @@ if ! getent passwd "overseer" >/dev/null; then
   chmod 0700 /home/overseer/.ssh
   chmod 0600 /home/overseer/.ssh/authorized_keys
 fi
+if [ ! -d "/srv/rootless" ]; then
+  mkdir -p /srv/rootless
+  chown -R overseer:overseer /srv/rootless
+  chmod 0700 /srv/rootless
+  loginctl enable-linger overseer
+fi
 if [[ "$setup_stage6" != "true" ]]; then
   echo "Modifying subuid and subgids manually"
   rm /etc/subuid /etc/subgid
@@ -126,9 +132,8 @@ if [ ! -f "/etc/sysctl.d/30-rubberverse.conf" ]; then
 fi
 if [[ "$setup_stage7" != "true" ]]; then
   echo "Enabling some services"
-  systemctl enable --global dbus.service
   systemctl enable fstrim.timer
-  systemctl enable chronyd
+  systemctl enable chrony
   systemctl enable unattended-upgrades
   set_flag setup_stage7 "$CONFIG"
 fi
@@ -137,9 +142,9 @@ if [[ "$setup_stage8" != "true" ]]; then
   cd /root
   curl -fsSL https://github.com/ovh/debian-cis/releases/download/latest/cis-hardening.deb -o cis-hardening.deb
   dpkg -i ./cis-hardening.deb
-  /opt/cis-hardening/bin/hardening.sh --set-hardening-level 2
-  /opt/cis-hardening/bin/hardening.sh --apply
-  /opt/cis-hardening/bin/hardening.sh --audit
+  /opt/cis-hardening/bin/hardening.sh --set-hardening-level 2 --allow-unsupported-distribution
+  /opt/cis-hardening/bin/hardening.sh --apply --allow-unsupported-distribution
+  /opt/cis-hardening/bin/hardening.sh --audit --allow-unsupported-distribution
   dpkg -r cis-hardening
   rm ./cis-hardening.deb
   set_flag setup_stage8 "$CONFIG"
@@ -161,5 +166,6 @@ if ! getent passwd "steamrunner" >/dev/null; then
   echo "Configuring SteamCMD user"
   useradd --system steamrunner
   chown -R steamrunner:steamrunner /srv/steamcmd
+  loginctl enable-linger steamrunner
 fi
 echo "Ready. Reboot to kick in all the changes manually."
