@@ -1,0 +1,10 @@
+[Unit]
+Description=Xvfb headless fake X server
+After=network.target
+
+[Service]
+User=steamrunner
+ExecStart=/usr/bin/Xvfb :0 -screen 0 1024x768x16
+
+[Install]
+WantedBy=multi=user.target
