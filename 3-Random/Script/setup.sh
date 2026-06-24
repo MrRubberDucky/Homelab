@@ -49,7 +49,7 @@ if [[ "$setup_stage0" != "true" ]]; then
 fi
 if [[ "$setup_stage1" != "true" ]]; then
   echo "Setting up initial packages"
-  install_if_missing qemu-guest-agent curl htop nftables uidmap chrony dbus-user-session unattended-upgrades cron patch wine wine32:i386
+  install_if_missing qemu-guest-agent curl htop nftables uidmap chrony dbus-user-session unattended-upgrades cron patch wine
   set_flag setup_stage1 "$CONFIG"
 fi
 if [[ "$setup_stage2" != "true" ]]; then
@@ -148,7 +148,7 @@ echo "SteamCMD dependencies"
 if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
   dpkg --add-architecture i386
   apt update
-  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
+  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6 wine32:i386
   mkdir -p /srv/steamcmd
   echo "Installing SteamCMD"
   curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
