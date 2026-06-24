@@ -21,6 +21,8 @@ setup_stage5=false
 setup_stage6=false
 setup_stage7=false
 setup_stage8=false
+setup_stage9=false
+setup_stage10=false
 EOF
 fi
 . "$CONFIG"
@@ -49,7 +51,7 @@ if [[ "$setup_stage0" != "true" ]]; then
 fi
 if [[ "$setup_stage1" != "true" ]]; then
   echo "Setting up initial packages"
-  install_if_missing qemu-guest-agent curl htop nftables uidmap chrony dbus-user-session unattended-upgrades cron patch wine
+  install_if_missing qemu-guest-agent curl htop nftables gpg chrony dbus-user-session unattended-upgrades cron patch
   set_flag setup_stage1 "$CONFIG"
 fi
 if [[ "$setup_stage2" != "true" ]]; then
@@ -137,6 +139,7 @@ if [[ "$setup_stage7" != "true" ]]; then
   systemctl enable unattended-upgrades
   set_flag setup_stage7 "$CONFIG"
 fi
+echo "cis-hardening"
 if [[ "$setup_stage8" != "true" ]]; then
   echo "Grabbing cis-hardening from ovh/debian-cis"
   cd /root
@@ -149,11 +152,19 @@ if [[ "$setup_stage8" != "true" ]]; then
   rm ./cis-hardening.deb
   set_flag setup_stage8 "$CONFIG"
 fi
+echo "WineHQ Wine-Development Installation"
+if [[ "$setup_stage9" != "true" ]]; then
+  dpkg --add-architecture i386
+  curl -fsSL https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+  wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
+  apt update
+  apt install --install-recommends -y lib32gcc-s1 lib32stdc++6 winehq-devel
+  set_flag setup_stage9 "$CONFIG"
+fi
 echo "SteamCMD dependencies"
 if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
-  dpkg --add-architecture i386
   apt update
-  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6 wine32:i386
+  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
   mkdir -p /srv/steamcmd
   echo "Installing SteamCMD"
   curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
@@ -167,5 +178,12 @@ if ! getent passwd "steamrunner" >/dev/null; then
   useradd --system steamrunner
   chown -R steamrunner:steamrunner /srv/steamcmd
   loginctl enable-linger steamrunner
+fi
+echo "Clean up"
+if [[ "$setup_stage10" != "true" ]]; then
+  apt purge -y gpg
+  apt autoremove -y
+  apt autoclean -y
+  set_flag setup_stage10 "$CONFIG"
 fi
 echo "Ready. Reboot to kick in all the changes manually."
