@@ -1,0 +1,44 @@
+#cloud-config
+output:
+  all: "| tee -a /var/log/cloud-init-output.log"
+
+preserve_hostname: false
+manage_etc_hosts: true
+timezone: Europe/Warsaw
+
+# SSH settings, in grand scheme of things completely useless.
+ssh_pwauth: false
+disable_root: true
+
+# Users to create
+users:
+  - name: ducky
+    groups: sudo
+    shell: /bin/bash
+    sudo: 
+      - ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    ssh_authorized_keys:
+      - <redacted>
+      - <redacted>
+  - name: overseer
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - <redacted>
+      - <redacted>
+
+packages:
+    - curl
+
+package_update: true
+package_upgrade: true
+growpart:
+    mode: auto
+    devices: ['/dev/sda1']
+resize_rootfs: true
+
+runcmd:
+    - curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/setup.sh -o /root/setup.sh
+    - chmod +x /root/setup.sh
+    - /root/setup.sh 
