@@ -1,0 +1,11 @@
+Unattended-Upgrade::Origins-Pattern {
+  "origin=Debian,codename=${distro_codename}-security,label=Debian-Security";
+  "origin=Debian,codename=${distro_codename},label=Debian-Security";
+  "origin=Debian,codename=${distro_codename}-updates";
+  "origin=Debian,codename=${distro_codename}";
+};
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+Unattended-Upgrade::Automatic-Reboot-WithUsers "false";
+Unattended-Upgrade::MinimalSteps "true";
