@@ -168,8 +168,6 @@ if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
   mkdir -p /srv/steamcmd
   echo "Installing SteamCMD"
   curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
-  echo "Type quit after it's done"
-  sleep 2
   cd /srv/steamcmd
   ./steamcmd.sh +quit
 fi
