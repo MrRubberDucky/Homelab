@@ -1,6 +1,0 @@
-[Network]
-NetworkName=fluxer-valkey
-NetworkDeleteOnStop=false
-Driver=bridge
-Internal=true
-Options=isolate=true

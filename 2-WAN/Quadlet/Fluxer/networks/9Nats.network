@@ -1,6 +1,0 @@
-[Network]
-NetworkName=fluxer-nats
-NetworkDeleteOnStop=false
-Driver=bridge
-Internal=false
-Options=isolate=true

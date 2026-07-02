@@ -1,6 +1,0 @@
-[Network]
-NetworkName=fluxer-api
-NetworkDeleteOnStop=false
-Driver=bridge
-Internal=false
-Options=isolate=true

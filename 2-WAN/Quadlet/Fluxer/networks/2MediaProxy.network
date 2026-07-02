@@ -1,6 +1,0 @@
-[Network]
-NetworkName=fluxer-media-proxy
-NetworkDeleteOnStop=false
-Driver=bridge
-Internal=false
-Options=isolate=true
