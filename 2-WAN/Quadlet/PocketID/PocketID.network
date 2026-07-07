@@ -2,3 +2,4 @@
 NetworkName=PocketID
 NetworkDeleteOnStop=true
 Driver=bridge
+Options=isolate=true
