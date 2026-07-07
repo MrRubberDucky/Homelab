@@ -1,0 +1,34 @@
+{
+  "defaultHomeserver": 0,
+  "homeserverList": ["rubberverse.xyz"],
+  "allowCustomHomeservers": false,
+  "elementCallUrl": null,
+
+  "disableAccountSwitcher": true,
+  "hideUsernamePasswordFields": true,
+
+  "pushNotificationDetails": {
+    "pushNotifyUrl": "https://sygnal.rubberverse.xyz/_matrix/push/v1/notify",
+    "vapidPublicKey": "BMnQfdS5lblZN-JBFHV4ZuiQIRhhb49K2SmvfdQq1WXLFi7hSCrZujrs4YS5f25b5xEW8OXx6MpXN_0MaLDdVi8",
+    "webPushAppID": "talk.rubberverse.xyz"
+  },
+
+  "themeCatalogBaseUrl": "https://raw.githubusercontent.com/SableClient/themes/main/",
+  "themeCatalogApprovedHostPrefixes": ["https://raw.githubusercontent.com/SableClient/themes/"],
+
+  "slidingSync": {
+    "enabled": false
+  },
+
+  "featuredCommunities": {
+    "openAsDefault": false,
+    "spaces": ["#quackers-of-rubberverse:rubberverse.xyz"],
+    "rooms": [""],
+    "servers": ["rubberverse.xyz"]
+  },
+
+  "hashRouter": {
+    "enabled": false,
+    "basename": "/"
+  }
+}
