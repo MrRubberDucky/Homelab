@@ -1,0 +1,25 @@
+[Unit]
+Description=Sygnal Push Gateway
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=docker.io/matrixdotorg/sygnal:latest
+ContainerName=sygnal
+Exec=--config-path=/sygnal.yaml
+Volume=%h/Configs/Sygnal/sygnal.yaml:/sygnal.yaml:ro,Z
+Volume=%h/Configs/Sygnal/sygnal_private_key.pem:/data/private_key.pem:ro,U,Z
+Volume=sygnal_data:/data:U,Z
+PublishPort=10.20.1.10:5001:5001
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+Network=Sygnal.network
