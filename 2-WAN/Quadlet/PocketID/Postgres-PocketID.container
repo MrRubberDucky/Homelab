@@ -1,7 +1,7 @@
 [Unit]
 Description=PostgreSQL for PocketID
-Requires=PocketID.service
-Before=PocketID.service
+Requires=pocketid.service
+Before=pocketid.service
 
 [Install]
 WantedBy=default-user.target
@@ -27,6 +27,5 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=256M
-Network=PocketID.network
+Network=PostgresID.network
 User=999:999
