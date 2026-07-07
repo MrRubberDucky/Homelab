@@ -1,0 +1,24 @@
+Dynamic IPs are silly so we are checking if they didn't change at 12:00 every day and once again at 20:00
+You may need to tweak times to ones that will suit you, for me those two specific timeframes work perfectly but your ISP may be doing it differently.
+
+0 12 * * * /root/update_ip.sh
+0 20 * * * /root/update_ip.sh
+
+On 30th day of the month at 23:00 run this script.
+
+0 23 30 * * /root/copy_certs.sh
+
+Podman auto-update systemd service never worked for me even after changing everything so I do it this way
+
+30 6 * * * podman auto-update
+
+Did you know? You can obtain MaxMind's GeoLite databases without requiring to make an account. People mirror that stuff for free.
+This would pull both GeoLite2-ASN.mmdb and GeoLite2-Contry.mmdb every day at 23:00
+
+0 23 * * * curl -L https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-ASN.mmdb -o /srv/Databases/Geo/GeoLite2-ASN.mmdb
+0 23 * * * curl -L https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-Country.mmdb -o /srv/Databases/Geo/GeoLite2-Country.mmdb
+
+Could always pull something hourly ex. a free proxy list or whatever the hell. That link is not real so don't try it.
+cron also has @monthly @yearly iirc
+
+@hourly /usr/bin/curl -Lo /srv/hamburger_list.txt https://example.com/hamburgers.txt
