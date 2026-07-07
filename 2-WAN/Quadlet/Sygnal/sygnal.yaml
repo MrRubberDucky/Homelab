@@ -1,0 +1,29 @@
+# /opt/matrix-sygnal/sygnal.yaml
+log:
+  setup:
+    version: 1
+    formatters:
+      normal:
+        format: "%(asctime)s [%(process)d] %(levelname)-5s %(name)s %(message)s"
+    handlers:
+      stderr:
+        class: "logging.StreamHandler"
+        formatter: "normal"
+        stream: "ext://sys.stderr"
+    root:
+      handlers: ["stderr"]
+      level: "INFO"
+
+http:
+  bind_addresses: ['0.0.0.0']
+  port: 5001
+
+# This is where we configure our push gateway app
+apps:
+  # This app_id must match the one used in your client's configuration
+  chat.rubberverse.xyz:
+    type: webpush
+    # This path is *inside the container*. We will map our generated key to it.
+    vapid_private_key: /data/private_key.pem
+    # An email for VAPID contact details
+    vapid_contact_email: <redacted>
