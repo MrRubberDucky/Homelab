@@ -1,0 +1,4 @@
+[Network]
+NetworkDeleteOnStop=false
+NetworkName=Sygnal
+Options=isolate=true
