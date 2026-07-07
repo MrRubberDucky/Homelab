@@ -1,17 +1,28 @@
-Currently used containers:
+# Meow
 
-- Caddy
+Click on each folder to see what the app is about.
+
+## Currently used containers
+
+- qor-caddy (Caddy)
 - Pocket ID
+- Postgres for Pocket ID
 - Comentario
 - Crowdsec
 - Gatus
-- LiveKit /w lk-jwt-service for MatrixRTC
-- Coturn
+- LiveKit
 - Tuwunel
 - Sable
-- Anubis & Static Web Server
-- TinyAuth
+- Sygnal
+- Hemmelig
+- Beszel Agent
+- Socket Proxy for Beszel
 
-Unused:
+## Unused containers
 
 - DCTS
+- TinyAuth
+- Rauthy
+- Coturn
+- Cinny
+- Music Bot for MatrixRTC
