@@ -1,0 +1,4 @@
+[Network]
+NetworkDeleteOnStop=true
+NetworkName=Rauthy
+Options=isolate=true
