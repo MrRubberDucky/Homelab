@@ -1,0 +1,26 @@
+[Unit]
+Description=Rauthy
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/sebadob/rauthy:latest
+ContainerName=rauthy
+# Configuration just needs to be owned by it
+Volume=%h/Configs/Rauthy/config.toml:/app/config.toml:U,Z
+Volume=%h/Appdata/Rauthy:/app/data:U,Z
+Volume=%h/Userdata/Rauthy:/srv/static:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Rauthy.network
+DNS=1.1.1.1
+PublishPort=10.20.1.10:1411:1411
+User=1100:1100
