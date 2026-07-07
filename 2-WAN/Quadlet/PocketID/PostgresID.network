@@ -1,0 +1,6 @@
+[Network]
+NetworkName=PostgresID
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
+Internal=true
