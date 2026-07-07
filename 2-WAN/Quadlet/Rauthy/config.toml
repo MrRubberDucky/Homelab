@@ -1,0 +1,108 @@
+[bootstrap]
+admin_email = '<redacted>'
+password_plain = '<redacted>'
+
+[cluster]
+node_id = 1
+nodes = ["1 localhost:8100 localhost:8200"]
+secret_raft = '<redacted>'
+secret_api = '<redacted>'
+wal_size = 2097152
+logs_until_snapshot = 10000
+
+[database]
+hiqlite = true
+
+[email]
+rauthy_admin_email = '<redacted>'
+sub_prefix = '<redacted>'
+smtp_url = '<redacted>'
+smtp_username = '<redacted>'
+smtp_password = '<redacted>'
+smtp_from = '<redacted>'
+
+[encryption]
+keys = [
+    '<redacted>',
+    '<redacted>',
+    '<redacted>',
+]
+key_active = '<redacted>'
+
+[events]
+email = '<redacted>'
+
+[hashing]
+argon2_m_cost = 131072
+argon2_t_cost = 5
+argon2_p_cost = 8
+
+[i18n]
+filter_lang_common = ['en']
+filter_lang_admin = ['en']
+
+[lifetimes]
+session_lifetime = 28800
+
+[matrix]
+msc3861_enable = true
+
+[mfa]
+admin_force_mfa = true
+
+[scim]
+sync_delete_groups = true
+sync_delete_users = true
+
+[server]
+listen_address = '0.0.0.0'
+port_http = 1411
+scheme = 'http'
+pub_url = 'auth.rubberverse.xyz'
+proxy_mode = true
+trusted_proxies = ['10.0.0.0/8']
+http_workers = 2
+metrics_enable = false
+
+[user_delete]
+enable_self_delete = true
+
+[user_pictures]
+storage_type = 'file'
+path = '/srv/static'
+upload_limit_mb = 5
+public = true
+
+[user_registration]
+enable = true
+domain_blacklist = [
+    'outlook.com',
+    'hotmail.com',
+    'live.com',
+    'msn.com',
+    'protonmail.com'
+]
+
+[user_values]
+given_name = 'hidden'
+family_name = 'hidden'
+birthdate = 'hidden'
+street = 'hidden'
+zip = 'hidden'
+city = 'hidden'
+country = 'required'
+phone = 'hidden'
+tz = 'required'
+
+[user_values.preferred_username]
+preferred_username = 'optional'
+blacklist = ['admin', 'support', 'administrator', 'root', 'sudo', 'sudoers', 'quackersofrubberverse', 'rubberverse', 'rubberverse.xyz', 'qor']
+email_fallback = true
+regex_rust = '^[A-Za-z0-9][A-Za-z0-9._-]*[A-Za-z0-9]$'
+pattern_html = '^[A-Za-z0-9][A-Za-z0-9._-]{1,61}[A-Za-z0-9]$'
+
+[webauthn]
+rp_id = 'auth.rubberverse.xyz'
+rp_origin = 'https://auth.rubberverse.xyz:443'
+rp_name = 'FishBait Auth'
+force_uv = true
