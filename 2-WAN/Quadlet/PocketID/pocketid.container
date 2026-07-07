@@ -21,5 +21,6 @@ NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=PocketID.network
-PublishPort=1411:1411
+Network=PostgresID.network
+PublishPort=10.20.1.10:1411:1411
 User=1001:1001
