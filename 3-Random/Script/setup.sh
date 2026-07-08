@@ -21,7 +21,6 @@ setup_stage5=false
 setup_stage6=false
 setup_stage7=false
 setup_stage8=false
-setup_stage9=false
 setup_stage10=false
 EOF
 fi
@@ -152,31 +151,31 @@ if [[ "$setup_stage8" != "true" ]]; then
   rm ./cis-hardening.deb
   set_flag setup_stage8 "$CONFIG"
 fi
-echo "WineHQ Wine-Development Installation"
-if [[ "$setup_stage9" != "true" ]]; then
-  dpkg --add-architecture i386
-  curl -fsSL https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
-  wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
-  apt update
-  apt install --install-recommends -y lib32gcc-s1 lib32stdc++6 winehq-devel
-  set_flag setup_stage9 "$CONFIG"
-fi
-echo "SteamCMD dependencies"
-if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
-  apt update
-  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
-  mkdir -p /srv/steamcmd
-  echo "Installing SteamCMD"
-  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
-  cd /srv/steamcmd
-  ./steamcmd.sh +quit
-fi
-if ! getent passwd "steamrunner" >/dev/null; then
-  echo "Configuring SteamCMD user"
-  useradd --system steamrunner
-  chown -R steamrunner:steamrunner /srv/steamcmd
-  loginctl enable-linger steamrunner
-fi
+#echo "WineHQ Wine-Development Installation"
+#if [[ "$setup_stage9" != "true" ]]; then
+#  dpkg --add-architecture i386
+#  curl -fsSL https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+#  wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
+#  apt update
+#  apt install --install-recommends -y lib32gcc-s1 lib32stdc++6 winehq-devel
+#  set_flag setup_stage9 "$CONFIG"
+#fi
+#echo "SteamCMD dependencies"
+#if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
+#  apt update
+#  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
+#  mkdir -p /srv/steamcmd
+#  echo "Installing SteamCMD"
+#  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
+#  cd /srv/steamcmd
+#  ./steamcmd.sh +quit
+#fi
+#if ! getent passwd "steamrunner" >/dev/null; then
+#  echo "Configuring SteamCMD user"
+#  useradd --system steamrunner
+#  chown -R steamrunner:steamrunner /srv/steamcmd
+#  loginctl enable-linger steamrunner
+#fi
 echo "Clean up"
 if [[ "$setup_stage10" != "true" ]]; then
   apt purge -y gpg
