@@ -1,4 +1,7 @@
+# ----
 # Mr. Rubber Ducky's Allow List for AdGuard Home
+# ----
+# Used by Firebase Cloud Messaging. Push notifications for apps.
 @@|mtalk.google.com
 @@|mtalk4.google.com
 @@|mtalk-staging.google.com
@@ -11,14 +14,19 @@
 @@|alt6-mtalk.google.com
 @@|alt7-mtalk.google.com
 @@|alt8-mtalk.google.com
+# Related to Google Play Store and Google APIs. The rest of the domains I'm unsure now.
 @@|android.apis.google.com
 @@|device-provisioning.googleapis.com
 @@|firebaseinstallations.googleapis.com
+# Epic Games Store mobile app fails to load when this is blocked (XD)
 @@|tracking.epicgames.com
-@@||quad10.net
-@@||quad9.net
-@@||dns.sb
-@@||dot.sb
-@@||joindns4.eu
+# DynDNS for my own home domain
 @@||duckdns.org
+# Qualcomm A-GPS. Blocking it causes location to become painfully inaccurate over time on QCOM devices - https://github.com/StevenBlack/hosts/issues/2314
 @@|izatcloud.net
+# Phone Link (Windows)
+@@|mobile.events.data.microsoft.com
+@@|mobile.pipe.aria.microsoft.com
+@@|eu-mobile.events.data.microsoft.com
+# Windows Phone Link app fails to connect when this is blocked, logins fine on mobile still.
+@@|dcg.microsoft.com
