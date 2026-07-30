@@ -1,14 +1,10 @@
-# Mr. Rubber Ducky's Personal Filter for AdGuard Home
-
+# Mr. Rubber Ducky's Personal Filter for AdGuard Home v1.0
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 # LDPlayer9
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 ad.ldplayer.net
-en.ldplayer.net
-cdn.ldplayer.net
-encdn.ldplayer.com
 advertise.ldplayer.net
 middledata.ldplayer.net
+# This domain seems still in use, IPv4 A Record is there
 apiid.ldmnq.com
 apien.ldmnq.com
 ldcdn.ldmnq.com
@@ -18,34 +14,22 @@ usersdk.ldmnq.com
 adabdapi.ldmnq.com
 appstore.ldmnq.com
 middledata.ldmnq.com
+# No A Record, seems retired?
 api.ld-space.com
+# Domains contacted from Android inside the VM
 openrcv.baidu.com
 loc.map.baidu.com
-p-sgsg00.kxcdn.com
 android.bugly.qq.com
-encdn.ldmnq.com.w.alikunlun.com
-ins-o9iydzqn.ias.tencent-cloud.net
-lden.oss-ap-southeast-1.aliyuncs.com
-netease-publish-gdlgphs.w.alikunlun.com
+# AliBaba CDN & KeyCDN (Serves ads? Needs to be checked)
 advertise.ldplayer.net.a.lahuashanbx.com
-alb-fc2psc581f288qx1e4.cn-shanghai.alb.aliyuncs.com
-||ias.tencent-cloud.net
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+p-sgsg00.kxcdn.com
 # Bluestacks
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 eb.bluestacks.com
-www.bluestacks.com
 cloud.bluestacks.com
-cdn-bgp.bluestacks.com
-cdn-www.bluestacks.com
-cdn-icon.bluestacks.com
 ak-build.bluestacks.com
 ||now.gg
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 # Nox Player
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 hmma.baidu.com
 googleclubstore.com
 sdk.open.inc2.igexin.com
@@ -64,11 +48,9 @@ sdk.open.inc2.igexin.com
 ||talkingdata.net
 ||apptrackerlink.com
 ||appmeasurements.com
-||stun.l.google.com
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Microsoft related
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# Microsoft related (This may/will break Bing partially)
+ecs.office.com
 ec.atdmt.com
 preview.msn.com
 aidps.atdmt.com
@@ -79,7 +61,6 @@ live.rads.msn.com
 forms.microsoft.com
 pricelist.skype.com
 collector.github.com
-watson.microsoft.com
 cds26.ams9.msecn.net
 choice.microsoft.com
 spynet2.microsoft.com
@@ -115,7 +96,6 @@ telemetry.urs.microsoft.com
 compatexchange.cloudapp.net
 msedge.api.cdp.microsoft.com
 rewardsplatform.microsoft.com
-v10.events.data.microsoft.com
 web.vortex.data.microsoft.com
 vortex-win.data.microsoft.com
 sqm.df.telemetry.microsoft.com
@@ -128,18 +108,15 @@ choice.microsoft.com.nstac.net
 tip.customervoice.microsoft.com
 edge.cloudbrowser.microsoft.com
 browser.pipe.aria.microsoft.com
-web.vortex-sandbox.data.msn.com
 vcservice.webxtsvc.microsoft.com
 redir.metaservices.microsoft.com
 i1.services.social.microsoft.com
 local.cloudbrowser.microsoft.com
 edge-mobile-static.azureedge.net
 edgeshoppingstatic.azureedge.net
-watson.events.data.microsoft.com
 watson.ppe.telemetry.microsoft.com
 copilot-proxy.githubusercontent.com
 copilot-telemetry.githubusercontent.com
-||bing.com
 ||adtech.de
 ||adnxs.com
 ||msads.net
@@ -155,7 +132,6 @@ copilot-telemetry.githubusercontent.com
 ||exp-tas.com
 ||a-msedge.net
 ||vo.msecnd.net
-||wns.windows.com
 ||static.2mdn.net
 ||db3aqu.atdmt.com
 ||azure-devices.net
@@ -168,50 +144,258 @@ copilot-telemetry.githubusercontent.com
 ||feedback.microsoft-hohm.com
 ||feedback.search.microsoft.com
 ||feedback.smartscreen.microsoft.com
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Nintendo related
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-||conntest.nintendowifi.net^$dnsrewrite=NOERROR;A;95.216.149.205
-||ctest.cdn.nintendo.net^$dnsrewrite=NOERROR;A;95.216.149.205
-||nintendo.com
-||nintendo.net
-||nintendo.jp
-||nintendo.co.jp
-||nintendo.co.uk
-||nintendo-europe.com
-||nintendowifi.net
-||nintendo.es
-||nintendo.co.kr
-||nintendo.tw
-||nintendo.com.hk
-||nintendo.com.au
-||nintendo.co.nz
-||nintendo.at
-||nintendo.be
-||nintendods.cz
-||nintendo.dk
-||nintendo.de
-||nintendo.fi
-||nintendo.fr
-||nintendo.gr
-||nintendo.hu
-||nintendo.it
-||nintendo.nl
-||nintendo.no
-||nintendo.pt
-||nintendo.ru
-||nintendo.co.za
-||nintendo.se
-||nintendo.ch
-||nintendo.pl
+# Nintendo Switch related
+# Source of domains: https://switchbrew.org/wiki/Network
+# Serves garbage HTML page on local web server so Nintendo Switch doesn't think it's offline.
+||conntest.nintendowifi.net^$dnsrewrite=NOERROR;A;10.30.1.10
+||ctest.cdn.nintendo.net^$dnsrewrite=NOERROR;A;10.30.1.10
+# (sun) System update checking domains for all environments
+||sun.hac.dp1.d4c.nintendo.net
+||sun.hac.lp1.d4c.nintendo.net
+||sun.hac.sp1.d4c.nintendo.net
+||sun.hac.dd1.d4c.nintendo.net
+||sun.hac.jd1.d4c.nintendo.net
+||sun.hac.sd1.d4c.nintendo.net
+||sun.hac.td1.d4c.nintendo.net
+||sun.hac.xd1.d4c.nintendo.net
+# (aqua) contents_delivery_required_title_id contents_delivery_required_title_version (helper?)
+||aqua.hac.dp1.d4c.nintendo.net
+||aqua.hac.lp1.d4c.nintendo.net
+||aqua.hac.sp1.d4c.nintendo.net
+||aqua.hac.dd1.d4c.nintendo.net
+||aqua.hac.jd1.d4c.nintendo.net
+||aqua.hac.sd1.d4c.nintendo.net
+||aqua.hac.td1.d4c.nintendo.net
+||aqua.hac.xd1.d4c.nintendo.net
+# (atum) CDN for atum (eShop titles)
+||atum.hac.dp1.d4c.nintendo.net
+||atum.hac.lp1.d4c.nintendo.net
+||atum.hac.sp1.d4c.nintendo.net
+||atum.hac.dd1.d4c.nintendo.net
+||atum.hac.jd1.d4c.nintendo.net
+||atum.hac.sd1.d4c.nintendo.net
+||atum.hac.td1.d4c.nintendo.net
+||atum.hac.xd1.d4c.nintendo.net
+# (atumn) Same as above but for system titles
+||atumn.hac.dp1.d4c.nintendo.net
+||atumn.hac.lp1.d4c.nintendo.net
+||atumn.hac.sp1.d4c.nintendo.net
+||atumn.hac.dd1.d4c.nintendo.net
+||atumn.hac.jd1.d4c.nintendo.net
+||atumn.hac.sd1.d4c.nintendo.net
+||atumn.hac.td1.d4c.nintendo.net
+||atumn.hac.xd1.d4c.nintendo.net
+# (atumn-dummy)
+||atumn-dummy.hac.dp1.d4c.nintendo.net
+||atumn-dummy.hac.lp1.d4c.nintendo.net
+||atumn-dummy.hac.sp1.d4c.nintendo.net
+||atumn-dummy.hac.dd1.d4c.nintendo.net
+||atumn-dummy.hac.jd1.d4c.nintendo.net
+||atumn-dummy.sd1.d4c.nintendo.net
+||atumn-dummy.hac.td1.d4c.nintendo.net
+||atumn-dummy.hac.xd1.d4c.nintendo.net
+# (superfly) eShop-related, returns .json title-info
+||superfly.hac.dp1.d4c.nintendo.net
+||superfly.hac.lp1.d4c.nintendo.net
+||superfly.hac.sp1.d4c.nintendo.net
+||superfly.hac.dd1.d4c.nintendo.net
+||superfly.hac.jd1.d4c.nintendo.net
+||superfly.hac.sd1.d4c.nintendo.net
+||superfly.hac.td1.d4c.nintendo.net
+||superfly.hac.xd1.d4c.nintendo.net
+# (bugyo)
+||bugyo.hac.dp1.eshop.nintendo.net
+||bugyo.hac.lp1.eshop.nintendo.net
+||bugyo.hac.sp1.eshop.nintendo.net
+||bugyo.hac.dd1.eshop.nintendo.net
+||bugyo.hac.jd1.eshop.nintendo.net
+||bugyo.hac.sd1.eshop.nintendo.net
+||bugyo.hac.td1.eshop.nintendo.net
+||bugyo.hac.xd1.eshop.nintendo.net
+# (tagaya) VersionList for eShop titles
+||tagaya.hac.dp1.eshop.nintendo.net
+||tagaya.hac.lp1.eshop.nintendo.net
+||tagaya.hac.sp1.eshop.nintendo.net
+||tagaya.hac.dd1.eshop.nintendo.net
+||tagaya.hac.jd1.eshop.nintendo.net
+||tagaya.hac.sd1.eshop.nintendo.net
+||tagaya.hac.td1.eshop.nintendo.net
+||tagaya.hac.xd1.eshop.nintendo.net
+# (beach)
+||beach.hac.dp1.eshop.nintendo.net
+||beach.hac.lp1.eshop.nintendo.net
+||beach.hac.sp1.eshop.nintendo.net
+||beach.hac.dd1.eshop.nintendo.net
+||beach.hac.jd1.eshop.nintendo.net
+||beach.hac.sd1.eshop.nintendo.net
+||beach.hac.td1.eshop.nintendo.net
+||beach.hac.xd1.eshop.nintendo.net
+# (pushmo)
+||pushmo.hac.dp1.eshop.nintendo.net
+||pushmo.hac.lp1.eshop.nintendo.net
+||pushmo.hac.sp1.eshop.nintendo.net
+||pushmo.hac.dd1.eshop.nintendo.net
+||pushmo.hac.jd1.eshop.nintendo.net
+||pushmo.hac.sd1.eshop.nintendo.net
+||pushmo.hac.td1.eshop.nintendo.net
+||pushmo.hac.xd1.eshop.nintendo.net
+# (pearljam)
+||pearljam.hac.dp1.eshop.nintendo.net
+||pearljam.hac.lp1.eshop.nintendo.net
+||pearljam.hac.sp1.eshop.nintendo.net
+||pearljam.hac.dd1.eshop.nintendo.net
+||pearljam.hac.jd1.eshop.nintendo.net
+||pearljam.hac.sd1.eshop.nintendo.net
+||pearljam.hac.td1.eshop.nintendo.net
+||pearljam.hac.xd1.eshop.nintendo.net
+# (dragons)
+||dragons.hac.dp1.dragons.nintendo.net
+||dragons.hac.lp1.dragons.nintendo.net
+||dragons.hac.sp1.dragons.nintendo.net
+||dragons.hac.dd1.dragons.nintendo.net
+||dragons.hac.jd1.dragons.nintendo.net
+||dragons.hac.sd1.dragons.nintendo.net
+||dragons.hac.td1.dragons.nintendo.net
+||dragons.hac.xd1.dragons.nintendo.net
+# (dragonst)
+||dragonst.hac.dp1.dragons.nintendo.net
+||dragonst.hac.lp1.dragons.nintendo.net
+||dragonst.hac.sp1.dragons.nintendo.net
+||dragonst.hac.dd1.dragons.nintendo.net
+||dragonst.hac.jd1.dragons.nintendo.net
+||dragonst.hac.sd1.dragons.nintendo.net
+||dragonst.hac.td1.dragons.nintendo.net
+||dragonst.hac.xd1.dragons.nintendo.net
+# (tigers)
+||tigers.hac.dp1.dragons.nintendo.net
+||tigers.hac.lp1.dragons.nintendo.net
+||tigers.hac.sp1.dragons.nintendo.net
+||tigers.hac.dd1.dragons.nintendo.net
+||tigers.hac.jd1.dragons.nintendo.net
+||tigers.hac.sd1.dragons.nintendo.net
+||tigers.hac.td1.dragons.nintendo.net
+||tigers.hac.xd1.dragons.nintendo.net
+# (veer)
+||veer.hac.dp1.d4c.nintendo.net
+||veer.hac.lp1.d4c.nintendo.net
+||veer.hac.sp1.d4c.nintendo.net
+||veer.hac.dd1.d4c.nintendo.net
+||veer.hac.jd1.d4c.nintendo.net
+||veer.hac.sd1.d4c.nintendo.net
+||veer.hac.td1.d4c.nintendo.net
+||veer.hac.xd1.d4c.nintendo.net
+# (bvc) nim
+||bvc.hac.dp1.cdn.nintendo.net
+||bvc.hac.lp1.cdn.nintendo.net
+||bvc.hac.sp1.cdn.nintendo.net
+||bvc.hac.dd1.cdn.nintendo.net
+||bvc.hac.jd1.cdn.nintendo.net
+||bvc.hac.sd1.cdn.nintendo.net
+||bvc.hac.td1.cdn.nintendo.net
+||bvc.hac.xd1.cdn.nintendo.net
+# (bcat-topics)
+||bcat-topics.dp1.cdn.nintendo.net
+||bcat-topics.lp1.cdn.nintendo.net
+||bcat-topics.sp1.cdn.nintendo.net
+||bcat-topics.dd1.cdn.nintendo.net
+||bcat-topics.jd1.cdn.nintendo.net
+||bcat-topics.sd1.cdn.nintendo.net
+||bcat-topics.td1.cdn.nintendo.net
+||bcat-topics.xd1.cdn.nintendo.net
+# (bcat-lists)
+||bcat-lists.dp1.cdn.nintendo.net
+||bcat-lists.lp1.cdn.nintendo.net
+||bcat-lists.sp1.cdn.nintendo.net
+||bcat-lists.dd1.cdn.nintendo.net
+||bcat-lists.jd1.cdn.nintendo.net
+||bcat-lists.sd1.cdn.nintendo.net
+||bcat-lists.td1.cdn.nintendo.net
+||bcat-lists.xd1.cdn.nintendo.net
+# (bcat-data)
+||bcat-data.dp1.cdn.nintendo.net
+||bcat-data.lp1.cdn.nintendo.net
+||bcat-data.sp1.cdn.nintendo.net
+||bcat-data.dd1.cdn.nintendo.net
+||bcat-data.jd1.cdn.nintendo.net
+||bcat-data.sd1.cdn.nintendo.net
+||bcat-data.td1.cdn.nintendo.net
+||bcat-data.xd1.cdn.nintendo.net
+# (bcat-web)
+||bcat-web.dp1.cdn.nintendo.net
+||bcat-web.lp1.cdn.nintendo.net
+||bcat-web.sp1.cdn.nintendo.net
+||bcat-web.dd1.cdn.nintendo.net
+||bcat-web.jd1.cdn.nintendo.net
+||bcat-web.sd1.cdn.nintendo.net
+||bcat-web.td1.cdn.nintendo.net
+||bcat-web.xd1.cdn.nintendo.net
+# (app)
+||app.dp1.five.nintendo.net
+||app.lp1.five.nintendo.net
+||app.sp1.five.nintendo.net
+||app.dd1.five.nintendo.net
+||app.jd1.five.nintendo.net
+||app.sd1.five.nintendo.net
+||app.td1.five.nintendo.net
+||app.xd1.five.nintendo.net
+# (scsi-policy)
+||scsi-policy.lp1.cdn.nintendo.net
+||scsi-policy.sp1.cdn.nintendo.net
+||scsi-policy.dd1.cdn.nintendo.net
+# (nso) webapplet
+||dp1.nso.nintendo.net
+||lp1.nso.nintendo.net
+||sp1.nso.nintendo.net
+||dd1.nso.nintendo.net
+||jd1.nso.nintendo.net
+||sd1.nso.nintendo.net
+||td1.nso.nintendo.net
+||xd1.nso.nintendo.net
+||atum-img.dp1.cdn.nintendo.net
+||atum-img.lp1.cdn.nintendo.net
+||atum-img.sp1.cdn.nintendo.net
+||atum-img.dd1.cdn.nintendo.net
+||atum-img.jd1.cdn.nintendo.net
+||atum-img.sd1.cdn.nintendo.net
+||atum-img.td1.cdn.nintendo.net
+||atum-img.xd1.cdn.nintendo.net
+# (service-status)
+||service-status.dp1.cdn.nintendo.net
+||service-status.lp1.cdn.nintendo.net
+||service-status.sp1.cdn.nintendo.net
+||service-status.dd1.cdn.nintendo.net
+||service-status.jd1.cdn.nintendo.net
+||service-status.sd1.cdn.nintendo.net
+||service-status.td1.cdn.nintendo.net
+||service-status.xd1.cdn.nintendo.net
+# Online functionality
+||dg.srv.nintendo.net
+||er.srv.nintendo.net
+# I suppose some Nintendo employee may known about the knock off pegasus consoles. Maybe.
+||pegasus.nintendo.net
+||frs.srv.nintendo.net
+||n.n.srv.nintendo.net
+||s.n.srv.nintendo.net
+||znc.srv.nintendo.net
+||npns.srv.nintendo.net
+||pctl.srv.nintendo.net
+||ndas.srv.nintendo.net
+||scsi.srv.nintendo.net
+||sata.srv.nintendo.net
+||banco.srv.nintendo.net
+# Rest
+||nasc.nintendowifi.net
+||problems.dragons.nintendo.net
+||moon.nintendo.com
+||baas.nintendo.com
+||accounts.nintendo.com
+||op2.nintendo.net
 ||nintendoswitch.com
 ||nintendoswitch.com.cn
 ||nintendoswitch.cn
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-# Local domain rewrites
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<
+# Local domain rewrites, respond with non-existent domains with NXDOMAIN
 /^[^\.]*$/$dnsrewrite=NXDOMAIN
 ||lan^$dnsrewrite=NXDOMAIN
 ||bind^$dnsrewrite=NXDOMAIN
@@ -222,20 +406,19 @@ copilot-telemetry.githubusercontent.com
 ||test^$dnsrewrite=NXDOMAIN
 ||internal^$dnsrewrite=NXDOMAIN
 |use-application-dns.net^$dnsrewrite=NXDOMAIN
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 # Misc filters
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
-||signaler-pa.clients6.google.com
-||openai.com.cdn.cloudflare.net
-||waa-pa.clients6.google.com
-||ecsv2.roblox.com
-||chat.openai.com
+signaler-pa.clients6.google.com
+openai.com.cdn.cloudflare.net
+waa-pa.clients6.google.com
+ecsv2.roblox.com
+chat.openai.com
 ||searchgpt.com
 ||moyoung.com
 ||chatgpt.com
 ||adtidy.org
 ||yahoo.com
 ||4chan.org
+||8kun.top
 ||mail.ru
 ||ok.ru
