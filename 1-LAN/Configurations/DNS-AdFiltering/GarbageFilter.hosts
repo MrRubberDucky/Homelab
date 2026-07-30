@@ -1,4 +1,7 @@
-# Mr. Rubber Ducky's Garbage Filter for AdGuard Home
+# Mr. Rubber Ducky's Garbage Filter for AdGuard Home v1.0
+# Very aggressive list filtering out LLM generated, GenAI imagery, bad advice and hidden advert sites.
+# If you're using one of the sites here then just selectively whitelist them.
+# -------------------------------------------------------
 ||linuxsimply.com
 ||linuxcapable.com
 ||linuxconfig.org
@@ -171,3 +174,17 @@
 ||lightingthehouse.com
 ||solvesonic.com
 ||hideing.com
+# 30.07.2026
+# They do tell you relevant information but it's to attempt to sell you rebranded products
+# They're shops mostly.
+||offtek.co.uk
+||mrmemory.co.uk
+||memorystock.com
+||ibuybattery.com
+||datamemorysystems.com
+# Guides from a dedi (reseller?) provider but crams "sales" in your face. 
+||redswitches.com
+# GenAI thumbnails and probably posts too, lazy to check.
+||commandlinux.com
+# Ad-revenue farming, weirdly formatted text, non-sensical random emboldening, broken links on index page etc.
+||informatecdigital.com
