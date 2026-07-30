@@ -369,10 +369,9 @@ copilot-telemetry.githubusercontent.com
 ||service-status.sd1.cdn.nintendo.net
 ||service-status.td1.cdn.nintendo.net
 ||service-status.xd1.cdn.nintendo.net
-# Online functionality
+# Online functionality & Other
 ||dg.srv.nintendo.net
 ||er.srv.nintendo.net
-# I suppose some Nintendo employee may known about the knock off pegasus consoles. Maybe.
 ||pegasus.nintendo.net
 ||frs.srv.nintendo.net
 ||n.n.srv.nintendo.net
@@ -384,7 +383,6 @@ copilot-telemetry.githubusercontent.com
 ||scsi.srv.nintendo.net
 ||sata.srv.nintendo.net
 ||banco.srv.nintendo.net
-# Rest
 ||nasc.nintendowifi.net
 ||problems.dragons.nintendo.net
 ||moon.nintendo.com
