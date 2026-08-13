@@ -400,7 +400,6 @@ copilot-telemetry.githubusercontent.com
 ||localhost^$dnsrewrite=NXDOMAIN
 ||onion^$dnsrewrite=NXDOMAIN
 ||test^$dnsrewrite=NXDOMAIN
-||internal^$dnsrewrite=NXDOMAIN
 |use-application-dns.net^$dnsrewrite=NXDOMAIN
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 # Misc filters
