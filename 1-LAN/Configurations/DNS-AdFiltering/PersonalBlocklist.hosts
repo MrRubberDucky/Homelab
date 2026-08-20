@@ -400,6 +400,11 @@ copilot-telemetry.githubusercontent.com
 ||localhost^$dnsrewrite=NXDOMAIN
 ||onion^$dnsrewrite=NXDOMAIN
 ||test^$dnsrewrite=NXDOMAIN
+||168.192.in-addr.arpa^$dnsrewrite=NXDOMAIN
+||10.1.10.in-addr.arpa^$dnsrewrite=NXDOMAIN
+||20.1.10.in-addr.arpa^$dnsrewrite=NXDOMAIN
+||30.1.10.in-addr.arpa^$dnsrewrite=NXDOMAIN
+||50.1.10.in-addr.arpa^$dnsrewrite=NXDOMAIN
 |use-application-dns.net^$dnsrewrite=NXDOMAIN
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<
 # Misc filters
