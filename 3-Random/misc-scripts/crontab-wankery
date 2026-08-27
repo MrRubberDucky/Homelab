@@ -9,8 +9,10 @@ On 30th day of the month at 23:00 run this script.
 0 23 30 * * /root/copy_certs.sh
 
 Podman auto-update systemd service never worked for me even after changing everything so I do it this way
+Handles updating daily at 6:30 and image pruning at 6:50 to save up storage space
 
 30 6 * * * podman auto-update
+50 6 * * * podman image prune -f
 
 Did you know? You can obtain MaxMind's GeoLite databases without requiring to make an account. People mirror that stuff for free.
 This would pull both GeoLite2-ASN.mmdb and GeoLite2-Contry.mmdb every day at 23:00
