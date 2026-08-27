@@ -1,4 +1,6 @@
 #!/bin/bash
+# shellcheck disable=SC1091
+# shellcheck disable=SC2154
 # for my own convenience, mostly for automating setup post-installation with cloud-init since it's unreliable.
 set -e
 if [ "$(id -u)" -ne 0 ]; then
@@ -24,11 +26,12 @@ setup_stage8=false
 setup_stage10=false
 EOF
 fi
-. "$CONFIG"
+# shellcheck source=/root/.setup
+. "${CONFIG}"
 install_if_missing() {
     for pkg in "$@"; do
         if dpkg -s "$pkg" >/dev/null 2>&1; then
-            echo "$pkg already installed"
+            echo "[PKG] $pkg already installed"
         else
             apt-get install -y --no-install-recommends "$pkg"
         fi
@@ -44,17 +47,17 @@ set_flag() {
     fi
 }
 if [[ "$setup_stage0" != "true" ]]; then
-  echo "Triggering apt update & upgrade"
+  echo "[APT] Triggering apt update & upgrade"
   apt update; apt upgrade -y
   set_flag setup_stage0 "$CONFIG"
 fi
 if [[ "$setup_stage1" != "true" ]]; then
-  echo "Setting up initial packages"
+  echo "[APT] Setting up initial packages"
   install_if_missing qemu-guest-agent curl htop nftables gpg chrony dbus-user-session unattended-upgrades cron patch
   set_flag setup_stage1 "$CONFIG"
 fi
 if [[ "$setup_stage2" != "true" ]]; then
-  echo "Adding alvistack repository to apt"
+  echo "[APT] Adding alvistack repository to apt"
   # -f: --fail when no response body, -s: --silent, -S: --show-error, -L: --location follow redirects (response code 3XX)
   if [ ! -f "/usr/share/keyrings/home_alvistack.gpg" ]; then
     curl -fsSL https://download.opensuse.org/repositories/home:/alvistack/Debian_13/Release.key -o /usr/share/keyrings/home_alvistack.gpg
@@ -70,12 +73,12 @@ if [[ "$setup_stage2" != "true" ]]; then
   if [ ! -f "/etc/apt/preferences.d/99-block-alvistack.pref" ]; then
     curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/99-block-alvistack.pref -o /etc/apt/preferences.d/99-block-alvistack.pref
   fi
-  echo "Triggering apt update"
+  echo "[APT] Triggering apt update"
   apt update
   set_flag setup_stage2 "$CONFIG"
 fi
 if [[ "$setup_stage3" != "true" ]]; then
-  echo "Installing Podman"
+  echo "[CONT] Installing Podman"
   install_if_missing podman buildah netavark aardvark-dns passt slirp4netns tini uidmap
   if [ ! -f "/etc/ssh/sshd_config.d/30-rubberverse.conf" ]; then
     curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/30-rubberverse.conf -o /etc/ssh/sshd_config.d/30-rubberverse.conf
@@ -84,7 +87,7 @@ if [[ "$setup_stage3" != "true" ]]; then
   fi
 fi
 if [[ "$setup_stage4" != "true" ]]; then
-  echo "Configuring chrony"
+  echo "[TIME] Configuring chrony"
   rm /etc/chrony/chrony.conf
   curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/rubberverse-nts.source -o /etc/chrony/chrony.conf
   if [ ! -f "/etc/chrony/sources.d/rubberverse-nts.source" ]; then
@@ -93,14 +96,14 @@ if [[ "$setup_stage4" != "true" ]]; then
   set_flag setup_stage4 "$CONFIG"
 fi
 if [[ "$setup_stage5" != "true" ]]; then
-  echo "Configuring unattended-upgrades"
+  echo "[UPD] Configuring unattended-upgrades"
   rm /etc/apt/apt.conf.d/20auto-upgrades
   rm /etc/apt/apt.conf.d/50unattended-upgrades
   curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/20auto-upgrades -o /etc/apt/apt.conf.d/20auto-upgrades
   curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/50unattended-upgrades -o /etc/apt/apt.conf.d/50unattended-upgrades
   set_flag setup_stage5 "$CONFIG"
 fi
-echo "Checking if user exists, if not creating him & directories"
+echo "[USR] Checking if user exists, if not creating him & directories"
 if ! getent passwd "overseer" >/dev/null; then
   useradd -m -s /bin/bash overseer 
   mkdir -p /srv/rootless
@@ -121,7 +124,7 @@ if [ ! -d "/srv/rootless" ]; then
   loginctl enable-linger overseer
 fi
 if [[ "$setup_stage6" != "true" ]]; then
-  echo "Modifying subuid and subgids manually"
+  echo "[SG] Modifying subuid and subgids manually"
   rm /etc/subuid /etc/subgid
   curl -fsSL https://raw.githubusercontent.com/MrRubberDucky/Homelab/refs/heads/main/3-Random/Script/gid -o /etc/subuid
   cp /etc/subuid /etc/subgid
@@ -132,7 +135,7 @@ if [ ! -f "/etc/sysctl.d/30-rubberverse.conf" ]; then
   echo "net.ipv4.tcp_syncookies = 1" > /etc/sysctl.d/30-rubberverse.conf
 fi
 if [[ "$setup_stage7" != "true" ]]; then
-  echo "Enabling some services"
+  echo "[SRV] Enabling some services"
   systemctl enable fstrim.timer
   systemctl enable chrony
   systemctl enable unattended-upgrades
@@ -140,42 +143,45 @@ if [[ "$setup_stage7" != "true" ]]; then
 fi
 echo "cis-hardening"
 if [[ "$setup_stage8" != "true" ]]; then
-  echo "Grabbing cis-hardening from ovh/debian-cis"
+  echo "[HRDN] Grabbing cis-hardening from ovh/debian-cis"
   cd /root
   curl -fsSL https://github.com/ovh/debian-cis/releases/download/latest/cis-hardening.deb -o cis-hardening.deb
+  echo "[HRDN] Installing ovh/cis-hardening"
   dpkg -i ./cis-hardening.deb
+  echo "[HRDN] --set-harden-level 2 --allow-unsupported-distribution --apply --audit"
   /opt/cis-hardening/bin/hardening.sh --set-hardening-level 2 --allow-unsupported-distribution
   /opt/cis-hardening/bin/hardening.sh --apply --allow-unsupported-distribution
   /opt/cis-hardening/bin/hardening.sh --audit --allow-unsupported-distribution
+  echo "[HRDN] Uninstalling ovh/cis-hardening"
   dpkg -r cis-hardening
   rm ./cis-hardening.deb
   set_flag setup_stage8 "$CONFIG"
 fi
-#echo "WineHQ Wine-Development Installation"
-#if [[ "$setup_stage9" != "true" ]]; then
-#  dpkg --add-architecture i386
-#  curl -fsSL https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
-#  wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
-#  apt update
-#  apt install --install-recommends -y lib32gcc-s1 lib32stdc++6 winehq-devel
-#  set_flag setup_stage9 "$CONFIG"
-#fi
-#echo "SteamCMD dependencies"
-#if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
-#  apt update
-#  apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
-#  mkdir -p /srv/steamcmd
-#  echo "Installing SteamCMD"
-#  curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
-#  cd /srv/steamcmd
-#  ./steamcmd.sh +quit
-#fi
-#if ! getent passwd "steamrunner" >/dev/null; then
-#  echo "Configuring SteamCMD user"
-#  useradd --system steamrunner
-#  chown -R steamrunner:steamrunner /srv/steamcmd
-#  loginctl enable-linger steamrunner
-#fi
+if [[ "$setup_stage9" != "true" ]] && [[ "$want_steamcmd" == "true" ]]; then
+  echo "[STM] Installing WineHQ wine-devel"
+  dpkg --add-architecture i386
+  curl -fsSL https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+  wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
+  apt update
+  apt install --install-recommends -y lib32gcc-s1 lib32stdc++6 winehq-devel
+  set_flag setup_stage9 "$CONFIG"
+  echo "[STM] SteamCMD dependencies"
+  if [ ! -f "/srv/steamcmd/steamcmd.sh" ]; then
+    apt update
+    apt install --no-install-recommends -y lib32gcc-s1 lib32stdc++6
+    mkdir -p /srv/steamcmd
+    echo "[STM] Installing SteamCMD"
+    curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar -xzv -C /srv/steamcmd
+    cd /srv/steamcmd
+    ./steamcmd.sh +quit
+  fi
+  if ! getent passwd "steamrunner" >/dev/null; then
+    echo "[STM] Configuring SteamCMD user"
+    useradd --system steamrunner
+    chown -R steamrunner:steamrunner /srv/steamcmd
+    loginctl enable-linger steamrunner
+  fi
+fi
 echo "Clean up"
 if [[ "$setup_stage10" != "true" ]]; then
   apt purge -y gpg
@@ -183,4 +189,4 @@ if [[ "$setup_stage10" != "true" ]]; then
   apt autoclean -y
   set_flag setup_stage10 "$CONFIG"
 fi
-echo "Ready. Reboot to kick in all the changes manually."
+echo "[CMPL] Ready. Reboot to kick in all the changes manually. Remove /root/.setup after verifying deployment went well"
