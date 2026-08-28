@@ -1,0 +1,5 @@
+[Network]
+NetworkName=SSO-Sidecar
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
