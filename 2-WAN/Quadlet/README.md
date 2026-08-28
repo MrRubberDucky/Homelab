@@ -5,18 +5,20 @@ Click on each folder to see what the app is about.
 ## Currently used containers
 
 - qor-caddy (Caddy)
-- Pocket ID
-- Postgres for Pocket ID
 - Comentario
-- Crowdsec
+- Umami (+ SSO sidecar)
+- Pocket ID
+- CrowdSec
 - Gatus
 - LiveKit
+- Mumble
+- Fluxer
 - Tuwunel
-- Sable
 - Sygnal
+- Sable
 - Hemmelig
-- Beszel Agent
-- Socket Proxy for Beszel
+- Nginx
+- Beszel Agent (+ socket proxy)
 
 ## Unused containers
 
@@ -25,4 +27,5 @@ Click on each folder to see what the app is about.
 - Rauthy
 - Coturn
 - Cinny
+- Pelican
 - Music Bot for MatrixRTC
