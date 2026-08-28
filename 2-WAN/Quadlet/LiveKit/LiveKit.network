@@ -2,3 +2,5 @@
 NetworkName=LiveKit
 NetworkDeleteOnStop=true
 Driver=bridge
+Internal=true
+Options=isolate=true
