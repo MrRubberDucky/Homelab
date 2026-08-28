@@ -1,0 +1,25 @@
+[Unit]
+Description=SSO Sidecar container for Umami
+Requires=umami.service
+After=umami.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=codeberg.org/vanutp/umami-sso:latest
+ContainerName=sso-sidecar
+EnvironmentFile=%h/Environments/Umami/.sidecar
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=SSO-Sidecar.network
+PublishPort=10.20.1.10:8005:8005
+User=1100:1100
+UserNS=auto:size=1101
