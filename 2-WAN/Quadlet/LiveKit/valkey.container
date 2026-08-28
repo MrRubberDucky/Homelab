@@ -1,0 +1,35 @@
+[Unit]
+Description=Valkey (Redis-compatible)
+Requires=livekit.service
+Before=livekit.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/valkey/valkey:8.1-trixie
+ContainerName=valkey-livekit
+Timezone=Europe/Warsaw
+Exec=valkey-server --save "" --appendonly no
+Volume=ValkeyData:/data:U,Z
+HealthCmd=valkey-cli ping
+HealthInterval=10s
+HealthRetries=10
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+UserNS=auto:size=1101
+Network=LiveKit.network
+# Do not change this to 0.0.0.0 as that will bind to all available interfaces
+# We want Valkey to be only reachable locally, not publicly.
+# Neither do Publishport=6379:6379 as that will be same as 0.0.0.0:6379:6379 iirc
+PublishPort=127.0.0.1:6379:6379
