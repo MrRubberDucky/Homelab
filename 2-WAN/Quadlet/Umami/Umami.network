@@ -1,0 +1,5 @@
+[Network]
+NetworkName=Umami
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
