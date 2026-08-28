@@ -1,0 +1,27 @@
+[Unit]
+Description=Umami Analytics
+Requires=postgres-umami.service valkey-umami.service sso-sidecar.service
+After=postgres-umami.service valkey-umami.service
+Before=sso-sidecar.service
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=ghcr.io/umami-software/umami:postgresql-latest
+ContainerName=umami
+EnvironmentFile=%h/Environments/Umami/.env
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=Umami.network
+PublishPort=10.20.1.10:3000:3000
+Network=Postgres-Umami.network
+Network=Valkey-Umami.network
+User=nextjs
+# Useless to add max mapping here as user inside maps to 65534
+UserNS=auto
