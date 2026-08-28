@@ -1,0 +1,6 @@
+[Network]
+NetworkName=Gatus
+NetworkDeleteOnStop=true
+Driver=bridge
+Internal=false
+Options=isolate=true
