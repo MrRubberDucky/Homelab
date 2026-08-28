@@ -17,22 +17,33 @@ ExecReload=podman exec qor-caddy /app/bin/caddy reload --config /app/configs/Cad
 [Container]
 Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=qor-caddy
+Exec=run --config /app/configs/Caddyfile
 EnvironmentFile=%h/Environments/Caddy/.env
+# Configurations
 Volume=%h/Configs/Caddy:/app/configs:ro,Z
-Volume=%h/Databases/Geo:/app/databases:ro,Z
+# Misc
+Volume=%h/Userdata/loose_files:/var/www/files:U,Z
+# Shared logs
 Volume=CADDY-LOGS:/app/logs:U,z
+# Container data
 Mount=type=bind,source=%h/Appdata/WebServer-Data,dst=/app/.local/share/caddy,U=true,Z
 Mount=type=bind,source=%h/Appdata/WebServer-Conf,dst=/app/.config/caddy,U=true,Z
+# Labels and hardening
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Notify=true
+# Rootless networks
 Network=Caddy.network
 Network=Crowdsec.network
+Network=Gatus.network
 Sysctl=net.ipv4.ip_unprivileged_port_start=80
+# DNS for certificates
 DNS=1.1.1.1
 DNS=1.0.0.1
-AddHost=sourmint.internal:10.99.1.15
-Memory=512M
-User=1002:1002
+# RPoWG traffic, for easier recalling in config files.
+AddHost=sourmint.internal:10.20.1.10
+# Resource Limits
+Memory=4G
+UserNS=auto:size=1101
