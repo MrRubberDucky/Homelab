@@ -18,6 +18,10 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Network=host
-AddHost=sourmint.internal:10.99.1.15
-User=1002:1002
+Network=Gatus.network
+AddHost=sourmint.internal:10.20.1.10
+# Non-CF domains need proper loopback D-NAT otherwise packet will get lost in the ether as it fails to reach host (itself).
+# This is more of an example of how you would do it with your own domain, ; is a separator.
+AddHost=auth.rubberverse.xyz;chat.rubberverse.xy:169.254.1.2
+User=1100:1100
+UserNS=auto:size=1101
