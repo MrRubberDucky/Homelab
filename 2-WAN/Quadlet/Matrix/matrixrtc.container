@@ -1,7 +1,5 @@
 [Unit]
 Description=MatrixRTC JWT service
-Requires=LiveKit.service
-After=LiveKit.service
 
 [Service]
 Restart=on-failure
@@ -14,12 +12,13 @@ WantedBy=default.target
 [Container]
 Image=ghcr.io/element-hq/lk-jwt-service:latest
 ContainerName=lk-jwt-service
-Network=host
+Network=MatrixRTC.network
+PublishPort=10.20.1.10:8081:8081/tcp
 EnvironmentFile=%h/Environments/Matrix/.env
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=128M
 PidsLimit=128
-User=1002:1002
+User=1100:1100
+UserNS=auto:size=110
