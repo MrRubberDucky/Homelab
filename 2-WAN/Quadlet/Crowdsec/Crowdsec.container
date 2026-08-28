@@ -16,7 +16,7 @@ Timezone=Europe/Warsaw
 # Environments
 EnvironmentFile=%h/Environments/Crowdsec/.env
 Mount=type=bind,src=%h/Appdata/Crowdsec/Config,dst=/etc/crowdsec,U,Z
-Mount=type=bind,src=%h/Appdata/Crowdsec/Data,dst=/var/lib/crowdsec/data,U,Z
+Volume=Crowdsec-Data:/var/lib/crowdsec/data:U,Z
 # Log settings, Whitelists
 Volume=%h/Configs/Crowdsec/whitelist-rdns.yaml:/etc/crowdsec/postoverflows/s01-whitelist/01-whitelist-rdns.yaml:ro,Z
 Volume=%h/Configs/Crowdsec/whitelist-lan.yaml:/etc/crowdsec/parsers/s02-enrich/01-whitelist-lan.yaml:ro,Z
@@ -32,4 +32,5 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-User=1001:1001
+User=1100:1100
+UserNS=auto:size=1101
