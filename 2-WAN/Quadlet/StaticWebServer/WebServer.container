@@ -1,5 +1,5 @@
 [Unit]
-Description=Caddy Web Server that proxies static site to VPS
+Description=Caddy Web Server
 
 [Install]
 WantedBy=default.target
@@ -8,16 +8,19 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
+ExecReload=podman exec static-blog /app/bin/caddy reload --config /app/configs/Caddyfile --address unix//run/admin.sock
 
 [Container]
 Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=static-blog
+Exec=run --config /app/configs/Caddyfile
 Environment=CONFIG_PATH=/app/configs/Caddyfile
 Volume=%h/Configs/Caddy/Caddyfile:/app/configs/Caddyfile:ro,Z
-Volume=%h/Userdata/Blog:/app/www:ro,U,Z
+Volume=%h/Userdata/Blog5:/app/www:ro,U,Z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=WebServer.network
-PublishPort=7000:7000
+PublishPort=10.20.1.10:7000:7000
+UserNS=auto:size=1101
