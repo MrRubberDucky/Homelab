@@ -1,0 +1,30 @@
+[Unit]
+Description=Valkey (Redis-compatible)
+Requires=umami.service
+Before=umami.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=public.ecr.aws/valkey/valkey:8.1-trixie
+ContainerName=valkey-umami
+Timezone=Europe/Warsaw
+Exec=valkey-server --save "" --appendonly no
+Volume=valkey-umami:/data:U,Z
+HealthCmd=valkey-cli ping
+HealthInterval=10s
+HealthRetries=10
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+Network=Valkey-Umami.network
