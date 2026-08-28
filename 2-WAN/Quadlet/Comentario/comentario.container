@@ -1,7 +1,9 @@
 [Unit]
 Description=Comentario Comment System
-Requires=Postgres-Comentario.service
-Wants=Postgres-Comentario.service
+Requires=postgres-comentario.service
+After=postgres-comentario.service
+AssertPathExists=%h/Environments/Comentario/.env
+AssertPathExists=%h/Configs/Comentario/secrets.yaml
 
 [Install]
 WantedBy=default.target
@@ -22,6 +24,7 @@ NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=Comentario.network
-PublishPort=3000:80
-Memory=512M
-User=1001:1001
+PublishPort=10.20.1.10:3001:80
+Sysctl=net.ipv4.ip_unprivileged_port_start=80
+User=1100:1100
+UserNS=auto
