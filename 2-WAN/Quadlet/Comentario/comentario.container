@@ -24,8 +24,8 @@ NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=Comentario.network
-Network=Comentario-Postgres.network
 PublishPort=10.20.1.10:3001:80
+Network=Postgres-Comentario.network
 Sysctl=net.ipv4.ip_unprivileged_port_start=80
 User=1100:1100
 UserNS=auto
