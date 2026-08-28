@@ -1,19 +1,19 @@
 [Unit]
-Description=LiveKit for DCTS
-Requires=MatrixJWT.service
-Before=MatrixJWT.service
+Description=LiveKit
+Requires=valkey.service
+After=valkey.service
 
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=true
+MemoryDenyWriteExecute=false
 
 [Install]
 WantedBy=default.target
 
 [Container]
 Image=docker.io/livekit/livekit-server:latest
-ContainerName=LiveKit
+ContainerName=livekit-server
 Exec=--config /etc/livekit.yaml
 Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z
 Network=host
@@ -21,6 +21,5 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=2G
-PidsLimit=512
-User=1002:1002
+User=1100:1100
+UserNS=auto:size=1101
