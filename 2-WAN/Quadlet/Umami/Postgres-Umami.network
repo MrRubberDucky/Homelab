@@ -1,0 +1,6 @@
+[Network]
+NetworkName=postgres-umami
+NetworkDeleteOnStop=false
+Driver=bridge
+Internal=true
+Options=isolate=true
