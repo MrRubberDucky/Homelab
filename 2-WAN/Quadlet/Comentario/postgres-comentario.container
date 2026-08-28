@@ -1,7 +1,9 @@
 [Unit]
 Description=PostgreSQL for Comentario
-Requires=Comentario.service
-Before=Comentario.service
+AssertPathIsDirectory=%h/Databases/Comentario
+AssertPathExists=%h/Environments/Comentario/.pgenv
+Requires=comentario.service
+Before=comentario.service
 
 [Install]
 WantedBy=default-user.target
@@ -13,19 +15,19 @@ MemoryDenyWriteExecute=false
 
 [Container]
 Image=public.ecr.aws/docker/library/postgres:18.1-trixie
-ContainerName=pgsql-comentario
+ContainerName=postgres-comentario
 Timezone=Europe/Warsaw
 EnvironmentFile=%h/Environments/Comentario/.pgenv
 Mount=type=bind,src=%h/Databases/Comentario,dst=/var/lib/postgresql,U=true,Z
 Tmpfs=/dev/shm
 HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
-HealthInterval=10s
-HealthRetries=3
-HealthTimeout=3s
-HealthStartupInterval=1m
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Network=Comentario.network
+Network=Postgres-Comentario.network
 User=999:999
