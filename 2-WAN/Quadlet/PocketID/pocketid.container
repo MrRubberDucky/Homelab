@@ -12,15 +12,20 @@ SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
 
 [Container]
-Image=ghcr.io/pocket-id/pocket-id:next-distroless
+Image=ghcr.io/pocket-id/pocket-id:latest-distroless
 ContainerName=pocket-id
 PodmanArgs=--entrypoint /app/pocket-id
 EnvironmentFile=%h/Environments/PocketID/.env
+# This was set to force the database schema to last supported version as they screwed up tags once and nearly bricked my whole database (xd)
+# For whatever reason they pushed out a version for a database schema that didn't exist. I kept it since then, doesn't seem to cause any issues.
+Environment=ALLOW_DOWNGRADE=true
 Volume=%h/Appdata/PocketID:/app/data:U,Z
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
 Network=PocketID.network
 Network=PostgresID.network
 PublishPort=10.20.1.10:1411:1411
+# Fails to launch when UserNS is set so have to run it as internal user (due to permissions)
 User=1001:1001
