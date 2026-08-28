@@ -1,0 +1,25 @@
+[Unit]
+Description=Nginx TCP/UDP Proxy and FastDL host for Source games
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=public.ecr.aws/nginx/nginx-unprivileged:alpine3.23-perl
+ContainerName=gsproxy
+Volume=%h/Configs/nginx/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+Volume=%h/Userdata/fastdl_sven:/var/www/fastdl:U,Z
+Volume=NGINX-CACHE:/var/cache/nginx:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+# Rootless networking can't handle huge UDP packets from game servers
+Network=host
+User=1100:1100
+UserNS=auto:size=1101
