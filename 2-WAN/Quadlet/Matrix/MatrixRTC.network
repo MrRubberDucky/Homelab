@@ -1,0 +1,5 @@
+[Network]
+NetworkName=MatrixRTC
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
