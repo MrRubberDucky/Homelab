@@ -1,0 +1,29 @@
+[Unit]
+Description=Hemmelig.app - Secret sharing service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=docker.io/hemmeligapp/hemmelig:v7
+ContainerName=hemmelig
+Entrypoint=sh
+# Needs to be ran once so it does db migration properly
+#Exec=-c "npx prisma migrate deploy && exec npx tsx server.ts"
+Exec=-c "exec npx tsx server.ts"
+EnvironmentFile=%h/Environments/Hemmelig/.env
+Volume=%h/Databases/Hemmelig:/app/database:U,Z
+Volume=%h/Appdata/Hemmelig:/app/uploads:U,Z
+Network=Hemmelig.network
+PublishPort=10.20.1.10:1337:1337/tcp
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=false
+User=1100:1100
+UserNS=auto:size=1101
