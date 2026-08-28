@@ -27,5 +27,5 @@ ReadOnly=true
 Network=PocketID.network
 Network=PostgresID.network
 PublishPort=10.20.1.10:1411:1411
-# Fails to launch when UserNS is set so have to run it as internal user (due to permissions)
+# Fails to launch when UserNS is set so have to run it as container user (due to permissions)
 User=1001:1001
