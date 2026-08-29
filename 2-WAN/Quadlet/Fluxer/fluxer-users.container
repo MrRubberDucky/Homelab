@@ -1,0 +1,26 @@
+[Unit]
+Description=Fluxer Users Router
+Requires=fluxer-nats.service fluxer-users-shard.service
+After=fluxer-nats.service
+Before=fluxer-users-shard.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-users:latest
+ContainerName=fluxer-users
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+UserNS=auto

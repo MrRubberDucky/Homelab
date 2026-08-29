@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer NATS
+Requires=fluxer-postgres.service fluxer-gateway.service fluxer-messages.service fluxer-messages-shard.service fluxer-users.service fluxer-users-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-gifs.service fluxer-gifs-shard.service
+Before=fluxer-api.service fluxer-gateway.service fluxer-messages-shard.service fluxer-users.service fluxer-users-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-gifs.service fluxer-gifs-shard.service
+After=fluxer-postgres.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=public.ecr.aws/docker/library/nats:2.14
+ContainerName=fluxer-nats
+Timezone=Europe/Warsaw
+Exec=--jetstream --config /config/nats.conf
+EnvironmentFile=/srv/fluxer/.env
+Volume=/srv/fluxer/nats:/data:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+Network=9Nats.network

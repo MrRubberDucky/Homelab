@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer Gifs Router
+Requires=fluxer-nats.service
+After=fluxer-nats.container
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-gifs:latest
+ContainerName=fluxer-gifs
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+Environment=FLUXER_SVC_NAME=gifs
+Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=https://chat.rubberverse.xyz/media
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+UserNS=auto

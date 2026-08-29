@@ -1,0 +1,37 @@
+[Unit]
+Description=Fluxer API Service
+Requires=fluxer-postgres.service fluxer-valkey.service fluxer-meilisearch.service fluxer-seaweedfs.service fluxer-nats.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-messages.service fluxer-messages-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-worker.service fluxer-caddy.service
+After=fluxer-postgres.service fluxer-valkey.service fluxer-meilisearch.service fluxer-seaweedfs.service fluxer-nats.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-users.service fluxer-users-shard.service fluxer-worker.service fluxer-unfurl.service fluxer-unfurl-shard.service
+Before=fluxer-caddy.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-api:latest
+ContainerName=fluxer-api
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_API_PORT=8080
+Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=true
+HealthCmd=node -e "fetch('http://127.0.0.1:8080/_health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+HealthInterval=5s
+HealthRetries=5
+HealthTimeout=5s
+Notify=healthy
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=0API.network
+Network=9Nats.network
+Network=8Valkey.network
+Network=7Postgres.network
+Network=7Meilisearch.network
+Network=6Seaweedfs.network
+UserNS=auto

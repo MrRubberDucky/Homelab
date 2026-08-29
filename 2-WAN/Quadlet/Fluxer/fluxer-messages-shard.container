@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer Messages Shard
+Requires=fluxer-nats.service fluxer-postgres.service fluxer-messages.service
+After=fluxer-nats.service fluxer-postgres.service fluxer-messages.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-messages:latest
+ContainerName=fluxer-messages-shard
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=shard
+Environment=FLUXER_SVC_SHARD_ID=0
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+Network=7Postgres.network
+UserNS=auto

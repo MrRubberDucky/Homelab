@@ -1,0 +1,30 @@
+[Unit]
+Description=Fluxer Gateway Service
+Requires=fluxer-nats.service fluxer-valkey.service
+After=fluxer-nats.service fluxer-valkey.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-gateway:latest
+ContainerName=fluxer-gateway
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_GATEWAY_PORT=8080
+Environment=FLUXER_GATEWAY_LOGGER_LEVEL=info
+Environment=FLUXER_GATEWAY_MEDIA_PROXY_ENDPOINT=https://chat.rubberverse.xyz/media
+Environment=FLUXER_GATEWAY_STATIC_CDN_ENDPOINT=https://chat.rubberverse.xyz
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+Network=1Gateway.network
+Network=0API.network
+Network=8Valkey.network
+Network=9Nats.network
+UserNS=auto

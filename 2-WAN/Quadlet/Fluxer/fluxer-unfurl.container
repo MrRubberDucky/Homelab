@@ -1,0 +1,26 @@
+[Unit]
+Description=Fluxer Unfurl Router
+Requires=fluxer-nats.service fluxer-unfurl-shard.service
+After=fluxer-nats.service
+Before=fluxer-unfurl-shard.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-unfurl:latest
+ContainerName=fluxer-unfurl
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+UserNS=auto

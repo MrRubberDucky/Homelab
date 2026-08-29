@@ -1,0 +1,33 @@
+[Unit]
+Description=Fluxer Worker Service
+Requires=fluxer-postgres.service fluxer-valkey.service fluxer-nats.service
+After=fluxer-postgres.service fluxer-valkey.service fluxer-nats.service fluxer-seaweedfs-init.service fluxer-snowflakes-shard.service fluxer-messages-shard.service fluxer-users-shard.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-api:latest
+ContainerName=fluxer-worker
+Timezone=Europe/Warsaw
+Exec=./node_modules/.bin/tsx src/WorkerEntrypoint.ts
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_API_WORKER_MODE=all_lanes
+Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=true
+Environment=FLUXER_API_WORKER_ENABLE_VOICE_RECONCILIATION=true
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=0Worker.network
+Network=9Nats.network
+Network=8Valkey.network
+Network=7Postgres.network
+Network=7Meilisearch.network
+Network=6Seaweedfs.network
+UserNS=auto

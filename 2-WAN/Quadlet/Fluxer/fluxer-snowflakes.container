@@ -1,0 +1,26 @@
+[Unit]
+Description=Fluxer Snowflakes Router
+Requires=fluxer-nats.service fluxer-snowflakes-shard.service
+After=fluxer-nats.container
+Before=fluxer-snowflakes-shard.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-snowflakes:latest
+ContainerName=fluxer-snowflakes
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+UserNS=auto

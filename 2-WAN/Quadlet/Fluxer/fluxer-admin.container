@@ -1,0 +1,36 @@
+[Unit]
+Description=Fluxer Admin Panel
+Requires=fluxer-api.service fluxer-caddy.service
+Before=fluxer-caddy.service
+After=fluxer-api.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-admin:latest
+ContainerName=fluxer-admin
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_ADMIN_HOST=0.0.0.0
+Environment=FLUXER_ADMIN_PORT=8080
+Environment=FLUXER_ADMIN_BASE_PATH=/admin
+Environment=FLUXER_API_ENDPOINT=http://fluxer-api:8080
+Environment=FLUXER_ADMIN_ENDPOINT=https://chat.rubberverse.xyz/admin
+Environment=FLUXER_APP_ENDPOINT=https://chat.rubberverse.xyz
+Environment=FLUXER_MEDIA_ENDPOINT=https://chat.rubberverse.xyz/media
+Environment=FLUXER_STATIC_CDN_ENDPOINT=https://chat.rubberverse.xyz
+Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=https://chat.rubberverse.xyz/admin/oauth2_callback
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=0Admin.network
+Network=0API.network
+Network=7Postgres.network
+UserNS=auto

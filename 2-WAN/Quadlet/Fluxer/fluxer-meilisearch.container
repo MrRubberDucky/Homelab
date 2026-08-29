@@ -1,0 +1,31 @@
+[Unit]
+Description=Fluxer Meilisearch
+Requires=fluxer-api.service
+Before=fluxer-api.service
+After=fluxer-postgres.service fluxer-valkey.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Container]
+Image=docker.io/getmeili/meilisearch:v1.12
+ContainerName=fluxer-meilisearch
+Timezone=Europe/Warsaw
+# Doesn't seem to support EnvironmentFile as it launches in default mode each time
+# Everything else works with it just never Meilisearch.
+Environment=MEILI_ENV=production
+Environment=MEILI_NO_ANALYTICS=true
+Environment=MEILI_MASTER_KEY=<redacted>
+Volume=/srv/fluxer/meili:/meili_data:U,Z
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+UserNS=auto:size=1100
+Network=7Meilisearch.network

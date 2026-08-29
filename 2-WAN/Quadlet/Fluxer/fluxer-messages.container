@@ -1,0 +1,27 @@
+[Unit]
+Description=Fluxer Messages Router
+Requires=fluxer-nats.service fluxer-postgres.service fluxer-messages-shard.service
+After=fluxer-nats.service fluxer-postgres.service
+Before=fluxer-messages-shard.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-messages:latest
+ContainerName=fluxer-messages
+Timezone=Europe/Warsaw
+EnvironmentFile=/srv/fluxer/.env
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=9Nats.network
+Network=7Postgres.network
+UserNS=auto
