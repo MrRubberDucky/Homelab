@@ -37,13 +37,6 @@ users:
 bootcmd:
   - mkdir -p /home/overseer/.config/systemd/user
 
-# This is how you can change password for existing users.
-# (In case you really want sudo to ask for password, tho make sure to remove NOPASSWD: from sudo: on ducky user)
-# chpasswd:
-#  expire: false
-#  users:
-#  - {name: ducky, password: change_me, type: text}
-
 # Packages to pre-install
 packages:
   - qemu-guest-agent
