@@ -21,6 +21,7 @@ Volume=/srv/fluxer/seaweedfs:/data:U,Z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
+ReadOnly=true
 User=1000:1000
 UserNS=auto:size=1001
 Network=6Seaweedfs.network
