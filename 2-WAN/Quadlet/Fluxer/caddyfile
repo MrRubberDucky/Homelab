@@ -1,0 +1,59 @@
+{
+  servers {
+    trusted_proxies static private_ranges 10.0.0.0/8 10.100.1.1/32 10.100.1.2/32 {$VPS_IPV4} {$VPS_IPV6}
+}
+
+# These headers are dropped on purpose as otherwise they'll appear twice when proxying again through external Caddy
+{$FLUXER_CADDY_SITE_ADDRESS} {
+        encode zstd gzip
+        handle_path /api/* {
+                header -Server
+                header -via
+                reverse_proxy fluxer-api:8080
+        }
+        handle /gateway {
+                rewrite * /
+                header -Server
+                header -via
+                reverse_proxy fluxer-gateway:8080
+        }
+        handle_path /gateway/* {
+                header -Server
+                header -via
+                reverse_proxy fluxer-gateway:8080
+        }
+        handle_path /media/* {
+                header -Server
+                header -via
+                reverse_proxy fluxer-media-proxy:8080
+        }
+        handle /admin {
+                rewrite * /
+                header -Server
+                header -via
+                reverse_proxy fluxer-admin-panel:8080
+        }
+        @staticAssets path /fonts/* /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /embeds/*
+        handle @staticAssets {
+                header -Server
+                header -via
+                reverse_proxy fluxer-static-proxy:8080
+        }
+        handle /.well-known/* {
+                header -Server
+                header -via
+                reverse_proxy fluxer-api:8080
+        }
+        handle {
+                header -Server
+                header -via
+                reverse_proxy fluxer-app-proxy:8080
+        }
+}
+:8088 {
+        handle_path /api/* {
+                header -Server
+                header -via
+                reverse_proxy fluxer-api:8080
+        }
+}
