@@ -1,3 +1,6 @@
+> [!WARNING]
+> This is currently outdated. I'm working on better version based on current compose.yaml changes.
+
 # Fluxer
 
 A free and open source instant messaging and VoIP chat app built for friends, groups, and communities.<br>
