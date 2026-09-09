@@ -1,59 +1,64 @@
 {
-  servers {
-    trusted_proxies static private_ranges 10.0.0.0/8 10.100.1.1/32 10.100.1.2/32 {$VPS_IPV4} {$VPS_IPV6}
+	servers {
+		trusted_proxies static {$FLUXER_EDGE_TRUSTED_PROXIES:private_ranges}
+		trusted_proxies_strict
+	}
 }
 
-# These headers are dropped on purpose as otherwise they'll appear twice when proxying again through external Caddy
-{$FLUXER_CADDY_SITE_ADDRESS} {
-        encode zstd gzip
-        handle_path /api/* {
-                header -Server
-                header -via
-                reverse_proxy fluxer-api:8080
-        }
-        handle /gateway {
-                rewrite * /
-                header -Server
-                header -via
-                reverse_proxy fluxer-gateway:8080
-        }
-        handle_path /gateway/* {
-                header -Server
-                header -via
-                reverse_proxy fluxer-gateway:8080
-        }
-        handle_path /media/* {
-                header -Server
-                header -via
-                reverse_proxy fluxer-media-proxy:8080
-        }
-        handle /admin {
-                rewrite * /
-                header -Server
-                header -via
-                reverse_proxy fluxer-admin-panel:8080
-        }
-        @staticAssets path /fonts/* /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /embeds/*
-        handle @staticAssets {
-                header -Server
-                header -via
-                reverse_proxy fluxer-static-proxy:8080
-        }
-        handle /.well-known/* {
-                header -Server
-                header -via
-                reverse_proxy fluxer-api:8080
-        }
-        handle {
-                header -Server
-                header -via
-                reverse_proxy fluxer-app-proxy:8080
-        }
+{$FLUXER_EDGE_SITE_ADDRESS} {
+	encode zstd gzip
+
+	handle /_health {
+		respond "OK" 200
+	}
+
+	handle_path /api/* {
+		reverse_proxy {$pr}api:8080
+	}
+
+	handle /gateway {
+		rewrite * /
+		reverse_proxy {$pr}gateway:8080
+	}
+
+	handle_path /gateway/* {
+		reverse_proxy {$pr}gateway:8080
+	}
+
+	handle_path /media/* {
+		reverse_proxy {$pr}media-proxy:8080
+	}
+
+# Undocumment if running LK on same host
+#	handle_path /livekit/* {
+#		reverse_proxy {$pr}livekit:7880
+#	}
+
+	handle /admin {
+		rewrite * /
+		reverse_proxy {$pr}admin:8080
+	}
+
+	handle_path /admin/* {
+		reverse_proxy {$pr}admin:8080
+	}
+
+	@staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /embeds/*
+	handle @staticAssets {
+		reverse_proxy {$pr}static-proxy:8080
+	}
+
+	handle /.well-known/fluxer {
+		reverse_proxy {$pr}api:8080
+	}
+
+	handle {
+		reverse_proxy {$pr}app-proxy:8080
+	}
 }
+
 :8088 {
-        handle_path /api/* {
-                header -Server
-                header -via
-                reverse_proxy fluxer-api:8080
-        }
+	handle /.well-known/fluxer {
+		reverse_proxy {$pr}api:8080
+	}
 }
