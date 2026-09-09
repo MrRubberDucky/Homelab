@@ -9,22 +9,34 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=public.ecr.aws/valkey/valkey:8.1-trixie
+Image=${RUBBERVERSE_XYZ_VALKEY_ALT_IMAGE}:${RUBBERVERSE_XYZ_VALKEY_ALT_TAG}
 ContainerName=fluxer-valkey
-Timezone=Europe/Warsaw
-Exec=valkey-server --save "" --appendonly no
-Volume=Redis-Data:/data:U,Z
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+Exec=valkey-server \
+    --appendonly yes \
+    --appendfsync everysec \
+    --dir /data \
+    --maxmemory ${FLUXER_VALKEY_MAXMEMORY} \
+    --maxmemory-policy ${FLUXER_VALKEY_MAXMEMORY_POLICY}
+# Named volume
+Volume=${RUBBERVERSE_XYZ_VALKEY_DATDIR}:/data:U,Z
+# Healthcheck
 HealthCmd=valkey-cli ping
 HealthInterval=10s
 HealthRetries=10
 HealthTimeout=5s
 Notify=healthy
-AutoUpdate=registry
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-User=1100:1100
-UserNS=auto:size=1101
+Memory=${FLUXER_VALKEY_MEMORY_LIMIT}
+# User mapping and namespace
+User=${RUBBERVERSE_XYZ_VALKEY_USER_GROUP}
+UserNS=auto:size=${RUBBERVERSE_XYZ_VALKEY_USERNS_SIZE}
+# Network
 Network=8Valkey.network

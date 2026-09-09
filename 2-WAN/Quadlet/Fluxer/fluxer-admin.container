@@ -1,6 +1,9 @@
 [Unit]
 Description=Fluxer Admin Panel
-Requires=fluxer-api.service fluxer-caddy.service
+Requires=\
+    fluxer-api.service \
+    fluxer-caddy.service
+
 Before=fluxer-caddy.service
 After=fluxer-api.service
 
@@ -11,25 +14,27 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-admin:latest
+Image=${FLUXER_REGISTRY}/fluxer-admin:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-admin
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_ADMIN_HOST=0.0.0.0
 Environment=FLUXER_ADMIN_PORT=8080
 Environment=FLUXER_ADMIN_BASE_PATH=/admin
 Environment=FLUXER_API_ENDPOINT=http://fluxer-api:8080
-Environment=FLUXER_ADMIN_ENDPOINT=https://chat.rubberverse.xyz/admin
-Environment=FLUXER_APP_ENDPOINT=https://chat.rubberverse.xyz
-Environment=FLUXER_MEDIA_ENDPOINT=https://chat.rubberverse.xyz/media
-Environment=FLUXER_STATIC_CDN_ENDPOINT=https://chat.rubberverse.xyz
-Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=https://chat.rubberverse.xyz/admin/oauth2_callback
-AutoUpdate=registry
+Environment=FLUXER_ADMIN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/admin
+Environment=FLUXER_APP_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
+Environment=FLUXER_MEDIA_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+Environment=FLUXER_STATIC_CDN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
+Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/admin/oauth2_callback
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_ADMIN_MEMORY_LIMIT}
 Network=0Admin.network
 Network=0API.network
 Network=7Postgres.network

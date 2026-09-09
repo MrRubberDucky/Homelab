@@ -1,7 +1,33 @@
 [Unit]
 Description=Fluxer NATS
-Requires=fluxer-postgres.service fluxer-gateway.service fluxer-messages.service fluxer-messages-shard.service fluxer-users.service fluxer-users-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-gifs.service fluxer-gifs-shard.service
-Before=fluxer-api.service fluxer-gateway.service fluxer-messages-shard.service fluxer-users.service fluxer-users-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-gifs.service fluxer-gifs-shard.service
+
+Requires=\
+    fluxer-postgres.service \
+    fluxer-gateway.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-users.service \
+    fluxer-users-shard.service \
+    fluxer-unfurl.service \
+    fluxer-unfurl-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
+    fluxer-gifs.service \
+    fluxer-gifs-shard.service
+
+Before=\
+    fluxer-api.service \
+    fluxer-gateway.service \
+    fluxer-messages-shard.service \
+    fluxer-users.service \
+    fluxer-users-shard.service \
+    fluxer-unfurl.service \
+    fluxer-unfurl-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
+    fluxer-gifs.service \
+    fluxer-gifs-shard.service
+
 After=fluxer-postgres.service
 
 [Install]
@@ -11,17 +37,26 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
+# Used by systemd
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=public.ecr.aws/docker/library/nats:2.14
+Image=${RUBBERVERSE_XYZ_NATS_ALT_IMAGE}:${RUBBERVERSE_XYZ_NATS_ALT_TAG}
 ContainerName=fluxer-nats
-Timezone=Europe/Warsaw
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 Exec=--jetstream --config /config/nats.conf
-EnvironmentFile=/srv/fluxer/.env
-Volume=/srv/fluxer/nats:/data:U,Z
-AutoUpdate=registry
+# Volume bind
+Volume=${RUBBERVERSE_XYZ_NATS_DATDIR}:/data:U,Z
+Volume=${RUBBERVERSE_XYZ_NATS_CONFIG}:/config/nats.conf:ro,Z
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-User=1100:1100
+# cgroupv2
+Memory=${FLUXER_NATS_MEMORY_LIMIT}
+# User and namespace
+User=${RUBBERVERSE_XYZ_NATS_USER_GROUP}
+UserNS=auto:size=${RUBBERVERSE_XYZ_NATS_USERNS_SIZE}
+# Network
 Network=9Nats.network

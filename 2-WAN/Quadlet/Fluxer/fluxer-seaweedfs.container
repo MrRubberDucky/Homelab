@@ -10,19 +10,29 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=docker.io/chrislusf/seaweedfs:4.34
+Image=${RUBBERVERSE_XYZ_SEAWEEDFS_ALT_IMAGE}:${RUBBERVERSE_XYZ_SEAWEEDFS_ALT_TAG}
 ContainerName=fluxer-seaweedfs
-Timezone=Europe/Warsaw
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+Environment=GODEBUG=fips140=on
 Entrypoint=/usr/bin/weed
-# 1 volume = 30GB
-Exec=-logtostderr=true server -s3 -dir=/data -volume.max=2
-Volume=/srv/fluxer/seaweedfs:/data:U,Z
-AutoUpdate=registry
+Exec=-logtostderr=${RUBBERVERSE_XYZ_SEAWEEDFS_LOGTOSTDERR} server -s3 -dir=/data -volume.max=${RUBBERVERSE_XYZ_SEAWEEDFS_30GB_BUCKETS_AMOUNT}
+Volume=${RUBBERVERSE_XYZ_SEAWEEDFS_S3_STORE}:/data:U,Z
+# Healthcheck
+HealthCmd=wget -q -O /dev/null http://127.0.0.1:8333/healthz
+HealthInterval=10s
+HealthRetries=20
+HealthTimeout=5s
+Notify=healthy
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
-ReadOnly=true
+# cgroupv2
+Memory=${FLUXER_SEAWEEDFS_MEMORY_LIMIT}
+# User etc.
 User=1000:1000
 UserNS=auto:size=1001
 Network=6Seaweedfs.network

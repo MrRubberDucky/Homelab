@@ -1,7 +1,18 @@
 [Unit]
 Description=Fluxer Caddy Reverse Proxy
-Requires=fluxer-admin.service fluxer-static-proxy.service fluxer-media-proxy.service fluxer-app-proxy.service fluxer-gateway.service
-After=fluxer-admin.service fluxer-static-proxy.service fluxer-media-proxy.service fluxer-app-proxy.service fluxer-gateway.service
+Requires=\
+    fluxer-admin.service \
+    fluxer-static-proxy.service \
+    fluxer-media-proxy.service \
+    fluxer-app-proxy.service \
+    fluxer-gateway.service
+
+After=\
+    fluxer-admin.service \
+    fluxer-static-proxy.service \
+    fluxer-media-proxy.service \
+    fluxer-app-proxy.service \
+    fluxer-gateway.service
 
 [Install]
 WantedBy=default.target
@@ -9,22 +20,32 @@ WantedBy=default.target
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=false
+MemoryDenyWriteExecute=true
+EnvironmentFile=%h/Fluxer/.sysenv
 
+# This was renamed to "edge" but I'm keeping old naming since it's a pointless small change
 [Container]
-Image=ghcr.io/rubberverse/qor-caddy:latest
+Image=${RUBBERVERSE_XYZ_CADDY_ALT_IMAGE}:${RUBBERVERSE_XYZ_CADDY_ALT_TAG}
 ContainerName=fluxer-caddy
-Timezone=Europe/Warsaw
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 Exec=run --config /app/configs/caddyfile
-Environment=FLUXER_CADDY_SITE_ADDRESS=:8777
-Volume=/srv/fluxer/caddy/caddyfile:/app/configs/caddyfile:ro,Z
-Volume=CADDY-LOGS:/app/logs:U,z
-Volume=CADDY_DATA:/app/.local/share/caddy:U,Z
-Volume=CADDY_CONF:/app/.config/caddy:U,Z
-AutoUpdate=registry
+Environment=FLUXER_EDGE_BIND=${FLUXER_EDGE_BIND}
+Environment=FLUXER_EDGE_SITE_ADDRESS=${FLUXER_EDGE_SITE_ADDRESS}
+Environment=FLUXER_EDGE_TRSTED_PROXIES=${FLUXER_EDGE_TRUSTED_PROXIES}
+Environment=pr=fluxer-
+# Bind volumes
+Volume=${RUBBERVERSE_XYZ_CADDY_CONFIG}:/app/configs/caddyfile:ro,Z
+# Named volumes
+Volume=${RUBBERVERSE_XYZ_CADDY_LOGDIR}:/app/logs:U,z
+Volume=${RUBBERVERSE_XYZ_CADDY_DATDIR}:/app/.local/share/caddy:U,Z
+Volume=${RUBBERVERSE_XYZ_CADDY_CONDIR}:/app/.config/caddy:U,Z
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_CADDY_MEMORY_LIMIT}
+# Network + Publish
 Network=0Caddy.network
 PublishPort=8777:8777
 Network=0API.network
@@ -32,5 +53,6 @@ Network=0Admin.network
 Network=1Gateway.network
 Network=2MediaProxy.network
 Network=3StaticProxy.network
-Network=4AppProxy.network
-UserNS=auto
+# User namespace
+User=${RUBBERVERSE_XYZ_CADDY_USER_GROUP}
+UserNS=auto:size=${RUBBERVERSE_XYZ_CADDY_USERNS_SIZE}

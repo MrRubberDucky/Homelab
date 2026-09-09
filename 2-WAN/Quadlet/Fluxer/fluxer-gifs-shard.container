@@ -10,19 +10,21 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-gifs:latest
+Image=${FLUXER_REGISTRY}/fluxer-gifs:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-gifs-shard
 Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_SVC_NAME=gifs
 Environment=FLUXER_SVC_MODE=shard
 Environment=FLUXER_SVC_SHARD_ID=0
-Environment=FLUXER_SVC_NAME=gifs
-Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=https://chat.rubberverse.xyz/media
-AutoUpdate=registry
+Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_GIFS_SHARD_MEMORY_LIMIT}
 Network=9Nats.network
 UserNS=auto

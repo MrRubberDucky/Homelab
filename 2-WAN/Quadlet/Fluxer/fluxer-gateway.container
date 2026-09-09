@@ -1,7 +1,13 @@
 [Unit]
 Description=Fluxer Gateway Service
-Requires=fluxer-nats.service fluxer-valkey.service
-After=fluxer-nats.service fluxer-valkey.service
+
+Requires=\
+    fluxer-nats.service \
+    fluxer-valkey.service
+
+After=\
+    fluxer-nats.service\
+    fluxer-valkey.service
 
 [Install]
 WantedBy=default.target
@@ -10,19 +16,23 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-gateway:latest
+Image=${FLUXER_REGISTRY}/fluxer-gateway:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-gateway
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_GATEWAY_PORT=8080
-Environment=FLUXER_GATEWAY_LOGGER_LEVEL=info
-Environment=FLUXER_GATEWAY_MEDIA_PROXY_ENDPOINT=https://chat.rubberverse.xyz/media
-Environment=FLUXER_GATEWAY_STATIC_CDN_ENDPOINT=https://chat.rubberverse.xyz
-AutoUpdate=registry
+Environment=FLUXER_GATEWAY_LOGGER_LEVEL=${RUBBERVERSE_XYZ_GATEWAY_LOGGER_LEVEL}
+Environment=FLUXER_GATEWAY_MEDIA_PROXY_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+Environment=FLUXER_GATEWAY_STATIC_CDN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
+Environment=FLUXER_ERLANG_SCHEDULERS_MIN=${FLUXER_ERLANG_SCHEDULERS_MIN}
+Environment=FLUXER_ERLANG_SCHEDULERS_MAX=${FLUXER_ERLANG_SCHEDULERS_MAX}
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
+Memory=${FLUXER_GATEWAY_MEMORY_LIMIT}
 Network=1Gateway.network
 Network=0API.network
 Network=8Valkey.network

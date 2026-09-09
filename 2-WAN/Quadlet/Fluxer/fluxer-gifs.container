@@ -2,6 +2,7 @@
 Description=Fluxer Gifs Router
 Requires=fluxer-nats.service
 After=fluxer-nats.container
+# current vibe: downright miserable
 
 [Install]
 WantedBy=default.target
@@ -10,18 +11,20 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-gifs:latest
+Image=${FLUXER_REGISTRY}/fluxer-gifs:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-gifs
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
-Environment=FLUXER_SVC_MODE=router
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_SVC_NAME=gifs
-Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=https://chat.rubberverse.xyz/media
-AutoUpdate=registry
+Environment=FLUXER_SVC_MODE=router
+Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_GIFS_MEMORY_LIMIT}
 Network=9Nats.network
 UserNS=auto

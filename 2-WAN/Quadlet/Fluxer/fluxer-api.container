@@ -1,8 +1,44 @@
 [Unit]
 Description=Fluxer API Service
-Requires=fluxer-postgres.service fluxer-valkey.service fluxer-meilisearch.service fluxer-seaweedfs.service fluxer-nats.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-messages.service fluxer-messages-shard.service fluxer-unfurl.service fluxer-unfurl-shard.service fluxer-worker.service fluxer-caddy.service
-After=fluxer-postgres.service fluxer-valkey.service fluxer-meilisearch.service fluxer-seaweedfs.service fluxer-nats.service fluxer-snowflakes.service fluxer-snowflakes-shard.service fluxer-users.service fluxer-users-shard.service fluxer-worker.service fluxer-unfurl.service fluxer-unfurl-shard.service
-Before=fluxer-caddy.service
+
+# Dependency block of hell and despair
+Requires=\
+    fluxer-postgres.service \
+    fluxer-valkey.service \
+    fluxer-nats.service \
+    fluxer-gateway.service \
+    fluxer-meilisearch.service \
+    fluxer-seaweedfs.service \
+    fluxer-gifs.service \
+    fluxer-gifs-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-users.service \
+    fluxer-users-shard.service \
+    fluxer-worker.service \
+    fluxer-caddy.service
+
+After=\
+    fluxer-postgres.service \
+    fluxer-valkey.service \
+    fluxer-nats.service \
+    fluxer-meilisearch.service \
+    fluxer-seaweedfs.service \
+    fluxer-gifs.service \
+    flxuer-gifs-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-users.service \
+    fluxer-users-shard.service \
+    fluxer-worker.service
+
+Before=\
+	fluxer-caddy.service \
+	fluxer-gateway.service
 
 [Install]
 WantedBy=default.target
@@ -11,27 +47,34 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-api:latest
+Image=${FLUXER_REGISTRY}/fluxer-api:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-api
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
-Environment=FLUXER_API_PORT=8080
-Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=true
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_API_PORT=${FLUXER_API_PORT}
+Environment=NODE_OPTIONS=--enable-source-maps --max_old-space-size=${FLUXER_API_NODE_HEAP_MB}
+Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=${FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED}
+Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
+# Healthcheck
 HealthCmd=node -e "fetch('http://127.0.0.1:8080/_health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-HealthInterval=5s
-HealthRetries=5
+HealthInterval=10s
+HealthRetries=30
 HealthTimeout=5s
 Notify=healthy
-AutoUpdate=registry
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+# cgroupv2
+Memory=${FLUXER_API_MEMORY_LIMIT}
+# Networks
 Network=0API.network
-Network=9Nats.network
-Network=8Valkey.network
+Network=6Seaweedfs.network
 Network=7Postgres.network
 Network=7Meilisearch.network
-Network=6Seaweedfs.network
+Network=8Valkey.network
+Network=9Nats.network
 UserNS=auto

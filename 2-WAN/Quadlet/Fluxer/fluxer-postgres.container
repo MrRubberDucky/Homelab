@@ -1,7 +1,20 @@
 [Unit]
 Description=PostgreSQL for Fluxer
-Requires=fluxer-api.service fluxer-nats.service fluxer-messages.service fluxer-messages-shard.service fluxer-users-shard.service 
-Before=fluxer-api.service fluxer-nats.service fluxer-messages.service fluxer-messages-shard.service fluxer-users-shard.service
+Requires=\
+    fluxer-api.service \
+    fluxer-worker.service \
+    fluxer-nats.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-users-shard.service 
+
+Before=\
+    fluxer-api.service \
+    fluxer-worker.service \
+    fluxer-nats.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-users-shard.service
 
 [Install]
 WantedBy=default.target
@@ -10,22 +23,52 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=public.ecr.aws/docker/library/postgres:18.0-trixie
+# Using 18.0 instead of 16.0 due to better unprivileged user support
+Image=${RUBBERVERSE_XYZ_POSTGRES_ALT_IMAGE}:${RUBBERVERSE_XYZ_POSTGRES_ALT_TAG}
 ContainerName=fluxer-postgres
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.pgenv
-Mount=type=bind,src=/srv/fluxer/db,dst=/var/lib/postgresql,U=true,Z
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.pgenv
+Exec=postgres \
+    -c max_connections=${FLUXER_POSTGRES_SERVER_MAX_CONNECTIONS} \
+    -c shared_buffers=${FLUXER_POSTGRES_SHARED_BUFFERS} \
+    -c effective_cache_size=${FLUXER_POSTGRES_EFFECTIVE_CACHE_SIZE} \
+    -c work_mem=${FLUXER_POSTGRES_WORK_MEM} \
+    -c maintenance_work_mem=${FLUXER_POSTGRES_MAINTENANCE_WORK_MEM} \
+    -c autovacuum_work_mem=${FLUXER_POSTGRES_AUTOVACUUM_WORK_MEM} \
+    -c random_page_cost=${FLUXER_POSTGRES_RANDOM_PAGE_COST} \
+    -c effective_io_concurrency=${FLUXER_POSTGRES_EFFECTIVE_IO_CONCURRENCY} \
+    -c default_statistics_target=${FLUXER_POSTGRES_DEFAULT_STATISTICS_TARGET} \
+    -c jit=${FLUXER_POSTGRES_JIT} \
+    -c min_wal_size=${FLUXER_POSTGRES_MIN_WAL_SIZE} \
+    -c max_wal_size=${FLUXER_POSTGRES_MAX_WAL_SIZE} \
+    -c checkpoint_completion_target=${FLUXER_POSTGRES_CHECKPOINT_COMPLETION_TARGET} \
+    -c wal_buffers=${FLUXER_POSTGRES_WAL_BUFFERS} \
+    -c wal_compression=${FLUXER_POSTGRES_WAL_COMPRESSION} \
+    -c bgwriter_delay=${FLUXER_POSTGRES_BGWRITER_DELAY} \
+    -c bgwriter_lru_maxpages=${FLUXER_POSTGRES_BGWRITER_LRU_MAXPAGES} \
+    -c autovacuum_vacuum_scale_factor=${FLUXER_POSTGRES_AUTOVACUUM_VACUUM_SCALE_FACTOR} \
+    -c autovacuum_analyze_scale_factor=${FLUXER_POSTGRES_AUTOVACUUM_ANALYZE_SCALE_FACTOR} \
+    -c autovacuum_vacuum_cost_limit=${FLUXER_POSTGRES_AUTOVACUUM_VACUUM_COST_LIMIT} \
+    -c track_io_timing=${FLUXER_POSTGRES_TRACK_IO_TIMING} \
+    -c shared_preload_libraries=pg_stat_statements
 Tmpfs=/dev/shm
+# Mount
+Mount=type=bind,src=${RUBBERVERSE_XYZ_POSTGRES_DATDIR},dst=/var/lib/postgresql,U=true,Z
+# Healtcheck
 HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
 HealthInterval=5s
 HealthRetries=5
 HealthTimeout=5s
 Notify=healthy
-AutoUpdate=registry
+# Labels
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_POSTGRES_MEMORY_LIMIT}
+# Network + Port
 Network=7Postgres.network
 User=999:999

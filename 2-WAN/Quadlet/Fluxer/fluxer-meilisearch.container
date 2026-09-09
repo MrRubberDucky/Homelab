@@ -11,21 +11,32 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
+EnvironmentFile=%h/Fluxer/.meilienv
 
 [Container]
-Image=docker.io/getmeili/meilisearch:v1.12
+Image=${RUBBERVERSE_XYZ_MEILI_ALT_IMAGE}:${RUBBERVERSE_XYZ_MEILI_ALT_TAG}
 ContainerName=fluxer-meilisearch
-Timezone=Europe/Warsaw
-# Doesn't seem to support EnvironmentFile as it launches in default mode each time
-# Everything else works with it just never Meilisearch.
+EnvironmentFile=%h/Fluxer/.meilienv
 Environment=MEILI_ENV=production
 Environment=MEILI_NO_ANALYTICS=true
-Environment=MEILI_MASTER_KEY=<redacted>
-Volume=/srv/fluxer/meili:/meili_data:U,Z
+Environment=MEILI_MAX_INDEXING_MEMORY=${FLUXER_MEILISEARCH_MAX_INDEXING_MEMORY}
+Environment=MEILI_MASTER_KEY=${MASTER_KEY}
+# Bind volume
+Volume=${RUBBERVERSE_XYZ_MEILI_DATDIR}:/meili_data:U,Z
+# Healthcheck
+HealthCmd=wget -q -O /dev/null http://127.0.0.1:7700/health
+HealthInterval=10s
+HealthRetries=10
+HealthTimeout=5s
+Notify=healthy
+# Labels
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-User=1100:1100
-UserNS=auto:size=1100
+# User and namespace
+User=${RUBBERVERSE_XYZ_MEILI_USER_GROUP}
+UserNS=auto:size=${RUBBERVERSE_XYZ_MEILI_USERNS_SIZE}
+# Network
 Network=7Meilisearch.network

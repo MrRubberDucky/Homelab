@@ -1,8 +1,14 @@
 [Unit]
 Description=Fluxer Unfurl Router
-Requires=fluxer-nats.service fluxer-unfurl-shard.service
-After=fluxer-nats.service
-Before=fluxer-unfurl-shard.service
+Requires=\
+    fluxer-nats.service \
+    fluxer-unfurl-shard.service
+
+After=\
+    fluxer-nats.service
+
+Before=\
+    fluxer-unfurl-shard.service
 
 [Install]
 WantedBy=default.target
@@ -11,16 +17,21 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-unfurl:latest
+Image=${FLUXER_REGISTRY}/fluxer-unfurl:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-unfurl
-Timezone=Europe/Warsaw
-EnvironmentFile=/srv/fluxer/.env
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_SVC_NAME=unfurl
 Environment=FLUXER_SVC_MODE=router
-AutoUpdate=registry
+Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+Environment=FLUXER_STATIC_CDN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Memory=${FLUXER_UNFURL_MEMORY_LIMIT}
 Network=9Nats.network
 UserNS=auto
