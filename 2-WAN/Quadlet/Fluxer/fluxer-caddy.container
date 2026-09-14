@@ -32,7 +32,6 @@ Exec=run --config /app/configs/caddyfile
 Environment=FLUXER_EDGE_BIND=${FLUXER_EDGE_BIND}
 Environment=FLUXER_EDGE_SITE_ADDRESS=${FLUXER_EDGE_SITE_ADDRESS}
 Environment=FLUXER_EDGE_TRSTED_PROXIES=${FLUXER_EDGE_TRUSTED_PROXIES}
-Environment=pr=fluxer-
 # Bind volumes
 Volume=${RUBBERVERSE_XYZ_CADDY_CONFIG}:/app/configs/caddyfile:ro,Z
 # Named volumes
