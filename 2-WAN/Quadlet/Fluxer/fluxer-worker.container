@@ -5,16 +5,19 @@ Requires=\
     fluxer-postgres.service \
     fluxer-valkey.service \
     fluxer-nats.service \
-#    fluxer-seaweedfs-init.service
+    fluxer-api.service
+#   fluxer-seaweedfs-init.service
 
 After=\
     fluxer-postgres.service \
     fluxer-valkey.service \
     fluxer-nats.service \
-#    fluxer-seaweedfs-init.service \
+#   fluxer-seaweedfs-init.service \
     fluxer-snowflakes-shard.service \
     fluxer-messages-shard.service \
-    fluxer-users-shard.service
+    fluxer-users-shard.service \
+    fluxer-api.service
+
 
 [Install]
 WantedBy=default.target
@@ -30,6 +33,7 @@ Image=${FLUXER_REGISTRY}/fluxer-api:${FLUXER_IMAGE_TAG}
 ContainerName=fluxer-worker
 Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
+Environment=NODE_OPTIONS=--enable-source-maps --max-old-space-size=${FLUXER_WORKER_NODE_HEAP_MB}
 Environment=FLUXER_API_WORKER_MODE=${RUBBERVERSE_XYZ_API_WORKER_MODE}
 Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=${RUBBERVERSE_XYZ_API_WORKER_ENABLE_CRON_SCHEDULER}
 Environment=FLUXER_API_WORKER_ENABLE_VOICE_RECONCILIATION=${RUBBERVERSE_XYZ_API_WORKER_ENABLE_VOICE_RECONCILATION}
