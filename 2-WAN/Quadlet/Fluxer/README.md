@@ -28,5 +28,5 @@ Trying to do least-privilege setups with my Quadlet configurations, not the most
 - [Enjoy this very splendid Xbox message](https://www.youtube.com/watch?v=-ih0B9yn32Q)
 - [Learn what future gen consoles may come out](https://www.youtube.com/watch?v=rzLIUgnKY40)
 - [See how hard life is for average Yaoi fangirl](https://www.youtube.com/watch?v=vNPzZzoNw2Y)
-- [Getting beaten with a metal pipe for ragebaiting with 67 by a tomboy girlfriend ASMR](https://www.youtube.com/watch?v=njiWAPXnDio)
+- [Getting beaten with a metal pipe for ragebaiting your tomboy girlfriend with 67 ASMR](https://www.youtube.com/watch?v=njiWAPXnDio)
 - [Pegcraft gameplay](https://www.youtube.com/watch?v=Jv54epRqSU8)
