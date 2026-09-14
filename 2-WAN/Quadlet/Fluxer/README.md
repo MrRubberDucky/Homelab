@@ -12,7 +12,7 @@ I'm lazy though so it may take a few months.
 
 Trying to do least-privilege setups with my Quadlet configurations, not the most nutty overtightened stuff but safer than the defaults projects ship with.
 
-- Hardened with your usual options `ReadOnly=true`, `NoNewPrivileges=true`, `DropCapability=all`, `SystemCallArchitectures=native` and very rarely `MemoryDenyWriteExecute=false`
+- Hardened with your usual options `ReadOnly=true`, `NoNewPrivileges=true`, `DropCapability=all`, `SystemCallArchitectures=native` and very rarely `MemoryDenyWriteExecute=true`
 - All containers run in randomized namespaces[1]
 - Internal-only network for database and search containers (Postgres, Valkey and Meilisearch)[2]
 - Certain containers run as specific user and bypass entrypoint script to launch as unprivileged user (NATS, SeaweedFS, Meilisearch and Valkey)[3]
