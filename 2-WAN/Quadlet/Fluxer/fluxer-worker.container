@@ -4,8 +4,7 @@ Description=Fluxer Worker Service
 Requires=\
     fluxer-postgres.service \
     fluxer-valkey.service \
-    fluxer-nats.service \
-    fluxer-api.service
+    fluxer-nats.service
 #   fluxer-seaweedfs-init.service
 
 After=\
@@ -15,9 +14,7 @@ After=\
 #   fluxer-seaweedfs-init.service \
     fluxer-snowflakes-shard.service \
     fluxer-messages-shard.service \
-    fluxer-users-shard.service \
-    fluxer-api.service
-
+    fluxer-users-shard.service
 
 [Install]
 WantedBy=default.target
