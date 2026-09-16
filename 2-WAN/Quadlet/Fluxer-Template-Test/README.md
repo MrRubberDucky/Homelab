@@ -1,4 +1,4 @@
-Testing reduction in generated quadlet files by using systemd & quadlet systemd generatr template and override system.
+Testing reduction in template quadlet files by using systemd & quadlet systemd generatr template and override system.
 Templates are expected to not be modified directly, instead users should create an override for the service they want to modify.
 
 `install.sh` will set everything up and deploy the containers live, currently it only sets up directories, overrides and symlinks as needed.
