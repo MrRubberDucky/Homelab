@@ -1,0 +1,10 @@
+[Service]
+EnvironmentFile=%h/Fluxer/.sysenv
+
+[Network]
+NetworkName=%i
+NetworkDeleteOnStop=true
+Driver=bridge
+Internal=true
+Options=isolate=true
+IPv6=${RUBBERVERSE_XYZ_IPv6_SUPPORT}
