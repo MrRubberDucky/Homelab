@@ -1,0 +1,83 @@
+[Unit]
+Description=NATS - Open source messaging system
+
+Requires=\
+    fluxer-postgres.service \
+    fluxer-gateway.service
+
+# Generated service dependencies
+Requires\
+    nats@messages.service \
+    nats-shard@messages.service \
+    nats@users.service \
+    nats-shard@users.service \
+    nats@unfurl.service \
+    nats-shard@unfurl.service \
+    nats@snowflakes.service \
+    nats-shard@snowflakes.service \
+    nats@gifs.service \
+    nats-shard@gifs.service
+
+# Generated network dependencies
+Requires=\
+    generic@nats-network.service \
+    generic@gifs-network.service \
+    generic@users-network.service \
+    generic@messages-network.service \
+    generic@snowflakes-network.service
+
+Before=\
+    fluxer-api.service \
+    fluxer-gateway.service \
+    nats@messages.service \
+    nats-shard@messages.service \
+    nats@users.service \
+    nats-shard@users.service \
+    nats@unfurl.service \
+    nats-shard@unfurl.service \
+    nats@snowflakes.service \
+    nats-shard@snowflakes.service \
+    nats@gifs.service \
+    nats-shard@gifs.service
+
+After=fluxer-postgres.service
+
+After=\
+    generic@nats-network.service \
+    generic@gifs-network.service \
+    generic@users-network.service \
+    generic@messages-network.service \
+    generic@snowflakes-network.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+EnvironmentFile=%h/Fluxer/.sysenv
+
+[Container]
+Image=public.ecr.aws/docker/library/nats:2.14
+ContainerName=fluxer-nats
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+Exec=--jetstream --config /config/nats.conf
+Volume=${RUBBERVERSE_XYZ_NATS_DATDIR}:/data:U,Z
+Volume=${RUBBERVERSE_XYZ_NATS_CONFIG}:/config/nats.conf:ro,Z
+Tmpfs=/tmp:rw,size=4m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=4m,noexec,nosuid,nodev
+AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=${FLUXER_NATS_MEMORY_LIMIT}
+Options=--cpus=${RUBBERVERSE_XYZ_CPU_CORES_NATS}
+Options=--memory-swap=${RUBBERVERSE_XYZ_SWAP_MEMORY_NATS}
+Network=nats-network
+Network=gifs-network
+Network=users-network
+Network=messages-network
+Network=snowflakes-network
+User=65534:65534
+UserNS=auto
