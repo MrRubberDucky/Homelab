@@ -1,0 +1,33 @@
+[Unit]
+Description=Fluxer NATS Router for %i
+Requires=fluxer-nats.service nats-shard@%i.service
+After=fluxer-nats.service
+Before=nats-shard@%i.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+EnvironmentFile=%h/Fluxer/.sysenv
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-%i:v1
+ContainerName=fluxer-%i
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_SVC_NAME=%i
+Environment=FLUXER_SVC_MODE=router
+AutoUpdate=registry
+Tmpfs=/tmp:rw,size=4m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=4m,noexec,nosuid,nodev
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Options=--cpus=${RUBBERVERSE_XYZ_CPU_CORES_%i}
+Options=--memory-swap=${RUBBERVERSE_XYZ_SWAP_MEMORY_%i}
+Memory=${RUBBERVERSE_XYZ_MEMORY_LIMIT_%i}
+Network=%i-network
+UserNS=auto
