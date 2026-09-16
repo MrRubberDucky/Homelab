@@ -147,7 +147,7 @@ Because we can go above and beyond. This is mostly me testing my barebones syste
 
 ## Did Clode throw this up?///
 
-I'm learning here, not vibe-coding shit. If you let LLM hand-hold you then what's the point of homelabbing anyway? It's fine to look up information using LLMs since frankly they made search engines be hot garbage but don't rely on them 100% and always verify what it spits out at you as it nearly always gets things wrong.
+I'm learning here, not vibe-coding shit. If you let LLM hand-hold you then what's the point of homelabbing anyway? It's fine to look up information using LLMs since they made search engines be hot garbage but don't rely on them 100% and always verify what it spits out at you as it nearly always gets things wrong.
 
 No. Everything you see here and every single quadlet was manually thrown up by me. It's getting tired constantly modifying configurations so I'm exploring this method.
 
