@@ -1,0 +1,33 @@
+[Unit]
+Description=Fluxer NATS Shard for %i
+Requires=fluxer-nats.service nats@%i.service
+After=fluxer-nats.container nats@%i.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-%i:v1
+ContainerName=fluxer-%i-shard
+Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_SVC_NAME=%i
+Environment=FLUXER_SVC_MODE=shard
+Environment=FLUXER_SVC_SHARD_ID=0
+AutoUpdate=registry
+Tmpfs=/tmp:rw,size=4m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=4m,noexec,nosuid,nodev
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+PodmanArgs=--cpus=${RUBBERVERSE_XYZ_CPU_CORES_SHARD_%i}
+PodmanArgs=--memory-swap=${RUBBERVERSE_XYZ_SWAP_MEMORY_%i}
+Memory=${RUBBERVERSE_XYZ_MEMORY_LIMIT_SHARD_%i}
+Network=%i-network
+UserNS=auto
