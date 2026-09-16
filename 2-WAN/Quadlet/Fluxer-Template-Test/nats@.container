@@ -26,8 +26,8 @@ Tmpfs=/var/run:rw,size=4m,noexec,nosuid,nodev
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Options=--cpus=${RUBBERVERSE_XYZ_CPU_CORES_%i}
-Options=--memory-swap=${RUBBERVERSE_XYZ_SWAP_MEMORY_%i}
+PodmanArgs=--cpus=${RUBBERVERSE_XYZ_CPU_CORES_%i}
+PodmanArgs=--memory-swap=${RUBBERVERSE_XYZ_SWAP_MEMORY_%i}
 Memory=${RUBBERVERSE_XYZ_MEMORY_LIMIT_%i}
 Network=%i-network
 UserNS=auto
