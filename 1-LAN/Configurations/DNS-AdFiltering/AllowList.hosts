@@ -24,9 +24,9 @@
 @@||duckdns.org
 # Qualcomm A-GPS. Blocking it causes location to become painfully inaccurate over time on QCOM devices - https://github.com/StevenBlack/hosts/issues/2314
 @@|izatcloud.net
-# Phone Link (Windows)
-@@|mobile.events.data.microsoft.com
-@@|mobile.pipe.aria.microsoft.com
-@@|eu-mobile.events.data.microsoft.com
+# Phone Link (Windows) - no longer used but useful to keep it handy
+# @@|mobile.events.data.microsoft.com
+# @@|mobile.pipe.aria.microsoft.com
+# @@|eu-mobile.events.data.microsoft.com
 # Windows Phone Link app fails to connect when this is blocked, logins fine on mobile still.
-@@|dcg.microsoft.com
+# @@|dcg.microsoft.com
