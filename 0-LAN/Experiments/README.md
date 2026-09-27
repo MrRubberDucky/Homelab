@@ -24,4 +24,24 @@ The second approach is only good for small services that already have certain pr
 
 I'm assuming that the `Image=` won't be the same or won't come from some universal repository in this case. If you have a build system going and ex. you mass build images to following repository `mycoolrepo.lan/owner` with simple naming then you can just do `Image=mycoolrepo.lan/owner/%i:latest` for example.
 
+quadlet-systemd-generator also seems to reject and stop generating the final systemd service when it spots something it does not understand.
+
+```bash
+[Container]
+${CT_EXAMPLE_%i}
+```
+
+Even if it's set under `[Service]`
+
+```bash
+[Service]
+Environment=CT_EXAMPLE_%i=Environment=Hello=hello
+```
+
+It will still refuse to generate it
+
+```bash
+quadlet-generator[3645120]: error loading "~/.config/containers/systemd/Templates/template3@.container", file contains line 29: “${CT_EXAMPLE_%i}” which is not a key-value pair, group, or comment
+```
+
 the rest I'll write later as I experiment around some more.
