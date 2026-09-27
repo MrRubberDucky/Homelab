@@ -22,4 +22,6 @@ So it becomes roughly **3 files** (1 extra directory, 2 files) for **one** quadl
 
 The second approach is only good for small services that already have certain preset to them and you need to override minimal amount of them.
 
+I'm assuming that the `Image=` won't be the same or won't come from some universal repository in this case. If you have a build system going and ex. you mass build images to following repository `mycoolrepo.lan/owner` with simple naming then you can just do `Image=mycoolrepo.lan/owner/%i:latest` for example.
+
 the rest I'll write later as I experiment around some more.
