@@ -4,9 +4,9 @@ If you weren't aware, you can now create a rough template and have it be pretty 
 
 This will experiment around with three approaches:
 
-1. Creating environment variables from the name passed then modifying it via env template (without need for symlinks and overrides unless strictly necessary in theory but will log warnings from quadlet-systemd-generator in journald)
-2. Abusing override system with symlinks (probably most complicated setup by far but also quite flexible)
-3. Overriding the generated systemd service directly (pretty volatile approach)
+1. Creating environment variables from the name passed then modifying it via env template (without need for symlinks and overrides unless strictly necessary in theory but will log warnings from quadlet-systemd-generator in journald) <-- does not seem to work unless the unit is pretty standarized (ex. same image, envs etc.)
+2. Abusing override system with symlinks (probably most complicated setup by far and overkill)
+3. Overriding the generated systemd service directly (pretty volatile approach) <-- may break in the future
 
 ## Limitations
 
@@ -44,4 +44,13 @@ It will still refuse to generate it
 quadlet-generator[3645120]: error loading "~/.config/containers/systemd/Templates/template3@.container", file contains line 29: “${CT_EXAMPLE_%i}” which is not a key-value pair, group, or comment
 ```
 
-the rest I'll write later as I experiment around some more.
+I suppose you don't really wanna bother with this unless you want to always modify against singular template which comes with it's own drawbacks.
+
+## When to use templates
+
+- When you're repeating a lot of services that have virtually the same configuration with slight changes (Service level EnvironmentFile= and a single template will work for this use-case)
+- It's virtually the same so you can save yourself the typing
+- You have your own repository where it's easier to just change service name and deploy something new for quick testing
+- Specific deployment and testing needs (ex. deploying one container with more constrained resources by doing systemctl --user start caddy@30m for example
+
+That's about only when I would use them. Otherwise single configuration Quadlet is king even if it's just mostly copy 'n' paste. If you really want to save yourself some time of constantly having to throw up a whole Quadlet configuration then you'll like this current approach in this part of the repository.
