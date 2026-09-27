@@ -1,0 +1,26 @@
+[Unit]
+Description=Service for %i generated from template@.container
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Container]
+Image=localhost/unused:unused
+ContainerName=%i
+Tmpfs=/tmp:rw,size=4m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=4m,noexec,nosuid,nodev
+ShmSize=32mb
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=64mb
+PidsLimit=32
+PodmanArgs=--memory-swap=0mb
+User=1100:1100
+UserNS=auto:size=1101
