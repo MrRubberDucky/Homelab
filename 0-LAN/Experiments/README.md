@@ -25,6 +25,7 @@ The second approach is only good for small services that already have certain pr
 I'm assuming that the `Image=` won't be the same or won't come from some universal repository in this case. If you have a build system going and ex. you mass build images to following repository `mycoolrepo.lan/owner` with simple naming then you can just do `Image=mycoolrepo.lan/owner/%i:latest` for example.
 
 quadlet-systemd-generator also seems to reject and stop generating the final systemd service when it spots something it does not understand.
+systemd also rejects unit values passed from environment variables so it's about intended behavior. Can't add `Requires=` via environment variable since it's just going to error out.
 
 ```bash
 [Container]
