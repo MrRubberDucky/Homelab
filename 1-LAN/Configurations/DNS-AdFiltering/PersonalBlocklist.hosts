@@ -146,8 +146,8 @@ copilot-telemetry.githubusercontent.com
 # Nintendo Switch related
 # Source of domains: https://switchbrew.org/wiki/Network
 # Serves garbage HTML page on local web server so Nintendo Switch doesn't think it's offline.
-||conntest.nintendowifi.net^$dnsrewrite=NOERROR;A;10.30.1.10
-||ctest.cdn.nintendo.net^$dnsrewrite=NOERROR;A;10.30.1.10
+||conntest.nintendowifi.net^$dnsrewrite=NOERROR;A;157.230.80.146
+||ctest.cdn.nintendo.net^$dnsrewrite=NOERROR;A;157.230.80.146
 # (sun) System update checking domains for all environments
 ||sun.hac.dp1.d4c.nintendo.net
 ||sun.hac.lp1.d4c.nintendo.net
