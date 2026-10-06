@@ -33,30 +33,29 @@ After=fluxer-postgres.service
 [Install]
 WantedBy=default.target
 
+[Install]
+WantedBy=default.target
+
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=true
-# Used by systemd
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${RUBBERVERSE_XYZ_NATS_ALT_IMAGE}:${RUBBERVERSE_XYZ_NATS_ALT_TAG}
+Image=public.ecr.aws/docker/library/nats:scratch
 ContainerName=fluxer-nats
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+Timezone=Europe/Warsaw
 Exec=--jetstream --config /config/nats.conf
-# Volume bind
-Volume=${RUBBERVERSE_XYZ_NATS_DATDIR}:/data:U,Z
-Volume=${RUBBERVERSE_XYZ_NATS_CONFIG}:/config/nats.conf:ro,Z
-# Labels
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Volume=/srv/fluxer/nats:/data:U,Z
+Volume=/srv/fluxer/nats.conf:/config/nats.conf:ro,Z
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# cgroupv2
-Memory=${FLUXER_NATS_MEMORY_LIMIT}
-# User and namespace
-User=${RUBBERVERSE_XYZ_NATS_USER_GROUP}
-UserNS=auto:size=${RUBBERVERSE_XYZ_NATS_USERNS_SIZE}
-# Network
+Memory=4GB
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
+User=1100:1100
+UserNS=auto:size=1101
 Network=9Nats.network
