@@ -1,5 +1,5 @@
 [Unit]
-Description=Fluxer Meilisearch
+Description=Meilisearch for Fluxer
 Requires=fluxer-api.service
 Before=fluxer-api.service
 After=fluxer-postgres.service fluxer-valkey.service
@@ -15,28 +15,29 @@ EnvironmentFile=%h/Fluxer/.sysenv
 EnvironmentFile=%h/Fluxer/.meilienv
 
 [Container]
-Image=${RUBBERVERSE_XYZ_MEILI_ALT_IMAGE}:${RUBBERVERSE_XYZ_MEILI_ALT_TAG}
+Image=docker.io/getmeili/meilisearch:v1
 ContainerName=fluxer-meilisearch
 EnvironmentFile=%h/Fluxer/.meilienv
 Environment=MEILI_ENV=production
 Environment=MEILI_NO_ANALYTICS=true
 Environment=MEILI_MAX_INDEXING_MEMORY=${FLUXER_MEILISEARCH_MAX_INDEXING_MEMORY}
 Environment=MEILI_MASTER_KEY=${MASTER_KEY}
-# Bind volume
-Volume=${RUBBERVERSE_XYZ_MEILI_DATDIR}:/meili_data:U,Z
-# Healthcheck
+Environment=MEILI_UPGRADE_DB=true
+Volume=/srv/fluxer/meili:/meili_data:U,Z
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=wget -q -O /dev/null http://127.0.0.1:7700/health
 HealthInterval=10s
 HealthRetries=10
 HealthTimeout=5s
 Notify=healthy
-# Labels
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# User and namespace
-User=${RUBBERVERSE_XYZ_MEILI_USER_GROUP}
-UserNS=auto:size=${RUBBERVERSE_XYZ_MEILI_USERNS_SIZE}
-# Network
+Memory=1536M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
+User=1100:1100
+UserNS=auto:size=1101
 Network=7Meilisearch.network
