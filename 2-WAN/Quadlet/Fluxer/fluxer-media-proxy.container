@@ -2,15 +2,10 @@
 Description=Fluxer Media Proxy
 Requires=\
     fluxer-caddy.service \
-#    fluxer-seaweedfs-init.service \
     fluxer-nats.service
 
-Before=\
-    fluxer-caddy.service
-
-After=\
-#    fluxer-seaweedfs-init.service \
-    fluxer-nats.service
+Before=fluxer-caddy.service
+After=fluxer-nats.service
 
 [Install]
 WantedBy=default.target
@@ -22,21 +17,25 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-media-proxy:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-media-proxy:v1
 ContainerName=fluxer-media-proxy
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_MEDIA_PROXY_HOST=0.0.0.0
 Environment=FLUXER_MEDIA_PROXY_PORT=8080
 Environment=FLUXER_MEDIA_PROXY_MODE=upload
-Environment=FLUXER_MEDIA_PROXY_STORAGE_BACKEND=${RUBBERVERSE_XYZ_MEDIA_PROXY_STORAGE_BACKEND}
+Environment=FLUXER_MEDIA_PROXY_STORAGE_BACKEND=s3
+Environment=FLUXER_MEDIA_CORS_ALLOWED_ORIGINS=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}:${FLUXER_PUBLIC_PORT}
 Environment=FLUXER_S3_READ_SIGNED=true
-PodmanArgs=--no-healthcheck
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_MEDIA_PROXY_MEMORY_LIMIT}
+Memory=512M
+PodmanArgs=--no-healthcheck
+PodmanArgs=--cpus=1.3
+PodmanArgs=--memory-swap=0M
 Network=2MediaProxy.network
 Network=0Caddy.network
 Network=6Seaweedfs.network

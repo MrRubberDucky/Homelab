@@ -8,7 +8,7 @@ Before=fluxer-caddy.service
 After=fluxer-api.service
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 
 [Service]
 Restart=on-failure
@@ -17,9 +17,8 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-admin:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-admin:v1
 ContainerName=fluxer-admin
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_ADMIN_HOST=0.0.0.0
 Environment=FLUXER_ADMIN_PORT=8080
@@ -30,11 +29,15 @@ Environment=FLUXER_APP_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
 Environment=FLUXER_MEDIA_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
 Environment=FLUXER_STATIC_CDN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
 Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/admin/oauth2_callback
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_ADMIN_MEMORY_LIMIT}
+Memory=256M
+PodmanArgs=--cpus=1
+PodmanArgs=--memory-swap=0M
 Network=0Admin.network
 Network=0API.network
 Network=7Postgres.network

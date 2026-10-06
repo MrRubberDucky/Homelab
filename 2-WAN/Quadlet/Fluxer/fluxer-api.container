@@ -11,12 +11,12 @@ Requires=\
     fluxer-seaweedfs.service \
     fluxer-gifs.service \
     fluxer-gifs-shard.service \
-    fluxer-snowflakes.service \
-    fluxer-snowflakes-shard.service \
-    fluxer-messages.service \
-    fluxer-messages-shard.service \
     fluxer-users.service \
     fluxer-users-shard.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
     fluxer-worker.service \
     fluxer-caddy.service
 
@@ -27,21 +27,21 @@ After=\
     fluxer-meilisearch.service \
     fluxer-seaweedfs.service \
     fluxer-gifs.service \
-    flxuer-gifs-shard.service \
-    fluxer-snowflakes.service \
-    fluxer-snowflakes-shard.service \
-    fluxer-messages.service \
-    fluxer-messages-shard.service \
+    fluxer-gifs-shard.service \
     fluxer-users.service \
     fluxer-users-shard.service \
+    fluxer-messages.service \
+    fluxer-messages-shard.service \
+    fluxer-snowflakes.service \
+    fluxer-snowflakes-shard.service \
     fluxer-worker.service
 
 Before=\
-	fluxer-caddy.service \
-	fluxer-gateway.service
+        fluxer-caddy.service \
+        fluxer-gateway.service
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 
 [Service]
 Restart=on-failure
@@ -50,27 +50,28 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-api:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-api:v1
 ContainerName=fluxer-api
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_API_PORT=${FLUXER_API_PORT}
 Environment=NODE_OPTIONS=--enable-source-maps --max_old-space-size=${FLUXER_API_NODE_HEAP_MB}
+Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=${FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED}
 Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
-# Healthcheck
+Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=node -e "fetch('http://127.0.0.1:8080/_health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 HealthInterval=10s
 HealthRetries=30
 HealthTimeout=5s
 Notify=healthy
-# Labels
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# cgroupv2
-Memory=${FLUXER_API_MEMORY_LIMIT}
-# Networks
+Memory=2G
+PodmanArgs=--cpus=1.85
+PodmanArgs=--memory-swap=0M
 Network=0API.network
 Network=6Seaweedfs.network
 Network=7Postgres.network

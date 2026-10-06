@@ -13,26 +13,25 @@ MemoryDenyWriteExecute=true
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${RUBBERVERSE_XYZ_SEAWEEDFS_ALT_IMAGE}:${RUBBERVERSE_XYZ_SEAWEEDFS_ALT_TAG}
+Image=public.ecr.aws/aikido-dev/chrislusf/seaweedfs:latest
 ContainerName=fluxer-seaweedfs
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 Environment=GODEBUG=fips140=on
 Entrypoint=/usr/bin/weed
-Exec=-logtostderr=${RUBBERVERSE_XYZ_SEAWEEDFS_LOGTOSTDERR} server -s3 -dir=/data -volume.max=${RUBBERVERSE_XYZ_SEAWEEDFS_30GB_BUCKETS_AMOUNT}
-Volume=${RUBBERVERSE_XYZ_SEAWEEDFS_S3_STORE}:/data:U,Z
-# Healthcheck
+Exec=-logtostderr=${RUBBERVERSE_XYZ_SEAWEEDFS_LOGTOSTDERR} server -s3 -dir=/data -volume.max=${RUBBERVERSE_XYZ_SEAWEEDFS_30GB_BUCKETS_AMOUNT} -master.telemetry=false
+Volume=/srv/fluxer/seaweedfs:/data:U,Z
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=wget -q -O /dev/null http://127.0.0.1:8333/healthz
 HealthInterval=10s
 HealthRetries=20
 HealthTimeout=5s
 Notify=healthy
-# Labels
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
-# cgroupv2
-Memory=${FLUXER_SEAWEEDFS_MEMORY_LIMIT}
-# User etc.
+Memory=2G
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
 User=1000:1000
 UserNS=auto:size=1001
 Network=6Seaweedfs.network

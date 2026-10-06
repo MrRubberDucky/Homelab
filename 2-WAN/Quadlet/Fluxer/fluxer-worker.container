@@ -4,16 +4,16 @@ Description=Fluxer Worker Service
 Requires=\
     fluxer-postgres.service \
     fluxer-valkey.service \
-    fluxer-nats.service
-#   fluxer-seaweedfs-init.service
+    fluxer-nats.service \
+    fluxer-users-shard.service \
+    fluxer-messages-shard.service \
+    fluxer-snowflakes-shard.service
 
 After=\
     fluxer-postgres.service \
     fluxer-valkey.service \
     fluxer-nats.service \
-#   fluxer-seaweedfs-init.service \
     fluxer-snowflakes-shard.service \
-    fluxer-messages-shard.service \
     fluxer-users-shard.service
 
 [Install]
@@ -26,23 +26,24 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-api:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-api:v1
 ContainerName=fluxer-worker
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
-Environment=NODE_OPTIONS=--enable-source-maps --max-old-space-size=${FLUXER_WORKER_NODE_HEAP_MB}
-Environment=FLUXER_API_WORKER_MODE=${RUBBERVERSE_XYZ_API_WORKER_MODE}
-Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=${RUBBERVERSE_XYZ_API_WORKER_ENABLE_CRON_SCHEDULER}
-Environment=FLUXER_API_WORKER_ENABLE_VOICE_RECONCILIATION=${RUBBERVERSE_XYZ_API_WORKER_ENABLE_VOICE_RECONCILATION}
-Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=${RUBBERVERSE_XYZ_API_WORKER_POSTGRES_CONNECTIONS}
-WorkingDir=/usr/src/app/fluxer_api
-Entrypoint=/bin/sh
-Exec=-c 'if [ -f dist/WorkerEntrypoint.js ]; then exec node dist/WorkerEntrypoint.js; else exec ./node_modules/.bin/tsx src/WorkerEntrypoint.ts; fi'
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Environment=NODE_OPTIONS=--enable-source-maps --max-old-space-size=2000mb
+Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+Environment=FLUXER_API_WORKER_MODE=all_lanes
+Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=true
+Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
+Exec=node dist/WorkerEntrypoint.js
+Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_WORKER_MEMORY_LIMIT}
+Memory=2G
+PodmanArgs=--cpus=1.7
+PodmanArgs=--memory-swap=0M
 Network=0Worker.network
 Network=9Nats.network
 Network=8Valkey.network
