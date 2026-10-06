@@ -14,7 +14,7 @@ Handles updating daily at 6:30 and image pruning at 6:50 to save up storage spac
 30 6 * * * podman auto-update
 50 6 * * * podman image prune -f
 
-Did you know? You can obtain MaxMind's GeoLite databases without requiring to make an account. People mirror that stuff for free.
+Did you know? You can obtain MaxMind's GeoLite databases without an account. People mirror that stuff for free.
 This would pull both GeoLite2-ASN.mmdb and GeoLite2-Contry.mmdb every day at 23:00
 
 0 23 * * * curl -L https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-ASN.mmdb -o /srv/Databases/Geo/GeoLite2-ASN.mmdb
