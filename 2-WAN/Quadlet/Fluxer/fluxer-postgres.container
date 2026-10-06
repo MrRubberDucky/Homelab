@@ -26,10 +26,9 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-# Using 18.0 instead of 16.0 due to better unprivileged user support
-Image=${RUBBERVERSE_XYZ_POSTGRES_ALT_IMAGE}:${RUBBERVERSE_XYZ_POSTGRES_ALT_TAG}
+Image=public.ecr.aws/docker/library/postgres:18-trixie
 ContainerName=fluxer-postgres
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
+Timezone=Europe/Warsaw
 EnvironmentFile=%h/Fluxer/.pgenv
 Exec=postgres \
     -c max_connections=${FLUXER_POSTGRES_SERVER_MAX_CONNECTIONS} \
@@ -54,21 +53,22 @@ Exec=postgres \
     -c autovacuum_vacuum_cost_limit=${FLUXER_POSTGRES_AUTOVACUUM_VACUUM_COST_LIMIT} \
     -c track_io_timing=${FLUXER_POSTGRES_TRACK_IO_TIMING} \
     -c shared_preload_libraries=pg_stat_statements
-Tmpfs=/dev/shm
-# Mount
-Mount=type=bind,src=${RUBBERVERSE_XYZ_POSTGRES_DATDIR},dst=/var/lib/postgresql,U=true,Z
-# Healtcheck
+ShmSize=1GB
+Mount=type=bind,src=/srv/fluxer/db,dst=/var/lib/postgresql,U=true,Z
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
 HealthInterval=5s
 HealthRetries=5
 HealthTimeout=5s
 Notify=healthy
-# Labels
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_POSTGRES_MEMORY_LIMIT}
-# Network + Port
+Memory=5G
+PodmanArgs=--cpus=1.5
+PodmanArgs=--memory-swap=0M
 Network=7Postgres.network
 User=999:999
+UserNS=auto:size=1000
