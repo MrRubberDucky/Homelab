@@ -23,6 +23,10 @@ Environment=MEILI_NO_ANALYTICS=true
 Environment=MEILI_MAX_INDEXING_MEMORY=${FLUXER_MEILISEARCH_MAX_INDEXING_MEMORY}
 Environment=MEILI_MASTER_KEY=${MASTER_KEY}
 Environment=MEILI_UPGRADE_DB=true
+# This only touches the actual meilisearch binary(?), LMDB is uncapped still.
+# See: https://github.com/meilisearch/meilisearch/issues/4764
+Environment=MEILI_MAX_INDEXING_MEMORY=512M
+Environment=MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE=true
 Volume=/srv/fluxer/meili:/meili_data:U,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
 Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
@@ -35,7 +39,8 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=1536M
+# May cause OOM still when indexing is ran. Depends on LMDB size.
+Memory=1G
 PodmanArgs=--cpus=2
 PodmanArgs=--memory-swap=0M
 User=1100:1100

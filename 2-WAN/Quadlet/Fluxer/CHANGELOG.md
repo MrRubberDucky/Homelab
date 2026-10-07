@@ -1,3 +1,18 @@
+## 7.1.0.2026
+
+`fluxer-nats.container`, `nats.conf`
+
+- Reduced JetStream `max_memory_store` from 4GB to 2GB
+- Reduced JetStream `max_file_store` from 40GB to 20GB
+- Changed container memory limits from 4G to 2G
+
+`fluxer-meilisearch.container`
+
+- Added `MEILI_MAX_INDEXING_MEMORY` and `MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE` environment variables
+- Set `MEILI_MAX_INDEXING_MEMORY` to 512M
+- Set `MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE` to true
+- Change container memory limits from 1536M to 1G
+
 ## 6.10.2026
 
 `fluxer-seaweedfs.container`
