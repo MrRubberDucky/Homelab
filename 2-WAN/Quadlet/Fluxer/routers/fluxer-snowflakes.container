@@ -18,16 +18,19 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-snowflakes:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-snowflakes:v1
 ContainerName=fluxer-snowflakes
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_SVC_NAME=snowflakes
 Environment=FLUXER_SVC_MODE=router
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_SNOWFLAKES_MEMORY_LIMIT}
+Memory=64M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
 Network=9Nats.network
 UserNS=auto

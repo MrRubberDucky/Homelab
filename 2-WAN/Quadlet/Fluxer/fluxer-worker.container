@@ -29,20 +29,20 @@ EnvironmentFile=%h/Fluxer/.sysenv
 Image=ghcr.io/fluxerapp/fluxer-api:v1
 ContainerName=fluxer-worker
 EnvironmentFile=%h/Fluxer/.env
-Environment=NODE_OPTIONS=--enable-source-maps --max-old-space-size=2000mb
+Environment=NODE_OPTIONS="--enable-source-maps --max-semi-space-size=32 --max-old-space-size-percentage=50"
 Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 Environment=FLUXER_API_WORKER_MODE=all_lanes
 Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=true
 Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
-Exec=node dist/WorkerEntrypoint.js
+Exec=node --optimize_for_size dist/WorkerEntrypoint.js
 Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
 Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=2G
-PodmanArgs=--cpus=1.7
+Memory=512M
+PodmanArgs=--cpus=1.35
 PodmanArgs=--memory-swap=0M
 Network=0Worker.network
 Network=9Nats.network

@@ -37,8 +37,8 @@ After=\
     fluxer-worker.service
 
 Before=\
-        fluxer-caddy.service \
-        fluxer-gateway.service
+    fluxer-caddy.service \
+    fluxer-gateway.service
 
 [Install]
 WantedBy=multi-user.target
@@ -52,9 +52,10 @@ EnvironmentFile=%h/Fluxer/.sysenv
 [Container]
 Image=ghcr.io/fluxerapp/fluxer-api:v1
 ContainerName=fluxer-api
+Exec=node --optimize_for_size dist/AppEntrypoint.js
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_API_PORT=${FLUXER_API_PORT}
-Environment=NODE_OPTIONS=--enable-source-maps --max_old-space-size=${FLUXER_API_NODE_HEAP_MB}
+Environment=NODE_OPTIONS="--enable-source-maps --max-semi-space-size=32 --max-old-space-size-percentage=50"
 Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=${FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED}
 Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
@@ -69,7 +70,7 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=2G
+Memory=512M
 PodmanArgs=--cpus=1.85
 PodmanArgs=--memory-swap=0M
 Network=0API.network

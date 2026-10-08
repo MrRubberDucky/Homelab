@@ -13,18 +13,21 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-gifs:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-gifs:v1
 ContainerName=fluxer-gifs-shard
-Timezone=Europe/Warsaw
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_SVC_NAME=gifs
 Environment=FLUXER_SVC_MODE=shard
 Environment=FLUXER_SVC_SHARD_ID=0
 Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_GIFS_SHARD_MEMORY_LIMIT}
+Memory=64M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
 Network=9Nats.network
 UserNS=auto

@@ -3,9 +3,7 @@ Description=Fluxer Users Router
 Requires=\
     fluxer-nats.service \
     fluxer-users-shard.service
-
 After=fluxer-nats.service
-
 Before=fluxer-users-shard.service
 
 [Install]
@@ -18,17 +16,20 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-users:${FLUXER_IMAGE_TAG}
+Image=ghcr.io/fluxerapp/fluxer-users:v1
 ContainerName=fluxer-users
-Timezone=${RUBBERVERSE_XYZ_CONTAINER_TIMEZONE}
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_SVC_NAME=users
 Environment=FLUXER_SVC_MODE=router
 Environment=FLUXER_SVC_MAX_CONCURRENT_REQUESTS=${FLUXER_SVC_MAX_CONCURRENT_REQUESTS}
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_USERS_MEMORY_LIMIT}
+Memory=64M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
 Network=9Nats.network
 UserNS=auto

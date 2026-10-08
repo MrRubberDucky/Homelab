@@ -1,16 +1,8 @@
 [Unit]
-Description=Fluxer Messages Router
-Requires=\
-    fluxer-nats.service \
-    fluxer-postgres.service \
-    fluxer-messages-shard.service
-
-After=\
-    fluxer-nats.service \
-    fluxer-postgres.service
-
-Before=\
-    fluxer-messages-shard.service
+Description=Fluxer Gifs Router
+Requires=fluxer-nats.service
+After=fluxer-nats.container
+# current vibe: downright miserable
 
 [Install]
 WantedBy=default.target
@@ -18,22 +10,24 @@ WantedBy=default.target
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=true
+MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=${FLUXER_REGISTRY}/fluxer-messages:${FLUXER_IMAGE_TAG}
-ContainerName=fluxer-messages
-Timezone=Europe/Warsaw
+Image=ghcr.io/fluxerapp/fluxer-gifs:v1
+ContainerName=fluxer-gifs
 EnvironmentFile=%h/Fluxer/.env
-Environment=FLUXER_SVC_NAME=messages
+Environment=FLUXER_SVC_NAME=gifs
 Environment=FLUXER_SVC_MODE=router
-Environment=FLUXER_SVC_MAX_CONCURRENT_REQUESTS=${FLUXER_SVC_MAX_CONCURRENT_REQUESTS}
-AutoUpdate=${RUBBERVERSE_XYZ_CONTAINER_AUTOUPDATE}
+Environment=FLUXER_MEDIA_PROXY_PUBLIC_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/media
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=${FLUXER_MESSAGES_MEMORY_LIMIT}
+Memory=64M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
 Network=9Nats.network
-Network=7Postgres.network
 UserNS=auto

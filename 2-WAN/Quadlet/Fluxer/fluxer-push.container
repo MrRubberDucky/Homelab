@@ -1,0 +1,40 @@
+[Unit]
+Description=Fluxer Push Relay
+Requires=\
+    fluxer-nats.service \
+    fluxer-api.service
+After=\
+    fluxer-nats.container \
+    fluxer-api.service
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+EnvironmentFile=%h/Fluxer/.sysenv
+
+[Container]
+Image=ghcr.io/fluxerapp/fluxer-push:v1
+ContainerName=fluxer-push
+EnvironmentFile=%h/Fluxer/.env
+Environment=FLUXER_PUSH_SERVICE_QUEUE_CAPACITY=10000
+Environment=FLUXER_PUSH_SERVICE_SEND_CONCURRENCY=25
+Environment=FLUXER_FCM_BASE_URL=https://fcm.googleapis.com
+Environment=FLUXER_PUSH_SERVICE_MANAGED_RELAY_HOSTS=push.fluxer.com
+Environment=FLUXER_PUSH_RELAY_CONSENT_ACCEPTED=true
+#Environment=FLUXER_PUSH_SERVICE_PRIVATE_HOSTS=
+Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Memory=128M
+PodmanArgs=--cpus=2
+PodmanArgs=--memory-swap=0M
+Network=9Nats.network
+Network=0API.network
+UserNS=auto

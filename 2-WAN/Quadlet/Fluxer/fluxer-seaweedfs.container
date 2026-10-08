@@ -16,8 +16,16 @@ EnvironmentFile=%h/Fluxer/.sysenv
 Image=public.ecr.aws/aikido-dev/chrislusf/seaweedfs:latest
 ContainerName=fluxer-seaweedfs
 Environment=GODEBUG=fips140=on
+Environment=GOMEMLIMIT=1792
+Environment=GOGC=100
 Entrypoint=/usr/bin/weed
-Exec=-logtostderr=${RUBBERVERSE_XYZ_SEAWEEDFS_LOGTOSTDERR} server -s3 -dir=/data -volume.max=${RUBBERVERSE_XYZ_SEAWEEDFS_30GB_BUCKETS_AMOUNT} -master.telemetry=false
+Exec=-logtostderr=true server \
+    -s3 \
+    -dir=/data \
+    -volume.max=6 \
+    -master.telemetry=false \
+    -master.volumeSizeLimitMB=5192 \
+    -master.volumePreallocate=false
 Volume=/srv/fluxer/seaweedfs:/data:U,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
 Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev

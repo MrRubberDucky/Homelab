@@ -1,6 +1,6 @@
 {
 	servers {
-		trusted_proxies static {$FLUXER_EDGE_TRUSTED_PROXIES:private_ranges}
+		trusted_proxies static {$FLUXER_EDGE_TRUSTED_PROXIES}
 		trusted_proxies_strict
 	}
 }
@@ -43,10 +43,10 @@
 		reverse_proxy fluxer-admin:8080
 	}
 
-	@staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/* /embeds/*
-	handle @staticAssets {
-		reverse_proxy fluxer-static-proxy:8080
-	}
+    @staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/*
+    handle @staticAssets {
+        reverse_proxy static-proxy:8080
+    }
 
 	handle /.well-known/fluxer {
 		reverse_proxy fluxer-api:8080
