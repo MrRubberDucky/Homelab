@@ -58,7 +58,7 @@ Environment=NODE_OPTIONS=--enable-source-maps --max_old-space-size=${FLUXER_API_
 Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 Environment=FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED=${FLUXER_API_PRESIGNED_ATTACHMENT_UPLOADS_ENABLED}
 Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
-Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
+Tmpfs=/tmp:rw,size=2G,noexec,nosuid,nodev
 Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=node -e "fetch('http://127.0.0.1:8080/_health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 HealthInterval=10s
