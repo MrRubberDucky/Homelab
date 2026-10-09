@@ -3,48 +3,91 @@
 > [!WARNING]
 > This repository is updated *very* rarely. Stuff changes a lot and any changes done here are usually manual so unless I really wanna correct something, it may sit outdated for months.
 
-These fancy files and other knick-knacks power rubberverse.xyz and my home network overall.
+These fancy files and other knick-knacks power [Rubberverse (my site)](https://rubberverse.xyz) and my home network overall.
 
 Feel free to roam through them and do things with them.
 
-## Why not put it on Rubberverse organization?
+https://github.com/user-attachments/assets/695b4b17-eb91-4a2b-b9b9-5bb61542eca5
 
-Because I'm too lazy to do the few clicks each time to quickly change, or update something. Yes, we all go on shortcuts in life, stop looking at me that way. 
 
-## What does this repository really contain?
+## What is it used for?
 
-It contains...
+To store configuration files, scripts, workarounds, hosts files and other crap.
 
-- Sample configuration files for services such as [Matrix](https://github.com/MrRubberDucky/Homelab/tree/main/1-LAN/Configurations/Matrix), [cloud-init (for Proxmox)](https://github.com/MrRubberDucky/Homelab/tree/main/1-LAN/Configurations/Proxmox) 
-- [Hosts files](https://github.com/MrRubberDucky/Homelab/tree/main/1-LAN/Configurations/DNS-AdFiltering)
-- Ready to (re-)use Quadlets for Podman v5.7+: [LAN](https://github.com/MrRubberDucky/Homelab/tree/main/1-LAN/Quadlet), [WAN](https://github.com/MrRubberDucky/Homelab/tree/main/2-WAN/Quadlet)
+## Anything interesting here?
 
-...and anything else I feel like putting on here.
+Depends how you look at it.
+My e-mail keeps getting blown up by weird offers to make this repository very popular and have gazillion stars, so it clearly has some worth to a distant LLM agent running on somebody's shitbox.
+Dunno why would you want to e-mail me about that, just open an issue about it here.
 
-This is just a dump for example configuration, or my own Quadlet files so I can re-use them whenever I have the fancy.
+Alas, it currently has following things...
 
-## Should I use Podman?
+- [Quadlet systemd template experimentation]()
+- [Quadlet configurations for LAN]() and similary [WAN configurations]()
+- [Hosts files]()
+- [Random ass helper bash scripts]()
+- [Deployment script for cloud-init]()
 
-While Podman has it's short-comings - especially regarding rootless networking - it's still a great piece of software that integrates pretty well with systemd. Granted you *need* to be on the latest version in order for it to be 100% usable. By that I don't mean the software itself won't work, or it will suddenly explode - no, what I meanis that you'll be missing on quadlet features *and* some of the newest Podman goodies that make managing containers way easier.
+Some quadlet configurations may be more refined than the others but they eventually get their own treatment whenever I feel bored.
+Keep in mind they're not just simple copy and paste from somewhere else, I also try to harden them to the best of my extend and at minimum they need to meet my criteria.
 
-If you're on Debian/Ubuntu, consider using [Aalvistack OBS repository](https://software.opensuse.org/download/package?package=podman&project=home%3Aalvistack). Remember to pin components as otherwise it will update too much of your system, the example pinning files can be found in my cloud-init repository. While not recommended by Debian maintainers, Podman maintainers themselves said they don't want to maintain seperate repos for such distros, which is fair. It takes time to maintain those and that time is better spent for them maintaining Podman (and related resources to it). [More about it in this discussion](https://github.com/containers/podman/discussions/17362). 
+The criteria in question is just 'least privilege principle':
 
-**P.S.**: When installing through Aalvistack OBS repository, you must **manually** specify all packages to install. It's not like Debian repository where you do `apt install podman` and it will install everything else ex. `aardvark-dns`, `passt`, you must specify those! You'll also need to manually install `dbus-user-session` and enable it.
+1. Container must run as rootless user -- `User=1100:1100`
+2. All capabilities must be dropped -- `DropCapability=all`
+3. Container rootfs, if possible, should be set to read-only -- `ReadOnly=true`
+4. Seccomp set to `no-new-privileges` -- `NoNewPrivileges=true`
+5. Auto-updates are configured to be pulled from image registry -- `AutoUpdate=true`
 
-Here's a full command for you if you gonna use Aalvistack OBS
+In case I'm super bored then I also try to add resource limits so there's that.
 
-`apt install dbus-user-session podman buildah cron fuse-overlayfs netavark nftables passt slirp4netns tini uidmap`
+## What services can I spin up with your Quadlet configs?
 
-To enable and run `dbus-user-session` right after installation, run following command
+Typing it all in one line would make reading miserable so here's a table instead. In no particular order. Some are outdated and may not work.
 
-`systemctl enable --global --now dbus.service`
-
-If you want extended SUID/SGIDs then just take a look at what modifications I do in my cloud-init image. That's about as much as you need to do to get it working though.
-
-However if you need functionality such as Docker Swarm, you won't really get it here. So, if you rely on that, then stay on Docker for the time being, *or* look into Kubernetes. Though it's yaml syntax is confusing as fuck, and it also seems to enforce High Availability approach by default so you'll need a proper cluster to toy around with it properly.
-
-> Podman will never support Swarm functionality. If other tools are based on top of Podman to provide cross node functionality then that is fine, but we have no thoughts of adding this functionality to Podman.
-> [Podman Maintainer](https://github.com/containers/podman/discussions/12886#discussioncomment-1982876)
+| Quadlet | Service                                                               | Description                                     |
+|---------|-----------------------------------------------------------------------|-------------------------------------------------|
+| [1](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Beszel/beszel.container)   | [Beszel](https://beszel.dev/)                                         | Simple, lightweight server monitoring           |
+| [2](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Beszel/beszel-agent.container)   | [Beszel Agent](https://beszel.dev/guide/what-is-beszel#architecture)  | Monitors systems and communicates system metrics back to Beszel |
+| [3](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Beszel/socket-proxy.container)   | [wollomatic/socket-proxy](https://github.com/wollomatic/socket-proxy) | Secure-by-design and flexible Unix socket proxy |
+| [4](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Caddy/Caddy.container)   | [rubberverse/qor-caddy](https://github.com/Rubberverse/qor-caddy)     | Caddy on scratch image with third-party plugins |
+| [5](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/IT-Tools/tools.container)   | [sharevb/it-tools](https://github.com/sharevb/it-tools)               | Fork of IT-Tools with extra tools               |
+| [6](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/ItchClaim/itchclaim.container)   | [ItchClaim](https://github.com/Smart123s/ItchClaim)                   | Automatically claim free games from itch.io     |
+| [7](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Vaultwarden/vaultwarden.container)   | [Vaultwarden](https://github.com/dani-garcia/vaultwarden)             | Unofficial Bitwarden compatible server written in Rust |
+| [8](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Vikunja/vikunja.container)   | [Vikunja](https://vikunja.io/)                                        | Vikunja is open-source task management with lists, Kanban, Gantt, and more |
+| [9](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Syncthing/syncthing.container)   | [Syncthing](https://syncthing.net/)                                   | Open Source Continuous File Synchronization |
+| [10](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/SillyTavern/sillytavern.container)  | [SillyTavern](https://sillytavern.app/)                               | LLM Frontend for gooners, bot roleplayers and nerds |
+| [11](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Navidrome/navidrome.container)  | [Navidrome](https://www.navidrome.org/)                               | Open source web-based music collection server and streamer |
+| [12](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/MediaJournal/mediajournal.container)  | [Media Journal](https://github.com/mihail-pop/media-journal)          | A web app for tracking your movies, TV shows, anime, manga, books, games and music |
+| [13](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Tududi/tududi.container)  | [Tududi](https://tududi.com/)                                         | A calm, open system for organizing life and work |
+| [14](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/PyKMS/pykms.container)  | [rubberverse/qor-kms](https://github.com/Rubberverse/qor-kms)         | Fork of py-kms with updated KmsDatabase.xml |
+| [15](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/VoidAuth/voidauth.container)  | [VoidAuth](https://voidauth.app/#/)                                   | SSO authentication and user management provider |
+| [16](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/TinyAuth/TinyAuth-Supporter.container)  | [TinyAuth](https://tinyauth.app/)                                     | Tinyauth is the tiniest authentication and authorization server |
+| [17](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/PocketID/pocketid.container)  | [Pocket ID](https://pocket-id.org/)                                   | Passkeys-only SSO authentication and user management provider |
+| [18](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Rauthy/rauthy.container)  | [rAuthy](https://sebadob.github.io/rauthy/)                           | OpenID Connect Single Sign-On Identity & Access Management |
+| [19](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Crowdsec/crowdsec.container)  | [Crowdsec](https://www.crowdsec.net/)                                 | Open-source IDS/IPS, WAF and bot detection |
+| [20](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Coturn/coturn.container)  | [coturn](https://github.com/coturn/coturn)                            | coturn is a free open source implementation of TURN and STUN Server |
+| [21](https://github.com/MrRubberDucky/Homelab/tree/main/2-WAN/Quadlet/Pelican)  | [Pelican Game Panel](https://pelican.dev/)                            | Pelican is the ultimate, free game server control panel |
+| [22](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Mumble/mumble.container)      | [Mumble](https://www.mumble.info/)                                    | Open-source, low-latency, high quality voice chat software |
+| [23](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Nginx/nginx.container)        | [nginx](https://nginx.org/en/)                                        | HTTP web server, reverse proxy, content cache, load balancer, TCP/UDP proxy server... |
+| [24](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Umami/umami.container)        | [Umami](https://umami.is)                                             | Privacy-first analytics platform |
+| [25](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Umami/sso-sidecar.container)  | [Umami SSO Sidecar](https://codeberg.org/vanutp/umami-sso) | A small tool that adds OIDC authentication to Umami |
+| [26](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Umami/valkey-umami.container) | [Valkey](https://valkey.io/) | High-performance key/value datastore |
+| [27](https://github.com/MrRubberDucky/Homelab/tree/main/2-WAN/Quadlet/Fluxer)  | [Fluxer](https://fluxer.app/) (+23 containers)                                            | Instant messaging and VoIP chat app built for friends, groups, and communities |
+| [28](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/NATS/nats.container)          | [NATS](https://nats.io/)                                              | Simple, secure, and high-performance messaging system |
+| [29](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Postgres/Postgres.container)        | [Postgres]()        | meow |
+| [30](https://github.com/MrRubberDucky/Homelab/blob/main/1-LAN/Quadlet/Meilisearch/meilisearch.container)  | [Meilisearch](https://www.meilisearch.com/) | Search engine API bringing AI-powered hybrid search to your sites and applications |
+| [31](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/LiveKit/livekit.container)  | [LiveKit](https://github.com/livekit/livekit)                         | End-to-end realtime communication stack |
+| [32](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Gatus/gatus.container)  | [Gatus](https://gatus.io/)                                            | Automated developer-oriented status page with alerting and incident support |
+| [33](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/DCTS/DCTS-App.container)  | [DCTS](https://github.com/hackthedev/dcts-shipping)                   | Communication platform for the future |
+| 34      | I'm reserving this number for a booru client                          | Image gallery |
+| [35](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Hemmelig/hemmelig.container)  | [Hemmelig](https://github.com/HemmeligOrg/Hemmelig.app)               | (Archived) Secret sharing service |
+| [36](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Comentario/comentario.container)  | [Comentario](https://gitlab.com/comentario/comentario)                | Fast, flexible, and powerful free comment server for web pages, written in Go |
+| [37](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Matrix/tuwunel.container) | [Tuwunel](https://github.com/matrix-construct/tuwunel)                | High Performance Matrix Homeserver written in Rust |
+| [38](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Cinny/cinny.container)  | [Cinny Web](https://cinny.in/)                                        | Alternate Matrix client that sports a familiar look |
+| [39](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Sable/sable.container)  | [Sable Web](https://github.com/SableClient/Sable)                     | Fork of Cinny that brings a very Discord-like experience |
+| [40](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Sygnal/sygnal.container)  | [Sygnal](https://github.com/element-hq/sygnal)                        | Reference Push Gateway for Matrix |
+| [41](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Matrix/matrixrtc.container)  | [lk-jwt-service](https://github.com/element-hq/lk-jwt-service)        | Minimal service to issue LiveKit JWTs for MatrixRTC |
 
 ## Does this make use of GitOps?
 
