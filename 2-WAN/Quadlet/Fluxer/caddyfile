@@ -45,7 +45,7 @@
 
     @staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/*
     handle @staticAssets {
-        reverse_proxy static-proxy:8080
+        reverse_proxy fluxer-static-proxy:8080
     }
 
 	handle /.well-known/fluxer {
