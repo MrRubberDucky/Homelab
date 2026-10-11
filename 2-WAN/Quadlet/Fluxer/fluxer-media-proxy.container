@@ -17,7 +17,7 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-media-proxy:v1
+Image=ghcr.io/fluxerapp/fluxer-media-proxy:2026.1008.235356
 ContainerName=fluxer-media-proxy
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_MEDIA_PROXY_HOST=0.0.0.0
