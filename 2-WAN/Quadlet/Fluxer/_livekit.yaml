@@ -2,7 +2,8 @@
 port: 7880
 # Redis runs in a container and exposes a port only to localhost. Since container listens on host networking, we can just talk to it directly.
 redis:
-    address: localhost:6379
+    # Change this to fluxer-valkey:6379 if you've modified fluxer-livekit.container and want to have LiveKit running on same host.
+    address: valkey-livekit:6379
 rtc:
     tcp_port: 7881
     udp_port: 7882
