@@ -1,0 +1,35 @@
+# This is separate from main Fluxer stack. I'm deploying LiveKit on VPS since it has the most bandwidth compared to my home network.
+# You'll need to add dependencies yourself, easier method is just to link this to internal Redis container.
+# Try replacing following below with this:
+# Requires=fluxer-valkey.service fluxer-gateway.service
+# After=fluxer-valkey.service
+# Before=fluxer-gateway.service
+[Unit]
+Description=LiveKit
+Requires=valkey.service
+After=valkey.service
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=docker.io/livekit/livekit-server:latest
+ContainerName=fluxer-livekit
+Exec=--config /etc/livekit.yaml
+Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z
+Network=LiveKit.network
+PublishPort=0.0.0.0:7881:7881
+PublishPort=0.0.0.0:7882:7882/udp
+# Change this to 8Valkey.network if you've done the above.
+Network=Valkey.network
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+User=1100:1100
+UserNS=auto:size=1101
