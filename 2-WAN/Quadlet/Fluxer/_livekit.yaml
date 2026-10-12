@@ -1,0 +1,27 @@
+# TCP port that will only be reverse proxied via Caddy and not exposed directly.
+port: 7880
+# Redis runs in a container and exposes a port only to localhost. Since container listens on host networking, we can just talk to it directly.
+redis:
+    address: localhost:6379
+rtc:
+    tcp_port: 7881
+    udp_port: 7882
+    use_external_ip: true
+    # No NAT on VPS so we can use ICE Lite to speed up initial connections.
+    use_ice_lite: true
+    enable_loopback_candidate: false
+    stun_servers:
+      - stun.l.google.com:19302
+      - stun1.l.google.com:19302
+    node_ip: <vps_ipv4>
+    # This barely has any effect, LiveKit will still have a meltdown if latency is high.
+    congestion_control:
+      enabled: true
+      allow_pause: false
+webhook:
+    api_key: "my_secret_api_key"
+    urls:
+       - https://chat.rubberverse.xyz/livekit
+region: pl-waw-1
+keys:
+  my_secret_api_key: MyBallsItchMyBallsItchMyBallsItchMyBallsItchMyBallsItch
