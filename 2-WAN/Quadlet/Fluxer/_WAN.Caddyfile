@@ -1,0 +1,17 @@
+# Snippet for Fluxer from my own Caddyfile that runs on my VPS
+# LiveKit gets exposed under /livekit* path
+# Rest of the configuration is done on first Caddy instance, though you could completely ignre it and just directly proxy ports to the VPS using WG tunnel but eh, barely any benefit.
+# Aside from bypassing two reverse proxies in one go that is.
+https://chat.{$FQDN} {
+  import bind_https
+  import headers
+  import latte chat.{$FQDN} chat 10m
+  handle_path /livekit* {
+    crowdsec
+    import proxy host.containers.internal:7880
+  }
+  handle {
+    crowdsec
+    import proxy flux.sourmint.internal:8777
+  }
+}
