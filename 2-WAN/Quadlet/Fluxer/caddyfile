@@ -4,61 +4,59 @@
 		trusted_proxies_strict
 	}
 }
-
 {$FLUXER_EDGE_SITE_ADDRESS} {
-	encode zstd gzip
-
 	handle /_health {
+		header -Via
 		respond "OK" 200
 	}
-
 	handle_path /api/* {
+		header -Via
 		reverse_proxy fluxer-api:8080
 	}
-
 	handle /gateway {
 		rewrite * /
+		header -Via
 		reverse_proxy fluxer-gateway:8080
 	}
-
 	handle_path /gateway/* {
+		header -Via
 		reverse_proxy fluxer-gateway:8080
 	}
-
 	handle_path /media/* {
+		header -Via
 		reverse_proxy fluxer-media-proxy:8080
 	}
-
-# Undocumment if running LK on same host
+# Undocumment if running LK on same host, otherwise see _WAN.Caddyfile for reverse proxy setup recomemndation.
 #	handle_path /livekit/* {
+#		header -Via
 #		reverse_proxy fluxer-livekit:7880
 #	}
-
 	handle /admin {
 		rewrite * /
+		header -Via
 		reverse_proxy fluxer-admin:8080
 	}
-
 	handle_path /admin/* {
+		header -Via
 		reverse_proxy fluxer-admin:8080
 	}
-
     @staticAssets path /web/* /emoji/* /libs/* /avatars/* /badges/* /desktop/*
     handle @staticAssets {
+		header -Via
         reverse_proxy fluxer-static-proxy:8080
     }
-
 	handle /.well-known/fluxer {
+		header -Via
 		reverse_proxy fluxer-api:8080
 	}
-
 	handle {
+		header -Via
 		reverse_proxy fluxer-app-proxy:8080
 	}
 }
-
 :8088 {
 	handle /.well-known/fluxer {
+		header -Via
 		reverse_proxy fluxer-api:8080
 	}
 }
