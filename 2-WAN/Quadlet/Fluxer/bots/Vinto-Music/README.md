@@ -1,5 +1,6 @@
-This is AI-assisted with Copilot. I suppose better than just having 100% Claude come in a clutch but still it's something I don't like.
+Maybe AI-assisted, maybe not. While Copilot shows in commit history, it's commits were seemingly erased so who knows. That said it's not too hard to erase a contributor off the code before PRing.
+All things considered, seems to be majorly, if not all, human coded.
 
-Can't win in current times, slop machine go brr. Quadlet configs soon.
+That makes it a plus in my book. Quadlet configs soon.
 
 https://github.com/invaliduser231/Vinto-Music
