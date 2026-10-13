@@ -88,6 +88,7 @@ Typing it all in one line would make reading miserable so here's a table instead
 | [39](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Sable/sable.container)  | [Sable Web](https://github.com/SableClient/Sable)                     | Fork of Cinny that brings a very Discord-like experience |
 | [40](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Sygnal/sygnal.container)  | [Sygnal](https://github.com/element-hq/sygnal)                        | Reference Push Gateway for Matrix |
 | [41](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Matrix/matrixrtc.container)  | [lk-jwt-service](https://github.com/element-hq/lk-jwt-service)        | Minimal service to issue LiveKit JWTs for MatrixRTC |
+| [42](https://github.com/MrRubberDucky/Homelab/blob/main/2-WAN/Quadlet/Fluxer/bots/Astrokat/fluxer-astrokat.container) | [Astrokat](https://github.com/remix-bot/fluxer) | A modular, multiplatform chatbot for Fluxer |
 
 ## Does this make use of GitOps?
 
