@@ -18,6 +18,7 @@ Requires=\
     fluxer-snowflakes.service \
     fluxer-snowflakes-shard.service \
     fluxer-worker.service \
+#   fluxer-astrokat.service \
     fluxer-caddy.service
 
 After=\
@@ -38,7 +39,9 @@ After=\
 
 Before=\
     fluxer-caddy.service \
+#   fluxer-astrokat.service \
     fluxer-gateway.service
+
 
 [Install]
 WantedBy=multi-user.target
