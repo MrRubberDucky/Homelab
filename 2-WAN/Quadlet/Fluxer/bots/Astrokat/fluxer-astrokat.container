@@ -1,5 +1,5 @@
 [Unit]
-Description=Astrokat - A modular, multiplatform chatbot with features for both fun and utility to enhance the chat experience.
+Description=Astrokat - A modular, multiplatform chatbot with features for both fun and uti>
 Requires=fluxer-api.service
 After=fluxer-api.service
 
@@ -10,13 +10,14 @@ WantedBy=default.target
 Restart=on-failure
 SystemCallArchitectures=native
 MemoryDenyWriteExecute=false
+ExecStartPre=sleep 20
 
 [Container]
 Image=ghcr.io/mizarc/astrokat:latest
 ContainerName=fluxer-astrokat
 EnvironmentFile=%h/Fluxer/.astro
 Environment=TINI_SUBREAPER=1
-Volume=ASTROKAT_DATA:/app/data:Z
+Volume=ASTROKAT_DATA:/app/data:U,Z
 Tmpfs=/tmp:rw,size=64m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
