@@ -1,0 +1,8 @@
+# Requires git to be installed on host system
+[Build]
+ServiceName=RemixBot-Builder
+SetWorkingDirectory=https://github.com/remix-bot/fluxer.git
+File=docker/Dockerfile
+ForceRM=true
+ImageTag=localhost/remix:latest
+Arch=amd64
