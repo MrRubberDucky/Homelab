@@ -17,7 +17,7 @@ MemoryDenyWriteExecute=false
 EnvironmentFile=%h/Fluxer/.sysenv
 
 [Container]
-Image=ghcr.io/fluxerapp/fluxer-media-proxy:2026.1008.235356
+Image=ghcr.io/fluxerapp/fluxer-media-proxy:v1
 ContainerName=fluxer-media-proxy
 EnvironmentFile=%h/Fluxer/.env
 Environment=FLUXER_MEDIA_PROXY_HOST=0.0.0.0
@@ -26,13 +26,12 @@ Environment=FLUXER_MEDIA_PROXY_MODE=upload
 Environment=FLUXER_MEDIA_PROXY_STORAGE_BACKEND=s3
 Environment=FLUXER_MEDIA_CORS_ALLOWED_ORIGINS=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}:${FLUXER_PUBLIC_PORT}
 Environment=FLUXER_S3_READ_SIGNED=true
-Tmpfs=/tmp:rw,size=8m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/tmp:rw,size=4G,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=384M
+Memory=768M
 PodmanArgs=--no-healthcheck
 PodmanArgs=--cpus=1.3
 PodmanArgs=--memory-swap=0M
