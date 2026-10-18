@@ -32,6 +32,12 @@ Heap is still kept relatively low at only 30% which is ~614MB so that's more or 
 
 On large file uploads or archive creation, fluxer-worker container will store some data, presumably the actual guild data itself that it's tasked to collect. Size of `/tmp` needs to be adjusted appropriately, otherwise it will fail on servers with a huge message history nearly instantly. 
 
+`fluxer-meilisearch.container`
+
+- Set MEILI_MAX_INDEXING_MEMORY to 512MB
+
+143 crash fiesta. I sure hope that's enough and if it isn't then I'll just cry myself to sleep tonight.
+
 `fluxer-media-proxy.container`
 
 - Extend memory limit to `2G` to satisfy AV memory budget on large video file uploads
