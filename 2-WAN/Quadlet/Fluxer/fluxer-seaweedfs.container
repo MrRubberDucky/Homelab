@@ -28,7 +28,6 @@ Exec=-logtostderr=true server \
     -master.volumePreallocate=false
 Volume=/srv/fluxer/seaweedfs:/data:U,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=wget -q -O /dev/null http://127.0.0.1:8333/healthz
 HealthInterval=10s
 HealthRetries=20
