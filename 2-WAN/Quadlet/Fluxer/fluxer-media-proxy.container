@@ -31,7 +31,7 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=768M
+Memory=2G
 PodmanArgs=--no-healthcheck
 PodmanArgs=--cpus=1.3
 PodmanArgs=--memory-swap=0M
