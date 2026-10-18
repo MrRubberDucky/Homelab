@@ -23,7 +23,7 @@ As always, experimenting around. Init will now properly create buckets and set a
 `fluxer-api.container`, `fluxer-worker.container`,
 
 - Both: Changed container memory limits from 512M to 2G
-- Both: Changed `--max-old-space-size-percentage` from 50 to 30 and `--max-min-space-size` from 32 to 16
+- Both: Changed `--max-old-space-size-percentage` from 50 to 30 and `--max-semi-space-size` from 32 to 16
 - worker: Changed `/tmp` tmpfs mount size from 8m to 2G
 
 Max memory limits were changed to workaround the sudden bursts of required memory that API and Worker containers require. 2GB just looks to be more comfortable compared to the old limits and containers still run at a relative low memory footprint (api container itself runs at 342MB currently). Tweaking Young space here to be lower by -16 causes more stuff to get garbage collected instead of being promoted to Old so that seems to be the sweet spot for both of those components, it does not cause any significant increase in CPU resources being used, not that I've noticed at least and it prevents OOM from occuring on large file uploads so it's a + in my book. Tested it with 300MB video upload.
@@ -35,8 +35,9 @@ On large file uploads or archive creation, fluxer-worker container will store so
 `fluxer-meilisearch.container`
 
 - Set MEILI_MAX_INDEXING_MEMORY to 512MB
-
-143 crash fiesta. I sure hope that's enough and if it isn't then I'll just cry myself to sleep tonight.
+- Changed `/tmp` tmpfs mount size from 1m to 2G
+- Removed pointless `/var/run` tmpfs mount
+- Set `MemoryDenyWriteExecute` to true from false
 
 `fluxer-media-proxy.container`
 
