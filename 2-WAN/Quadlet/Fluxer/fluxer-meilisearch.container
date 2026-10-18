@@ -28,7 +28,7 @@ Environment=MEILI_UPGRADE_DB=true
 Environment=MEILI_MAX_INDEXING_MEMORY=512M
 Environment=MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE=true
 Volume=/srv/fluxer/meili:/meili_data:U,Z
-Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
+Tmpfs=/tmp:rw,size=2G,noexec,nosuid,nodev
 Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=wget -q -O /dev/null http://127.0.0.1:7700/health
 HealthInterval=10s
