@@ -20,7 +20,7 @@ ContainerName=fluxer-meilisearch
 EnvironmentFile=%h/Fluxer/.meilienv
 Environment=MEILI_ENV=production
 Environment=MEILI_NO_ANALYTICS=true
-Environment=MEILI_MAX_INDEXING_MEMORY=${FLUXER_MEILISEARCH_MAX_INDEXING_MEMORY}
+Environment=MEILI_MAX_INDEXING_MEMORY=512MB
 Environment=MEILI_MASTER_KEY=${MASTER_KEY}
 Environment=MEILI_UPGRADE_DB=true
 # This only touches the actual meilisearch binary(?), LMDB is uncapped still.
