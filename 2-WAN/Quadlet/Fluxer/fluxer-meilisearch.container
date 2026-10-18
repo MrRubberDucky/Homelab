@@ -10,7 +10,7 @@ WantedBy=default.target
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=false
+MemoryDenyWriteExecute=true
 EnvironmentFile=%h/Fluxer/.sysenv
 EnvironmentFile=%h/Fluxer/.meilienv
 
