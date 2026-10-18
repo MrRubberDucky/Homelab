@@ -23,7 +23,6 @@ Environment=DISCOVERY_UPSTREAM_URL=http://fluxer-caddy:8088/.well-known/fluxer
 Environment=PUBLIC_BOOTSTRAP_API_ENDPOINT=/api
 Environment=PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT=https://chat.rubberverse.xyz/api
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
