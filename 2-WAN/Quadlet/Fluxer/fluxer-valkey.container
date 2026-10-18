@@ -22,7 +22,6 @@ Exec=valkey-server \
     --maxmemory-policy ${FLUXER_VALKEY_MAXMEMORY_POLICY}
 Volume=FLUXER_VALKEY_PERSIST:/data:U,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=valkey-cli ping
 HealthInterval=10s
 HealthRetries=10
