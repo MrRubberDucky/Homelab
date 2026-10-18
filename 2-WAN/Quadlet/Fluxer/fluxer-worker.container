@@ -36,7 +36,6 @@ Environment=FLUXER_API_WORKER_ENABLE_CRON_SCHEDULER=true
 Environment=FLUXER_POSTGRES_MAX_CONNECTIONS=25
 Exec=node --optimize_for_size dist/WorkerEntrypoint.js
 Tmpfs=/tmp:rw,size=2G,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
