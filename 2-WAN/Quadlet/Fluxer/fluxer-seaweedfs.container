@@ -1,7 +1,7 @@
 [Unit]
 Description=Fluxer SeaweedFS
-#Requires=fluxer-seaweedfs-init.service
-#Before=fluxer-seaweedfs-init.service
+Requires=fluxer-seaweedfs-init.service
+Before=fluxer-seaweedfs-init.service
 
 [Install]
 WantedBy=default.target
