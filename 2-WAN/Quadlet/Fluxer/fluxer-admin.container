@@ -30,12 +30,11 @@ Environment=FLUXER_MEDIA_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/med
 Environment=FLUXER_STATIC_CDN_ENDPOINT=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}
 Environment=FLUXER_ADMIN_OAUTH_REDIRECT_URI=${FLUXER_PUBLIC_SCHEME}://${FLUXER_DOMAIN}/admin/oauth2_callback
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=256M
+Memory=32M
 PodmanArgs=--cpus=1
 PodmanArgs=--memory-swap=0M
 Network=0Admin.network
