@@ -56,7 +56,6 @@ Exec=postgres \
 ShmSize=1GB
 Mount=type=bind,src=/srv/fluxer/db,dst=/var/lib/postgresql,U=true,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 HealthCmd=["CMD-SHELL", "psql -U $${POSTGRES_USER} -d $${POSTGRES_DB} -c 'SELECT 1' || exit 1"]
 HealthInterval=5s
 HealthRetries=5
@@ -66,7 +65,7 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=5G
+Memory=4G
 PodmanArgs=--cpus=1.5
 PodmanArgs=--memory-swap=0M
 Network=7Postgres.network
