@@ -21,7 +21,7 @@ AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-Memory=128M
+Memory=64M
 PodmanArgs=--cpus=2
 PodmanArgs=--memory-swap=0M
 Network=3StaticProxy.network
