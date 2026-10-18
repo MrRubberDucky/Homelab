@@ -22,9 +22,9 @@ Entrypoint=/usr/bin/weed
 Exec=-logtostderr=true server \
     -s3 \
     -dir=/data \
-    -volume.max=6 \
+    -volume.max=7 \
     -master.telemetry=false \
-    -master.volumeSizeLimitMB=5192 \
+    -master.volumeSizeLimitMB=10240 \
     -master.volumePreallocate=false
 Volume=/srv/fluxer/seaweedfs:/data:U,Z
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
