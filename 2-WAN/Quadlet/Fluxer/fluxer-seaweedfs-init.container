@@ -3,18 +3,23 @@ Description=Fluxer SeaweedFS Bucket Initializer
 Requires=fluxer-seaweedfs.service
 After=fluxer-seaweedfs.service
 
+[Service]
+EnvironmentFile=%h/Fluxer/.sysenv
+
 [Install]
 WantedBy=default.target
 
 [Container]
-Image=docker.io/chrislusf/seaweedfs:4.34
+Image=public.ecr.aws/aikido-dev/chrislusf/seaweedfs:latest
 ContainerName=fluxer-seaweedfs-init
-Timezone=Europe/Warsaw
+EnvironmentFile=%h/Fluxer/.env
+Environment=GODEBUG=fips140=on
 Entrypoint=/bin/sh
-Exec=-c "for i in $(seq 1 60); do echo 's3.bucket.create -name fluxer' | weed shell -master=fluxer-seaweedfs:9333 >/dev/null 2>&1 && break || sleep 2; done; for b in fluxer fluxer-uploads fluxer-downloads fluxer-reports fluxer-harvests; do echo \"s3.bucket.create -name $b\" | weed shell -master=fluxer-seaweedfs:9333 || true; done; echo 'buckets ready'"
+Exec=-c 'buckets="$FLUXER_S3_BUCKET_CDN $FLUXER_S3_BUCKET_UPLOADS $FLUXER_S3_BUCKET_REPORTS $FLUXER_S3_BUCKET_HARVESTS"; missing="$buckets"; for attempt in $(seq 1 $FLUXER_SEAWEEDFS_INIT_ATTEMPTS); do if ! nc -z fluxer-seaweedfs 9333 2>/dev/null; then sleep 2; continue; fi; listed=$(echo "s3.bucket.list" | timeout 10 weed shell -master=fluxer-seaweedfs:9333 2>&1); missing=""; for b in $buckets; do echo "$listed" | grep -q "^[[:space:]]*$b[[:space:]]" || missing="${missing:+$missing }$b"; done; if [ -z "$missing" ]; then if ! echo "s3.configure -user=fluxer -access_key=$FLUXER_S3_ACCESS_KEY -secret_key=$FLUXER_S3_SECRET_KEY -actions=Admin,Read,Write,List,Tagging -apply" | timeout 10 weed shell -master=fluxer-seaweedfs:9333 >/dev/null 2>&1; then echo "seaweedfs-init could not configure the S3 identity" >&2; exit 1; fi; echo "buckets ready"; exit 0; fi; for b in $missing; do echo "s3.bucket.create -name $b" | timeout 10 weed shell -master=fluxer-seaweedfs:9333 >/dev/null 2>&1; done; sleep 2; done; echo "seaweedfs-init could not verify buckets: $missing" >&2; exit 1;'
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
+ReadOnly=true
 User=1000:1000
 UserNS=auto:size=1001
 Network=6Seaweedfs.network
