@@ -17,7 +17,6 @@ Image=ghcr.io/fluxerapp/fluxer-static:v1
 ContainerName=fluxer-static-proxy
 EnvironmentFile=%h/Fluxer/.env
 Tmpfs=/tmp:rw,size=1m,noexec,nosuid,nodev
-Tmpfs=/var/run:rw,size=1m,noexec,nosuid,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
