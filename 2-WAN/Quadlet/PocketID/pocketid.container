@@ -20,8 +20,8 @@ Environment=ALLOW_DOWNGRADE=true
 Volume=%h/Appdata/PocketID:/app/data:U,Z
 HealthCmd=["CMD", "/app/pocket-id", "healthcheck"]
 HealthInterval=1m30s
-HealthRetries=5
-HealthTimeout=2s
+HealthRetries=15
+HealthTimeout=5s
 Notify=healthy
 AutoUpdate=registry
 NoNewPrivileges=true
