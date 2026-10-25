@@ -1,3 +1,9 @@
+
+> [!NOTE]
+> Fluxer now uses some garbage pre-compiled Go binary to install and deploy the project so it is a massive fuck you to me maintaining my own install I guess. Nothing like teaching people terrible security posture by making them run some 30MB binary for something that could be deployed with 3 commands and one env being modified.
+
+If something big changes then I suppose I'll have to figure it out myself now lol. I can't really say I'm happy about this being done, especially since it's a chained install script that downloads and extracts some foreign binary on your system to do something you can't even audit because once again, IT IS A 30 MEGABYTE GO BINARY. I'm tired boss.
+
 # Fluxer
 
 Free and open source instant messaging and VoIP chat app built for friends, groups, and communities.<br>
