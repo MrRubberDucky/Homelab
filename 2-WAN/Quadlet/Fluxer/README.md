@@ -1,8 +1,13 @@
-
 > [!NOTE]
 > Fluxer now uses some garbage pre-compiled Go binary to install and deploy the project so it is a massive fuck you to me maintaining my own install I guess. Nothing like teaching people terrible security posture by making them run some 30MB binary for something that could be deployed with 3 commands and one env being modified.
 
-If something big changes then I suppose I'll have to figure it out myself now lol. I can't really say I'm happy about this being done, especially since it's a chained install script that downloads and extracts some foreign binary on your system to do something you can't even audit because once again, IT IS A 30 MEGABYTE GO BINARY. I'm tired boss.
+<img width="1080" height="360" alt="obraz" src="https://github.com/user-attachments/assets/420d5413-7b19-4e23-b896-1a2ffdb2686f" />
+
+If something big changes then I suppose I'll have to figure it out myself now lol. I can't really say I'm happy about this being done, especially since it's a chained install script that downloads and extracts some foreign binary on your system to do something you can't even audit because once again, IT IS A 30 MEGABYTE GO BINARY. Yeah, yeah "just go read the source code bro!!!", I can also have a perfect source code then sneak something nefarious in a pre-compiled binary. What you gonna do, read it??? Haha, loser!
+
+Nah but seriously for somebody so overworked we sure as hell have enough time to randomly blow our whole day writing a whole Go program that generates a docker-compose.yaml and does the same stuff as the install script previously did which still was majorly overkill. This is even more of an overkill solution, like holy shit I'm at a loss of words. Whatever man, genuine waste of time but anything for that convenience, or maybe it's their way of boosting Operator Passes sales since FOMO is not working right, who knows atp.
+
+Having to constantly tweak something every three days is starting to grow on me. [related xkcd](https://www.xkcd.com/2138/), [also this one too I guess](https://www.xkcd.com/1739/)
 
 # Fluxer
 
