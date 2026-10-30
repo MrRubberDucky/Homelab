@@ -4,6 +4,8 @@ All changes since the first variants were posted.
 
 ## 30.10.2026
 
+`fluxer-meilisearch.container`
+
 - Set `MEILI_MAX_INDEXING_MEMORY` to `256MB` from `512MB`
 - Changed container memory limits to `2G` from `1G`
 - More reliable `Healthcheck=` so container does not exit with `143` error code
