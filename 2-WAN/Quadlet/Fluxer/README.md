@@ -6,7 +6,7 @@ Project: https://github.com/fluxerapp/fluxer
 In less boring language, self-hosted Discord. Somewhat.
 
 **This is not usable out of the box, please wait for a guide before raw-dogging this.** It will be up on my main site soon. (https://rubberverse.xyz)
-I'm lazy though so it may take a few months.
+I'm lazy though so it may take a few months. Updates here are selective and don't affect all files at once. YMMV if you chose to try it anyway.
 
 ## Information
 
