@@ -1,16 +1,14 @@
+# Changelogs
+
+All changes since the first variants were posted.
+
+## 30.10.2026
+
+- Set `MEILI_MAX_INDEXING_MEMORY` to `256MB` from `512MB`
+- Changed container memory limits to `2G` from `1G`
+- More reliable `Healthcheck=` so container does not exit with `143` error code
+
 ## 18.10.2026
-
-The ultimate "we are going back on some limits and fixing other stuff". Memory usage is same as before just now that when a container needs more memory it can actually borrow it instead of just either crashing or timing out.
-
-<img width="952" height="102" alt="obraz" src="https://github.com/user-attachments/assets/9c4e1db8-6a88-45c9-85f4-a404d2582e2f" />
-
-...and video playback (1 user) - hovers between 2GB. Around 230MB increase or something like that. Nothing too tragic. Maybe I could've made it lower with bigger and less volumes but I can think about that being an issue when I start having more than 5 people on my instance.
-
-<img width="1157" height="445" alt="obraz" src="https://github.com/user-attachments/assets/d6acd04f-6ab3-4564-a2c3-f48acc2ceadb" />
-
-~~This poor i3-9100 is screaming for mercy at this point.~~
-
----
 
 `fluxer-seaweedfs.container` , `fluxer-seaweedfs-init.container`
 
@@ -18,19 +16,11 @@ The ultimate "we are going back on some limits and fixing other stuff". Memory u
 - init: Use the same image as seaweedfs container and set proper envs so it fits this specific deployment
 - seaweedfs: Change bucket size from 5192MB to 10240MB and max volumes to 7
 
-As always, experimenting around. Init will now properly create buckets and set authorization password so there's nothing to worry about now.
-
 `fluxer-api.container`, `fluxer-worker.container`,
 
 - Both: Changed container memory limits from 512M to 2G
 - Both: Changed `--max-old-space-size-percentage` from 50 to 30 and `--max-semi-space-size` from 32 to 16
 - worker: Changed `/tmp` tmpfs mount size from 8m to 2G
-
-Max memory limits were changed to workaround the sudden bursts of required memory that API and Worker containers require. 2GB just looks to be more comfortable compared to the old limits and containers still run at a relative low memory footprint (api container itself runs at 342MB currently). Tweaking Young space here to be lower by -16 causes more stuff to get garbage collected instead of being promoted to Old so that seems to be the sweet spot for both of those components, it does not cause any significant increase in CPU resources being used, not that I've noticed at least and it prevents OOM from occuring on large file uploads so it's a + in my book. Tested it with 300MB video upload.
-
-Heap is still kept relatively low at only 30% which is ~614MB so that's more or so why it runs lower still despite the higher limit.
-
-On large file uploads or archive creation, fluxer-worker container will store some data, presumably the actual guild data itself that it's tasked to collect. Size of `/tmp` needs to be adjusted appropriately, otherwise it will fail on servers with a huge message history nearly instantly. 
 
 `fluxer-meilisearch.container`
 
@@ -43,13 +33,7 @@ On large file uploads or archive creation, fluxer-worker container will store so
 
 - Extend memory limit to `2G` to satisfy AV memory budget on large video file uploads
 
-Anything lower and uploads 100MB+ started failing to embed. It's possible that uploads will still fail to embed either way if they cross 400MB+ range, as AV budget grows more and more demanding the higher the file-size. It is 512MB + 256MB (AV) budget and it seems to grow with size of the video. 768MB budget was fine for =<100MB but above 100MB it suddenly stopped embedding videos with `{"message":"native work refused, larger than the memory budget","bytes":444497958,"capacity":436207616}` (444.8MB needed, 436.2076MB total capacity with `Memory=768M`, 76MB either left as a buffer or used for other purpose)
-
-Could probably limit it tighter but eh. Maybe later down the line. I need my sleep now. Goodnight.
-
 ## 7.10.2026
-
-Experimental changes. Just more heavy limits or options being set.
 
 `fluxer-push.container`
 
@@ -65,7 +49,7 @@ Experimental changes. Just more heavy limits or options being set.
 
 `fluxer-meilisearch.container`
 
-- Added  environment variables `MEILI_MAX_INDEXING_MEMORY=256M` and `MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE=true`
+- Added environment variables `MEILI_MAX_INDEXING_MEMORY=256M` and `MEILI_EXPERIMENTTAL_REDUCE_INDEXING_MEMORY_USAGE=true`
 - Changed container memory limits from 1536M to 1G
 
 `fluxer-seaweedfs.container`
@@ -92,8 +76,6 @@ Experimental changes. Just more heavy limits or options being set.
 - Changed container memory limits from 5G to 4G
 
 `fluxer-app-proxy.container`, `fluxer-admin.container`, `fluxer-static-proxy.container`
-
-These just serve static content or do very quick calls to API. We'll see if it creates problems down the line.
 
 - Changed container memory limits from 128M to 32M
 
