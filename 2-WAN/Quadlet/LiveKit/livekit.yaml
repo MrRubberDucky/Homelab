@@ -1,0 +1,23 @@
+port: 7880
+redis:
+    address: valkey-livekit:6379
+rtc:
+    tcp_port: 7881
+    udp_port: 7882
+    use_external_ip: true
+    use_ice_lite: true
+    enable_loopback_candidate: false
+    stun_servers:
+      - stun.l.google.com:19302
+      - stun1.l.google.com:19302
+    node_ip: vps_public_ipv4
+    congestion_control:
+      enabled: true
+      allow_pause: false
+webhook:
+    api_key: "XXXXXXXXXXXXXXX"
+    urls:
+       - https://chat.rubberverse.xyz/livekit
+region: pl-waw-1
+keys:                     
+    XXXXXXXXXXXXXXX: XXXXXXXXXXXXXXXXXXXXXXXXXX
