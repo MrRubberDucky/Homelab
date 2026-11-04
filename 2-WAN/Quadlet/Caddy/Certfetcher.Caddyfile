@@ -1,0 +1,14 @@
+# Dummy instance of Caddy Web Server that was only used to request a specific certificate
+{
+   cert_issuer acme {
+       dir https://acme-v02.api.letsencrypt.org/directory
+       email {$ACME_EMAIL}
+       disable_http_challenge
+       disable_tlsalpn_challenge
+       dns cloudflare {$CLOUDFLARE_API_TOKEN}
+       resolvers 1.1.1.1 1.0.0.1
+   }
+}
+turn.{$FQDN} {
+   respond "Nothing to see here." 401
+}
