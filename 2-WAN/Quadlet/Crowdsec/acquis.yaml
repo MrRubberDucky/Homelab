@@ -1,0 +1,10 @@
+filenames:
+    - "/var/log/caddy/main"
+    - "/var/log/caddy/comments"
+    - "/var/log/caddy/auth"
+    - "/var/log/caddy/chat"
+    - "/var/log/caddy/secret"
+    - "/var/log/caddy/www"
+    - "/var/log/caddy/blog"
+labels:
+    type: caddy
