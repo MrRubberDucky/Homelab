@@ -36,6 +36,7 @@ ReadOnly=true
 Memory=2G
 PodmanArgs=--cpus=2
 PodmanArgs=--memory-swap=0M
+PodmanArgs=--no-healthcheck
 User=1100:1100
 UserNS=auto:size=1101
 Network=7Meilisearch.network
