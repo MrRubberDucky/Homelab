@@ -1,0 +1,6 @@
+[Network]
+NetworkName=mediamtx
+NetworkDeleteOnStop=true
+Driver=bridge
+Options=isolate=true
+IPv6=true
