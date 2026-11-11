@@ -12,24 +12,30 @@ After=valkey.service
 [Service]
 Restart=on-failure
 SystemCallArchitectures=native
-MemoryDenyWriteExecute=true
+MemoryDenyWriteExecute=false
 
 [Install]
 WantedBy=default.target
 
 [Container]
 Image=docker.io/livekit/livekit-server:latest
-ContainerName=fluxer-livekit
+ContainerName=livekit-server
+Environment=GOMEMLIMIT=1700MiB
 Exec=--config /etc/livekit.yaml
-Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z
-Network=LiveKit.network
-PublishPort=0.0.0.0:7881:7881
-PublishPort=0.0.0.0:7882:7882/udp
-# Change this to 8Valkey.network if you've done the above.
-Network=Valkey.network
+Volume=%h/Configs/LiveKit/livekit.yaml:/etc/livekit.yaml:ro,Z,nosuid,noexec,nodev
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+Network=livekit.network
+# Not open publicly, wireguard tunnel talks to it directly
+PublishPort=0.0.0.0:7880:7880
+# 7881/tcp and 7882/udp should be open
+PublishPort=0.0.0.0:7881:7881/tcp
+PublishPort=0.0.0.0:7882:7882/udp
+Network=valkey-livekit.network
+# Loopback for proper DNAT
+AddHost=chat.rubberverse.xyz:169.254.1.2
+Memory=2G
 User=1100:1100
 UserNS=auto:size=1101
