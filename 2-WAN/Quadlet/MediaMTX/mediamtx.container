@@ -1,0 +1,28 @@
+[Unit]
+Description=MediaMTX
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
+[Container]
+Image=docker.io/bluenviron/mediamtx:1
+ContainerName=mediamtx
+Exec=/app/configs/mediamtx.yml
+Volume=%h/Configs/MediaMTX/config.yaml:/app/configs/mediamtx.yml
+AutoUpdate=registry
+NoNewPrivileges=true
+DropCapability=all
+ReadOnly=true
+Network=mediamtx.network
+# WebRTC
+PublishPort=8189:8189/udp
+PublishPort=8889:8889/tcp
+# SRT
+PublishPort=8890:8890/udp
+User=1100:1100
+UserNS=auto:size=1101
