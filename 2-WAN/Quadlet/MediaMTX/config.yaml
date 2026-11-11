@@ -1,0 +1,51 @@
+logLevel: info
+logDestinations: [stdout]
+logStructured: true
+
+# Use internal authorization to make it easy for ourselves
+authMethod: internal
+authInternalUsers:
+  # Streamer
+  - user: example-streamer
+    pass: example-streamer-password
+    # You can limit it to your IP address here, though if it's dynamic then you'll be changing this often
+    ips: []
+    permissions:
+      - action: publish
+  # Viewer
+  - user: example-viewer
+    pass: example-viewer-password
+    ips: []
+    permissions:
+      - action: read
+
+# I have no need for them for now
+api: false
+metrics: false
+pprof: false
+# playback =/= read - https://mediamtx.org/docs/features/playback
+playback: false
+# Disable protocols I don't use
+rtsp: false
+rtmp: false
+hls: false
+# MoQ can't be reverse proxied due to Caddy not supporting WebTransport still
+moq: false
+
+webrtc: true
+webrtcAddress: ":8889"
+# I'm reverse proxying it so not using HTTPS here as it's terminated on Caddy
+webrtcEncryption: false
+webrtcAllowOrigins: ['https://example.com']
+webrtcTrustedProxies: [10.0.0.0/8]
+webrtcIPsFromInterfaces: false
+webrtcIPsFromInterfacesList: [vps_ipv4, vps_ipv6]
+webrtcIPsFromInterfacesExcludeList: [10.100.1.2, fe80::]
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+  - url: stun:stun1.l.google.com:19302
+
+pathDefaults:
+  record: false
+paths:
+  stream:
