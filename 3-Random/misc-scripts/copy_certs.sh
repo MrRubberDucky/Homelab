@@ -1,31 +1,32 @@
-#!/bin/sh
+#!/bin/bash
+# v1.1
 set -e
 
-# Could probably chain $HOME_DIR here but meh.
-CERT_DIR=/home/overseer/Appdata/WebServer-Data/certificates/acme-v02.api.letsencrypt.org-directory/wildcard_.rubberverse.xyz
-STOR_DIR=/home/overseer/Certificates
-HOME_DIR=/home/overseer
+USER_HOME=/home/overseer
+APPDATA="${USER_HOME}/Appdata/WebServer-Data/certificates"
+STORAGE="${USER_HOME}/Certificates"
+SERVICES="mediamtx"
+read -ra SERVICES_ARRAY <<< "${SERVICES}"
 
-# Eventually change this into array
-systemctl -M overseer@ --user stop mumble.service
-systemctl -M overseer@ --user stop livekit.service
+CERT_NAME="rubberverse.xyz"
+CERT="${APPDATA}/acme-v02.api.letsencrypt.org-directory/wildcard_.${CERT_NAME}"
 
-if [ ! -d "${STOR_DIR}" ]; then
-    echo "Directory ${STOR_DIR} not found, creating it"
-    mkdir -p "${STOR_DIR}"
-fi
+for SERVICE in "${SERVICES_ARRAY[@]}"
+do
+    systemctl -M overseer@ --user stop "${SERVICE}".service
+done
 
-if [ -f "${STOR_DIR}/wildcard_.rubberverse.xyz.crt" ]; then
-    echo "Purging old certificates"
-    rm "${STOR_DIR}/wildcard_.rubberverse.xyz.crt" "${STOR_DIR}/wildcard_.rubberverse.xyz.key"
-fi
+[[ ! -d "${STORAGE}" ]] && mkdir -p "${STORAGE}"
+[[ -f "${STORAGE}/wildcard_.${CERT_NAME}.crt" ]] && rm "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
 
-cp "${CERT_DIR}/wildcard_.rubberverse.xyz.crt" "${CERT_DIR}/wildcard_.rubberverse.xyz.key" "${STOR_DIR}"
-chown overseer:overseer "${STOR_DIR}/wildcard_.rubberverse.xyz.crt" "${STOR_DIR}/wildcard_.rubberverse.xyz.key"
-# u=rwx,g=--,o=r-x (others need to read and execute it but not modify it)
-chmod 705 "${STOR_DIR}/wildcard_.rubberverse.xyz.crt" "${STOR_DIR}/wildcard_.rubberverse.xyz.key"
+cp "${CERT}/wildcard_.${CERT_NAME}.crt" "${CERT}/wildcard_.${CERT_NAME}.key" "${STORAGE}"
 
-systemctl -M overseer@ --user restart mumble.service
-systemctl -M overseer@ --user restart livekit.service
+chown overseer:overseer "${STORAGE}" "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
+chmod 705 "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
+
+for SERVICE in "${SERVICES_ARRAY[@]}"
+do
+    systemctl -M overseer@ --user stop "${SERVICE}".service
+done
 
 exit 0
