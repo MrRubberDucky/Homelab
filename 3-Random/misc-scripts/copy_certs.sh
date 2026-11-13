@@ -1,32 +1,32 @@
 #!/bin/bash
-# v1.1
+# v1.1.1
 set -e
-
-USER_HOME=/home/overseer
-APPDATA="${USER_HOME}/Appdata/WebServer-Data/certificates"
+USER="overseer"
+USER_HOME="/home/${USER}"
+APPDATA="${USER_HOME}/Appdata/Fetcher-Data/certificates"
 STORAGE="${USER_HOME}/Certificates"
 SERVICES="mediamtx"
 read -ra SERVICES_ARRAY <<< "${SERVICES}"
 
-CERT_NAME="rubberverse.xyz"
-CERT="${APPDATA}/acme-v02.api.letsencrypt.org-directory/wildcard_.${CERT_NAME}"
+CERT_NAME="moq.rubberverse.xyz"
+CERT="${APPDATA}/acme-v02.api.letsencrypt.org-directory/${CERT_NAME}"
 
 for SERVICE in "${SERVICES_ARRAY[@]}"
 do
-    systemctl -M overseer@ --user stop "${SERVICE}".service
+    systemctl -M "${USER}"@ --user stop "${SERVICE}".service
 done
 
 [[ ! -d "${STORAGE}" ]] && mkdir -p "${STORAGE}"
-[[ -f "${STORAGE}/wildcard_.${CERT_NAME}.crt" ]] && rm "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
+[[ -f "${STORAGE}/${CERT_NAME}.crt" ]] && rm "${STORAGE}/${CERT_NAME}.crt" "${STORAGE}/${CERT_NAME}.key"
 
-cp "${CERT}/wildcard_.${CERT_NAME}.crt" "${CERT}/wildcard_.${CERT_NAME}.key" "${STORAGE}"
+cp "${CERT}/${CERT_NAME}.crt" "${CERT}/${CERT_NAME}.key" "${STORAGE}"
 
-chown overseer:overseer "${STORAGE}" "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
-chmod 705 "${STORAGE}/wildcard_.${CERT_NAME}.crt" "${STORAGE}/wildcard_.${CERT_NAME}.key"
+chown "${USER}":"${USER}" "${STORAGE}" "${STORAGE}/${CERT_NAME}.crt" "${STORAGE}/${CERT_NAME}.key"
+chmod 705 "${STORAGE}/${CERT_NAME}.crt" "${STORAGE}/${CERT_NAME}.key"
 
 for SERVICE in "${SERVICES_ARRAY[@]}"
 do
-    systemctl -M overseer@ --user stop "${SERVICE}".service
+    systemctl -M "${USER}"@ --user stop "${SERVICE}".service
 done
 
 exit 0
