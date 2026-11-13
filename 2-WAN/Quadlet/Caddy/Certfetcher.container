@@ -1,27 +1,30 @@
-# Snippet
+[Unit]
+Description=Certificate Fetcher
+
+[Service]
+Restart=on-failure
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=false
+
+[Install]
+WantedBy=default.target
+
 [Container]
 Image=ghcr.io/rubberverse/qor-caddy:latest
 ContainerName=qor-certfetcher
 Exec=run --config /app/configs/Caddyfile
 EnvironmentFile=%h/Environments/Caddy/.env2
-# Volumes
-Volume=%h/Configs/CertFetcher/Caddyfile:/app/configs/Caddyfile:ro,Z
-# Mounts
-Mount=type=bind,source=%h/Appdata/CertFetcher-Data,dst=/app/.local/share/caddy,U=true,z
-Mount=type=bind,source=%h/Appdata/CertFetcher-Conf,dst=/app/.config/caddy,U=true,z
-# Labels
+Volume=%h/Configs/Fetcher/Caddyfile:/app/configs/Caddyfile:ro,Z
+Volume=%h/Appdata/Fetcher-Data:/app/.local/share/caddy:U,z
+Volume=certfetcher_data:/app/.config/caddy:U,z
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
-# SD_NOTIFY
-Notify=true
-# Network + Sysctl
-Network=Certfetcher.network
+Network=certfetcher.network
 Sysctl=net.ipv4.ip_unprivileged_port_start=80
 DNS=1.1.1.1
 DNS=1.0.0.1
-# Resource Limits
-Memory=128M
-User=%U:%U
-UserNS=keep-id:uid=1002,gid=1002,size=1003
+Memory=32M
+User=1100:1100
+UserNS=auto:size=1101
