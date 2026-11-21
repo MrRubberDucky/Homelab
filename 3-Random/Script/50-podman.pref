@@ -53,3 +53,7 @@ Pin-Priority: 900
 Package: libpod*
 Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
 Pin-Priority: 900
+
+Package: containers-storage*
+Pin: release o=obs://build.opensuse.org/home:alvistack/Debian_13
+Pin-Priority: 900
