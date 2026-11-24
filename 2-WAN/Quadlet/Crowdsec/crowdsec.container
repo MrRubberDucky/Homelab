@@ -15,22 +15,29 @@ ContainerName=crowdsec
 Timezone=Europe/Warsaw
 # Environments
 EnvironmentFile=%h/Environments/Crowdsec/.env
-Mount=type=bind,src=%h/Appdata/Crowdsec/Config,dst=/etc/crowdsec,U,Z
-Volume=Crowdsec-Data:/var/lib/crowdsec/data:U,Z
-# Log settings, Whitelists
-Volume=%h/Configs/Crowdsec/whitelist-rdns.yaml:/etc/crowdsec/postoverflows/s01-whitelist/01-whitelist-rdns.yaml:ro,Z
-Volume=%h/Configs/Crowdsec/whitelist-lan.yaml:/etc/crowdsec/parsers/s02-enrich/01-whitelist-lan.yaml:ro,Z
+# Volumes
+Mount=type=bind,src=%h/Appdata/Crowdsec/Config,dst=/etc/crowdsec,U,Z,nosuid,noexec,nodev
+Volume=Crowdsec-Data:/var/lib/crowdsec/data:U,Z,nosuid,noexec,nodev
 # Configuration
-Volume=%h/Configs/Crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro,Z
-Volume=%h/Configs/Crowdsec/appsec.yaml:/etc/crowdsec/acquis.d/appsec.yaml:ro,Z
-Volume=%h/Configs/Crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro,Z
+Volume=%h/Configs/Crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml:ro,Z,nosuid,noexec,nodev
+Volume=%h/Configs/Crowdsec/appsec.yaml:/etc/crowdsec/acquis.d/appsec.yaml:ro,Z,nosuid,noexec,nodev
+Volume=%h/Configs/Crowdsec/profiles.yaml:/etc/crowdsec/profiles.yaml:ro,Z,nosuid,noexec,nodev
+# Appsec, whitelists and exclusions
+Volume=%h/Configs/Crowdsec/custom-exclusions:/var/lib/crowdsec/data/crs-plugins/exclusion-plugin:ro,Z,nosuid,noexec,nodev
+Volume=%h/Configs/Crowdsec/fluxer-media-probing.yaml:/etc/crowdsec/postoverflows/s01-whitelist/05-fluxer-404-whitelist.yaml:ro,Z,nodev,noexec,nosuid
+Volume=%h/Configs/Crowdsec/whitelist-rdns.yaml:/etc/crowdsec/postoverflows/s01-whitelist/01-whitelist-rdns.yaml:ro,Z,nosuid,noexec,nodev
+Volume=%h/Configs/Crowdsec/whitelist-lan.yaml:/etc/crowdsec/parsers/s02-enrich/01-whitelist-lan.yaml:ro,Z,nosuid,noexec,nodev
 # Web Server Logs
-Volume=CADDY-LOGS:/var/log/caddy:ro,z
-Tmpfs=/usr/local/lib/crowdsec
-Network=Crowdsec.network
+Volume=CADDY-LOGS:/var/log/caddy:ro,z,nosuid,noexec,nodev
+Tmpfs=/usr/local/lib/crowdsec:rw,size=4G,noexec,nosuid,nodev
+Tmpfs=/tmp:rw,size=2G,noexec,nosuid,nodev
+# Network
+Network=crowdsec.network
+# Hardening
 AutoUpdate=registry
 NoNewPrivileges=true
 DropCapability=all
 ReadOnly=true
+# User
 User=1100:1100
 UserNS=auto:size=1101
